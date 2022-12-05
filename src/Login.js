@@ -15,8 +15,19 @@ export default function Login(/*props*/){
   // const [mode, setMode] = useState(props.mode);
 
   // render() {
+
+    const handleSubmit = (e) =>{
+      e.preventDefault();
+      var {username, password} = document.forms[0];
+      if (username.value==="admin"&&password.value==="admin"){
+        alert("You are an admin"); //testing
+      }else{
+        alert("You are not an admin")
+      }
+    }
+
     return (
-      <form className="form">{/*method='POST'*/}
+      <form className="form" onSubmit={handleSubmit}>{/*method='POST'*/}
         <div className='p-4 col-6 m-auto border border-4 border-primary rounded-3'>
 
           {/* Title */}
@@ -26,7 +37,7 @@ export default function Login(/*props*/){
           {/* Username Text Box */}
           <div className="p-2 form-group mt-3">
             <label htmlFor="username">Username:</label>
-            <input id="username" type="text" className="form-control mt-1" placeholder="Enter username here" minlength="4" maxlength="20"/>
+            <input id="username" name="username" type="text" className="form-control mt-1" placeholder="Enter username here" minlength="4" maxlength="20"/>
           </div>
 
           {/* NOT NEEDED */}
@@ -39,12 +50,12 @@ export default function Login(/*props*/){
           {/* Password Text Box */}
           <div className="p-2 form-group mt-3">
             <label htmlFor="password">Password:</label>
-            <input id="password" type="password" className="form-control mt-1" placeholder="Enter password here" minlength="4" maxlength="20"/>
+            <input id="password" name="password" type="password" className="form-control mt-1" placeholder="Enter password here" minlength="4" maxlength="20"/>
           </div>
 
           {/* Submit button, TODO:: Submit this to server */}
           <div className="p-2 d-grid gap-2 mt-3">
-            <button type="submit" className="btn btn-primary">
+            <button type="submit" onClick="myFunc();" className="btn btn-primary">
               {/* {mode ? "Sign In" : "Sign Up"} */}
               Sign In
             </button>
@@ -71,4 +82,5 @@ export default function Login(/*props*/){
     );
   // }
 }
+
 // Login;

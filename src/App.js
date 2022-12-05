@@ -28,8 +28,9 @@ function App() {
       <Routes>
         {/* <Route path="/login/signup" element={<Login mode={signup}/>} /> */}
         <Route path="/login/signin" element={<Login />} />
-        <Route path="*" element={<Home />} />
         <Route path="/debug" element={<Home loggedIn={true}/>} />
+        <Route path="*" element={<Home />} />
+        
       </Routes>
     </BrowserRouter>
   </>

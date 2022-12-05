@@ -12,7 +12,10 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiMTE1NTE3MDk1MiIsImEiOiJjbGI5OXI3eDgwc21vM3BxY
 export default class Home extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {loggedIn: this.props.loggedIn === undefined ? false : true};
+    this.state = {
+      loggedIn: this.props.loggedIn === undefined ? false : true,
+      isAdmin: this.props.isAdmin === undefined ? false : this.props.isAdmin
+    };
 
     // Debug Account
     vars.username = (vars.loggedIn = this.props.loggedIn) ? "Debugger" : "";
@@ -33,15 +36,23 @@ export default class Home extends React.Component {
         </div>
       )
 
-    return (
-      <div className='p-1 border border-primary rounded-1 container'>
-        <Location />
-        <Map />
-        <br />
-        <Details />
-        <Comments />
-      </div>
-    );
+    if (!this.state.isAdmin)
+      return (
+        <div className='p-1 border border-primary rounded-1 container'>
+          <Location />
+          <Map />
+          <br />
+          <Details />
+          <Comments />
+        </div>
+      )
+
+    if (this.state.isAdmin)
+      return(
+        <div className='p-1 border border-primary rounded-1 container'>
+          <Comments />
+        </div>
+      );
   }
 }
 // Home;
