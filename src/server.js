@@ -14,7 +14,7 @@ var pos = 0;
 
 const url1 = "https://www.lcsd.gov.hk/datagovhk/event/events.xml";
 const url2 = "https://www.lcsd.gov.hk/datagovhk/event/venues.xml";
-const filePath = "./";
+const filePath = "./src/";
 const option1 = {
   filename: 'file.xml'
 }
@@ -55,9 +55,10 @@ download(url1,filePath, option1).then(() => {
   download(url2,filePath, option2)
 });
 //read file and convert to json
-var xml = fs.readFileSync('file.xml', 'utf8');
+
+var xml = fs.readFileSync(filePath+'file.xml', 'utf8');
 var json = parser.toJson(xml, {object: true});
-var xml2 = fs.readFileSync('venue.xml', 'utf8');
+var xml2 = fs.readFileSync(filePath+'venue.xml', 'utf8');
 var json2 = parser.toJson(xml2, {object: true});
 
 function setup1() {
@@ -104,7 +105,7 @@ for (var i = 0; i < 10; i++) {
 }
 
 //remove null value
-t = t.filter(n => n);
+//t = t.filter(n => n);
 dt = dt.filter(n => n);
 d = d.filter(n => n);
 p = p.filter(n => n);
@@ -164,5 +165,13 @@ Venue.count(function (e, r) {
   }
 });
 
+for (i=0; i<t.length; i++){
+  console.log((i+1)+" "+t[i]);
+}
 
+/*
+Venue.find({}, (err, v)=>{
+  console.log(v);
+})
+*/
 const server = app.listen(3000);
