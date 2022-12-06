@@ -5,7 +5,6 @@
 // TODO:: Re-style, Submit
 import React from 'react';
 import Home from "./Home";
-export var A;
 
 /*
 
@@ -78,8 +77,8 @@ export default class Login extends React.Component {
     this.state = {
       username: '',
       password: '',
-      adminflag: false,
-      loginflag: false
+      adminflag: this.props.adminflag === undefined ? false : this.props.adminflag,
+      loginflag: this.props.loginflag === undefined ? false : this.props.loginflag
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -94,10 +93,12 @@ export default class Login extends React.Component {
         this.setState({adminflag: true, loginflag: true});       
       }
     }
-    if (this.state.username==="user"){
+    else if (this.state.username==="user"){
       if (this.state.password==="user"){
         this.setState({adminflag: false, loginflag: true});       
       }
+    }else{
+      document.getElementById("123").innerText="Please input a corrrect username and password";
     }
   }
   render() {return (
@@ -122,11 +123,12 @@ export default class Login extends React.Component {
            <button onClick={this.handleSubmit} className="btn btn-primary">
              Sign In
            </button>
-         </div>          
-       </div>      
+         </div>
+         <p id="123"></p>        
+       </div>   
      </form>
       ) : (
-        (<Home loggedIn={true} isAdmin={this.state.adminflag}/>)
+        (<Home loggedIn={this.state.loginflag} isAdmin={this.state.adminflag}/>)
       )}
     </div>
   

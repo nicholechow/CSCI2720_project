@@ -1,31 +1,29 @@
 import React, { useRef, useEffect, useState } from 'react';
 import {
-  Link
+  Link,
 } from 'react-router-dom';
 import vars from "./Vars";
-import {A} from "./Login";
 
 // Reference: https://docs.mapbox.com/help/tutorials/use-mapbox-gl-js-with-react/
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 mapboxgl.accessToken = 'pk.eyJ1IjoiMTE1NTE3MDk1MiIsImEiOiJjbGI5OXI3eDgwc21vM3BxYzd1MTNrMXA0In0.0HxBmgExZx-Y_BfWj_tF8Q';
-
+var isLogin = false;
 // Home
 export default class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loggedIn: this.props.loggedIn === undefined ? false : true,
+      loggedIn: this.props.loggedIn === undefined ? false : this.props.loggedIn,
       isAdmin: this.props.isAdmin === undefined ? false : this.props.isAdmin
     };
 
     // Debug Account
     vars.username = (vars.loggedIn === this.props.loggedIn) ? "Debugger" : "";
-     console.log(A);
     console.log(vars.loggedIn);
   }
   render() {
     
-    if (!this.state.loggedIn)
+    if (!this.state.loggedIn){
       return (
         <div className='p-4 col-6 m-auto border border-4 border-primary rounded-3'>
 
@@ -34,8 +32,8 @@ export default class Home extends React.Component {
           {/* <Link to="/login/signup" className="text-decoration-none p-3"><button className='btn p-auto m-auto'>Sign Up</button></Link> */}
           <Link to="/login/signin" className="text-decoration-none p-3"><button className='btn p-auto m-auto'>Sign In</button></Link>
         </div>
-      )
-
+      )}else{
+    isLogin=true;
     if (!this.state.isAdmin)
       return (
         <div className='p-1 border border-primary rounded-1 container'>
@@ -50,9 +48,11 @@ export default class Home extends React.Component {
     if (this.state.isAdmin)
       return(
         <div className='p-1 border border-primary rounded-1 container'>
-          <Comments />
+
+        <RightUp/>
         </div>
-      );
+      )
+    }
   }
 }
 // Home;
@@ -173,3 +173,14 @@ function Comments() {
   );
 }
 // Comments;
+
+export class RightUp extends React.Component{
+
+  render(){return (
+    <>
+     
+        <div><Link to="/"><button>Logout</button></Link></div>
+
+  </>
+  );}
+}
