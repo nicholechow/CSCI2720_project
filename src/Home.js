@@ -3,6 +3,7 @@ import {
   Link
 } from 'react-router-dom';
 import vars from "./Vars";
+import {A} from "./Login";
 
 // Reference: https://docs.mapbox.com/help/tutorials/use-mapbox-gl-js-with-react/
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
@@ -18,13 +19,12 @@ export default class Home extends React.Component {
     };
 
     // Debug Account
-    vars.username = (vars.loggedIn = this.props.loggedIn) ? "Debugger" : "";
-    // console.log(vars.username);
-    // console.log(vars.loggedIn);
+    vars.username = (vars.loggedIn === this.props.loggedIn) ? "Debugger" : "";
+     console.log(A);
+    console.log(vars.loggedIn);
   }
-
   render() {
-    // console.log(this.state.loggedIn);
+    
     if (!this.state.loggedIn)
       return (
         <div className='p-4 col-6 m-auto border border-4 border-primary rounded-3'>
