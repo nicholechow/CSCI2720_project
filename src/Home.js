@@ -58,8 +58,22 @@ export default class Home extends React.Component {
 
 // Location
 function Location() {
+  fetch("http://localhost:5000/venueEventCnt")
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      const Location = document.getElementById("Location");
+      Location.innerHTML = data
+        .map((ele) => {
+          return `<tr>\n<td>${ele.venue}</td>\n<td>${ele.eventCnt}</td>\n</tr>\n`;
+        })
+        .join("");
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   return (
-    <div className="col-sm-12 col-md-4 col-lg-3 d-inline-block">
+    <div className="col-sm-12 col-md-9 col-lg-8">
       <section
         id="locations"
         className="p-1 mx-1 border border-primary rounded-1"
@@ -86,7 +100,7 @@ function Location() {
               <th> number of events</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="Location">
             <tr>
               <td>Location 1</td>
               <td>1</td>
