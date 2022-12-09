@@ -72,6 +72,12 @@
     <latitude><![CDATA[22.29386]]></latitude>
     <longitude><![CDATA[114.17053]]></longitude>
   </venue>
+  <venue id="50110015">
+    <venuec><![CDATA[香港文化中心 (大劇院)]]></venuec>
+    <venuee><![CDATA[Hong Kong Cultural Centre (Grand Theatre)]]></venuee>
+    <latitude><![CDATA[22.29386]]></latitude>
+    <longitude><![CDATA[114.17053]]></longitude>
+  </venue>
   <venue id="50110016">
     <venuec><![CDATA[香港文化中心 (劇場)]]></venuec>
     <venuee><![CDATA[Hong Kong Cultural Centre (Studio Theatre)]]></venuee>
@@ -101,12 +107,6 @@
     <venuee><![CDATA[Hong Kong Coliseum (Arena)]]></venuee>
     <latitude />
     <longitude />
-  </venue>
-  <venue id="73810020">
-    <venuec><![CDATA[香港太空館 (演講廳)]]></venuec>
-    <venuee><![CDATA[Hong Kong Space Museum (Lecture Hall)]]></venuee>
-    <latitude><![CDATA[22.29441]]></latitude>
-    <longitude><![CDATA[114.17192]]></longitude>
   </venue>
   <venue id="75010017">
     <venuec><![CDATA[香港電影資料館 (電影院)]]></venuec>
