@@ -16,18 +16,29 @@ db.on("error", console.error.bind(console, "Connection error:"));
 // Upon opening the database successfully
 db.once("open", function () {
   console.log("Connection is open...");
-  const VenueSchema = mongoose.Schema({
-    id: { type: Number, required: true },
+  const EventSchema = mongoose.Schema({
+    venueid: { type: Number, required: true },
     title: { type: String, required: true },
     datetime: { type: String, required: true },
+    venuename: { type: String, required: true },
+    latitude: { type: Number, required: true },
+    longitude: { type: Number, required: true },
+    description: { type: String, required: true },
+    presenter: { type: String, required: true },
+    price: { type: String, required: true },
+  });
+
+  const Event = mongoose.model("Event", EventSchema);
+
+  const VenueSchema = mongoose.Schema({
+    id: { type: Number, required: true },
     venue: { type: String, required: true },
     latitude: { type: Number, required: true },
     longitude: { type: Number, required: true },
-    description: { type: String },
-    presenter: { type: String, required: true },
-    price: { type: Number },
   });
+
   const Venue = mongoose.model("Venue", VenueSchema);
+
   const bodyParser = require("body-parser");
   // Use parser to obtain the content in the body of a request
   app.use(bodyParser.urlencoded({ extended: false }));
@@ -38,16 +49,16 @@ db.once("open", function () {
   // get all venue name with its number of events
   // response: [{venueId: 1234, venueName: "venue 1", eventCnt: 3},...]
   app.get("/venueEventCnt", (req, res) => {
-    Venue.find({}, "id venue", (err, v) => {
+    Event.find({}, "venueid venuename", (err, v) => {
       if (err) console.log(err);
       else {
         //console.log(v);
-        let venueId = v.map((arr) => arr.id);
+        let venueId = v.map((arr) => arr.venueid);
         let venueList = v.filter((ele, i) => venueId.indexOf(venueId[i]) === i);
         let venueEventCnt = venueList.map((ele) => ({
-          venueId: ele.id,
-          venueName: ele.venue,
-          eventCnt: venueId.filter((ele2) => ele2 === ele.id).length,
+          venueId: ele.venueid,
+          venueName: ele.venuename,
+          eventCnt: venueId.filter((ele2) => ele2 === ele.venueid).length,
         }));
         res.send(venueEventCnt);
         console.log("get venueEventCnt");
@@ -60,6 +71,7 @@ db.once("open", function () {
     Venue.findOne({ id: req.params["venueId"] }, "venue", (err, v) => {
       if (err) console.log(err);
       else {
+        //if (v==null) res.status(404).send("Event not found");
         res.send(v.venue);
         console.log("get venue name");
       }
@@ -68,9 +80,9 @@ db.once("open", function () {
 
   // get all events with details of a venue
   app.get("/venueEvents/:venueId", (req, res) => {
-    Venue.find(
-      { id: req.params["venueId"] },
-      "title datetime description presenter",
+    Event.find(
+      { venueid: req.params["venueId"] },
+      "title datetime description presenter price",
       (err, v) => {
         if (err) console.log(err);
         else {

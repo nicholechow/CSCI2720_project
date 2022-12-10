@@ -13,22 +13,22 @@ export default class Home extends React.Component {
     this.state = {
       loggedIn: this.props.loggedIn === undefined ? false : this.props.loggedIn,
       isAdmin: this.props.isAdmin === undefined ? false : this.props.isAdmin,
-      r: false
+      r: false,
     };
 
     // Debug Account
     vars.username = vars.loggedIn === this.props.loggedIn ? "Debugger" : "";
     console.log(vars.loggedIn);
-  
+
     this.handleLogout = this.handleLogout.bind(this);
     this.handleR = this.handleR.bind(this);
   }
-handleLogout() {
-  this.setState({ loggedIn: false });
-}
-handleR(){
-  this.setState({r: !this.state.r});
-}
+  handleLogout() {
+    this.setState({ loggedIn: false });
+  }
+  handleR() {
+    this.setState({ r: !this.state.r });
+  }
 
   render() {
     if (!this.state.loggedIn) {
@@ -63,13 +63,8 @@ handleR(){
               <button onClick={this.handleR}> Retrieve events</button>
               <button>Delete event</button>
             </div>
-            <div>
-            {(this.state.r)? <RetrieveData/>: <p></p>}
-             
-            </div>
-            
+            <div>{this.state.r ? <RetrieveData /> : <p></p>}</div>
           </div>
-
         );
     }
   }
@@ -78,23 +73,20 @@ handleR(){
 
 // Location
 function Location() {
-  fetch("http://localhost:8889/venueEventCnt")
-    .then((res) => res.json())
-    .then((data) => {
-      //console.log(data);
-      const Location = document.getElementById("Location");
-      Location.innerHTML = data
-        .map((ele) => {
-          return `<tr>\n<td><a href="http://localhost:3000/venue/${ele.venueId}">${ele.venueName}</a></td>\n<td>${ele.eventCnt}</td>\n
-            <td>
-              <button class="btn btn-danger">♥</button>
-            </td>\n</tr>\n`;
-        })
-        .join("");
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  const [list, setList] = useState([]);
+  //const list = useRef([]);
+  useEffect(() => {
+    fetch("http://localhost:8889/venueEventCnt")
+      .then((res) => res.json())
+      .then((data) => {
+        //console.log(data);
+        if (list.length === 0) setList(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  });
+
   return (
     <div className="col-sm-12 col-md-12 col-lg-12 m-auto">
       <section
@@ -123,23 +115,41 @@ function Location() {
               <th scope="col"> number of events</th>
             </tr>
           </thead>
-          <tbody id="Location">
-            <tr>
-              <td>Location 1</td>
-              <td>1</td>
-            </tr>
-            <tr>
-              <td>Location 2</td>
-              <td>2</td>
-            </tr>
-            <tr>
-              <td>Location 3</td>
-              <td>3</td>
-            </tr>
+          <tbody id="LocationTbody">
+            {list.length === 0 ? (
+              <tr>
+                <td>Loading...</td>
+                <td>Loading...</td>
+              </tr>
+            ) : (
+              list.map((loc, i) => (
+                <LocationRow
+                  key={i}
+                  venueId={loc.venueId}
+                  venueName={loc.venueName}
+                  eventCnt={loc.eventCnt}
+                />
+              ))
+            )}
           </tbody>
         </table>
       </section>
     </div>
+  );
+}
+function LocationRow(props) {
+  return (
+    <tr>
+      <td>
+        <a href={"http://localhost:3000/venue/" + props.venueId}>
+          {props.venueName}
+        </a>
+      </td>
+      <td>{props.eventCnt}</td>
+      <td>
+        <button className="btn btn-danger">♥</button>
+      </td>
+    </tr>
   );
 }
 // Location;
@@ -198,7 +208,7 @@ export function Map() {
 // Map;
 
 class RetrieveData extends React.Component {
-  componentDidMount(){
+  componentDidMount() {
     fetch("http://localhost:8889/listall")
       .then((res) => res.json())
       .then((data) => {
@@ -224,35 +234,32 @@ class RetrieveData extends React.Component {
         console.log(error);
       });
   }
-  render(){
-  return (
-    <div className="col-sm-12 col-md-12 col-lg-12 m-auto">
-      <section
-        className="p-1 mx-1 border border-primary rounded-1"
-      >
-        <h4>Data Retrieved</h4>
+  render() {
+    return (
+      <div className="col-sm-12 col-md-12 col-lg-12 m-auto">
+        <section className="p-1 mx-1 border border-primary rounded-1">
+          <h4>Data Retrieved</h4>
 
-        <table className="p-2 text-center table table-hover">
-          <thead className="thead-light">
-            <tr>
-              <th scope="col">ID</th>
-              <th scope="col">Title</th>
-              <th scope="col">Datetime</th>
-              <th scope="col">Venue</th>
-              <th scope="col">Latitude</th>
-              <th scope="col">Longitude</th>
-              <th scope="col">Description</th>
-              <th scope="col">Presenter</th>
-              <th scope="col">Price</th>
-            </tr>
-          </thead>
-          <tbody id="RetrieveData">
-            <tr>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-    </div>
-  );
+          <table className="p-2 text-center table table-hover">
+            <thead className="thead-light">
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Title</th>
+                <th scope="col">Datetime</th>
+                <th scope="col">Venue</th>
+                <th scope="col">Latitude</th>
+                <th scope="col">Longitude</th>
+                <th scope="col">Description</th>
+                <th scope="col">Presenter</th>
+                <th scope="col">Price</th>
+              </tr>
+            </thead>
+            <tbody id="RetrieveData">
+              <tr></tr>
+            </tbody>
+          </table>
+        </section>
+      </div>
+    );
   }
 }

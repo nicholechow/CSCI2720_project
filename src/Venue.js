@@ -29,22 +29,13 @@ export default function Venue() {
 }
 
 function Detail() {
+  const [list, setList] = useState([]);
   const { venueId } = useParams();
   fetch("http://localhost:8889/venueEvents/" + venueId)
     .then((res) => res.json())
     .then((data) => {
       //console.log(data);
-      const Location = document.getElementById("eventList");
-      Location.innerHTML = data
-        .map((ele, i) => {
-          return `<tr>
-            <th scope="col">${i + 1}</th>
-            <td>${ele.title}</td>
-            <td>${ele.datetime}</td>
-            <td>${ele.presenter}</td>
-            <td>${ele.description}</td>`;
-        })
-        .join("");
+      if (list.length === 0) setList(data);
     })
     .catch((error) => {
       console.log(error);
@@ -59,19 +50,32 @@ function Detail() {
             <th scope="col">title</th>
             <th scope="col">datetime</th>
             <th scope="col">presenter</th>
-            {/*<th scope="col">price</th>*/}
+            <th scope="col">price</th>
             <th scope="col">description</th>
           </tr>
         </thead>
         <tbody id="eventList">
-          <tr>
-            <th scope="col">1</th>
-            <td>event 1</td>
-            <td>00:00</td>
-            <td>abc</td>
-            {/*<td>$100</td>*/}
-            <td>/</td>
-          </tr>
+          {list.length === 0 ? (
+            <tr>
+              <th scope="col">/</th>
+              <td>Loading...</td>
+              <td>/</td>
+              <td>/</td>
+              <td>/</td>
+              <td>/</td>
+            </tr>
+          ) : (
+            list.map((loc, i) => (
+              <tr key={i}>
+                <th scope="col">{i + 1}</th>
+                <td>{loc.title}</td>
+                <td>{loc.datetime}</td>
+                <td>{loc.presenter}</td>
+                <td>{loc.price}</td>
+                <td>{loc.description}</td>
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
     </div>
