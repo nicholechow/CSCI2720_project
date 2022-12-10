@@ -58,7 +58,7 @@ export default class Home extends React.Component {
 
 // Location
 function Location() {
-  fetch("http://localhost:5000/venueEventCnt")
+  fetch("http://localhost:8889/venueEventCnt")
     .then((res) => res.json())
     .then((data) => {
       console.log(data);
