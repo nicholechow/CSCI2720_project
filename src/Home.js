@@ -39,9 +39,6 @@ export default class Home extends React.Component {
           <div className="p-1 border border-primary rounded-1 container">
             <Location />
             <Map />
-            <br />
-            <Details />
-            <Comments />
           </div>
         );
 
@@ -61,11 +58,14 @@ function Location() {
   fetch("http://localhost:8889/venueEventCnt")
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
+      //console.log(data);
       const Location = document.getElementById("Location");
       Location.innerHTML = data
         .map((ele) => {
-          return `<tr>\n<td><a href="http://localhost:3000/location/${ele.venueName}">${ele.venueName}</a></td>\n<td>${ele.eventCnt}</td>\n</tr>\n`;
+          return `<tr>\n<td><a href="http://localhost:3000/location/${ele.venueName}">${ele.venueName}</a></td>\n<td>${ele.eventCnt}</td>\n
+            <td>
+              <button class="btn btn-danger">♥</button>
+            </td>\n</tr>\n`;
         })
         .join("");
     })
@@ -73,7 +73,7 @@ function Location() {
       console.log(error);
     });
   return (
-    <div className="col-sm-12 col-md-9 col-lg-8">
+    <div className="col-sm-12 col-md-12 col-lg-12 m-auto">
       <section
         id="locations"
         className="p-1 mx-1 border border-primary rounded-1"
@@ -93,11 +93,11 @@ function Location() {
           Sort by number of events↓
         </button>
         {/* <button id='favourites'></button> */}
-        <table className="p-2 text-center">
-          <thead>
+        <table className="p-2 text-center table table-hover">
+          <thead className="thead-light">
             <tr>
-              <th>Location</th>
-              <th> number of events</th>
+              <th scope="col">Location</th>
+              <th scope="col"> number of events</th>
             </tr>
           </thead>
           <tbody id="Location">
@@ -122,7 +122,7 @@ function Location() {
 // Location;
 
 // Map
-function Map() {
+export function Map() {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [lat, setLat] = useState(22.302711);
@@ -154,7 +154,7 @@ function Map() {
 
   return (
     // <section id='map' className='p-2 m-1 border border-primary rounded-1'>
-    <div className="d-inline-block col-sm-12 col-md-8 col-lg-9">
+    <div className="d-flex m-auto col-sm-12 col-md-8 col-lg-9 ">
       <section
         id="map"
         className="p-1 mx-1 border border-primary rounded-1 d-inline-block w-100"
@@ -165,7 +165,7 @@ function Map() {
           <div
             ref={mapContainer}
             className="map-container"
-            style={{ width: "100%", height: "800px" }}
+            style={{ width: "100%", height: "400px" }}
           />
         </div>
       </section>
@@ -173,98 +173,6 @@ function Map() {
   );
 }
 // Map;
-
-// Details
-function Details() {
-  return (
-    <section
-      id="details"
-      className="col-sm-12 col-md-8 border border-primary rounded-1 d-inline-block"
-    >
-      <h4 className="d-inline-block me-3">
-        {"<"}Location Name{">"}
-      </h4>
-      <button id="favourite" className="p-1 py-1 btn btn-outline-primary">
-        Add to Favourites
-      </button>
-      <table>
-        <thead>
-          <tr>
-            <th className="pe-4 me-auto">Title</th>
-            <th className="pe-4 me-auto">Venue</th>
-            <th className="pe-4 me-auto">Time</th>
-            <th className="pe-4 me-auto">Description</th>
-            <th className="pe-4 me-auto">Presenter</th>
-            <th className="pe-4 me-auto">Price</th>
-          </tr>
-        </thead>
-
-        {/* Fetch Data & Insert Here Automatically*/}
-        <tbody>
-          <tr>
-            <td>AAA</td>
-            <td>Room 101</td>
-            <td>Is</td>
-            <td>Description</td>
-            <td>Presenter</td>
-            <td>$100</td>
-          </tr>
-          <tr>
-            <td>BBBB</td>
-            <td>Room 102</td>
-            <td>Stopped</td>
-            <td>Desc</td>
-            <td>Paster</td>
-            <td>Your</td>
-          </tr>
-          <tr>
-            <td>CCCCCCCC</td>
-            <td>Room 103</td>
-            <td>.</td>
-            <td>Dsc</td>
-            <td>Futurer</td>
-            <td>Life</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-  );
-}
-// Details;
-
-// Comments
-function Comments() {
-  return (
-    <section
-      id="comments"
-      className="col-sm-12 col-md-4 p-2 m-1 border border-primary rounded-1 d-inline-block"
-    >
-      <h4>Comments</h4>
-      <table>
-        <thead>
-          <tr>
-            <th className="pe-4 mr-auto">Username</th>
-            <th className="pe-4 mr-auto">Comment</th>
-            {/* <td>Time</td> */}
-          </tr>
-        </thead>
-
-        {/* Fetch Data & Insert Here Automatically*/}
-        <tbody>
-          <tr>
-            <td>Alex Au</td>
-            <td>Cool Location</td>
-          </tr>
-          <tr>
-            <td>Bedgy Bo</td>
-            <td>Agree</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-  );
-}
-// Comments;
 
 export class RightUp extends React.Component {
   render() {
