@@ -41,7 +41,7 @@ function App() {
           {/* <Route path="/login/signup" element={<Login mode={signup}/>} /> */}
           <Route path="/login/signin" element={<Login />} />
           <Route path="/debug" element={<Home loggedIn={true} />} />
-          <Route path="/location/:loc" element={<Venue />} />
+          <Route path="/venue/:venueId" element={<Venue />} />
           <Route path="*" element={<Home />} />
         </Routes>
       </BrowserRouter>

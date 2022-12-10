@@ -34,22 +34,50 @@ db.once("open", function () {
   app.use(cors());
   app.use(bodyParser.json());
 
-  // response: [{venueName: "venue 1", eventCnt: 3},...]
+  // get all venue name with its number of events
+  // response: [{venueId: 1234, venueName: "venue 1", eventCnt: 3},...]
   app.get("/venueEventCnt", (req, res) => {
-    Venue.find({}, "venue", (err, v) => {
+    Venue.find({}, "id venue", (err, v) => {
       if (err) console.log(err);
       else {
         //console.log(v);
-        v = v.map((arr) => arr.venue);
-        let venueList = v.filter((ele, i, arr) => arr.indexOf(ele) === i);
+        let venueId = v.map((arr) => arr.id);
+        let venueList = v.filter((ele, i) => venueId.indexOf(venueId[i]) === i);
         let venueEventCnt = venueList.map((ele) => ({
-          venueName: ele,
-          eventCnt: v.filter((ele2) => ele2 === ele).length,
+          venueId: ele.id,
+          venueName: ele.venue,
+          eventCnt: venueId.filter((ele2) => ele2 === ele.id).length,
         }));
         res.send(venueEventCnt);
         console.log("get venueEventCnt");
       }
     });
+  });
+
+  // get venue name from id
+  app.get("/venueName/:venueId", (req, res) => {
+    Venue.findOne({ id: req.params["venueId"] }, "venue", (err, v) => {
+      if (err) console.log(err);
+      else {
+        res.send(v.venue);
+        console.log("get venue name");
+      }
+    });
+  });
+
+  // get all events with details of a venue
+  app.get("/venueEvents/:venueId", (req, res) => {
+    Venue.find(
+      { id: req.params["venueId"] },
+      "title datetime description presenter",
+      (err, v) => {
+        if (err) console.log(err);
+        else {
+          res.send(v);
+          console.log("get venue events details");
+        }
+      }
+    );
   });
 });
 
