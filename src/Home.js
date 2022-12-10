@@ -6,7 +6,6 @@ import vars from "./Vars";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 mapboxgl.accessToken =
   "pk.eyJ1IjoiMTE1NTE3MDk1MiIsImEiOiJjbGI5OXI3eDgwc21vM3BxYzd1MTNrMXA0In0.0HxBmgExZx-Y_BfWj_tF8Q";
-var isLogin = false;
 // Home
 export default class Home extends React.Component {
   constructor(props) {
@@ -14,12 +13,23 @@ export default class Home extends React.Component {
     this.state = {
       loggedIn: this.props.loggedIn === undefined ? false : this.props.loggedIn,
       isAdmin: this.props.isAdmin === undefined ? false : this.props.isAdmin,
+      r: false
     };
 
     // Debug Account
     vars.username = vars.loggedIn === this.props.loggedIn ? "Debugger" : "";
     console.log(vars.loggedIn);
+  
+    this.handleLogout = this.handleLogout.bind(this);
+    this.handleR = this.handleR.bind(this);
   }
+handleLogout() {
+  this.setState({ loggedIn: false });
+}
+handleR(){
+  this.setState({r: !this.state.r});
+}
+
   render() {
     if (!this.state.loggedIn) {
       return (
@@ -33,7 +43,6 @@ export default class Home extends React.Component {
         </div>
       );
     } else {
-      isLogin = true;
       if (!this.state.isAdmin)
         return (
           <div className="p-1 border border-primary rounded-1 container">
@@ -45,8 +54,22 @@ export default class Home extends React.Component {
       if (this.state.isAdmin)
         return (
           <div className="p-1 border border-primary rounded-1 container">
-            <RightUp />
+            <div>
+              <Link to="/">
+                <button onClick="{this.handleLogout}">Logout</button>
+              </Link>
+              <button>Create event</button>
+              <button>Update event</button>
+              <button onClick={this.handleR}> Retrieve events</button>
+              <button>Delete event</button>
+            </div>
+            <div>
+            {(this.state.r)? <RetrieveData/>: <p></p>}
+             
+            </div>
+            
           </div>
+
         );
     }
   }
@@ -174,16 +197,62 @@ export function Map() {
 }
 // Map;
 
-export class RightUp extends React.Component {
-  render() {
-    return (
-      <>
-        <div>
-          <Link to="/">
-            <button>Logout</button>
-          </Link>
-        </div>
-      </>
-    );
+class RetrieveData extends React.Component {
+  componentDidMount(){
+    fetch("http://localhost:8889/listall")
+      .then((res) => res.json())
+      .then((data) => {
+        //console.log(data);
+        const RetrieveData = document.getElementById("RetrieveData");
+        RetrieveData.innerHTML = data
+          .map((ele) => {
+            return `<tr>
+            <td>${ele.id}</td>
+            <td>${ele.title}</td>
+            <td>${ele.datetime}</td>
+            <td>${ele.venue}</td>
+            <td>${ele.latitude}</td>
+            <td>${ele.longitude}</td>
+            <td>${ele.description}</td>
+            <td>${ele.presenter}</td>
+            <td>${ele.price}</td>
+            </tr>`;
+          })
+          .join("");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+  render(){
+  return (
+    <div className="col-sm-12 col-md-12 col-lg-12 m-auto">
+      <section
+        className="p-1 mx-1 border border-primary rounded-1"
+      >
+        <h4>Data Retrieved</h4>
+
+        <table className="p-2 text-center table table-hover">
+          <thead className="thead-light">
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Title</th>
+              <th scope="col">Datetime</th>
+              <th scope="col">Venue</th>
+              <th scope="col">Latitude</th>
+              <th scope="col">Longitude</th>
+              <th scope="col">Description</th>
+              <th scope="col">Presenter</th>
+              <th scope="col">Price</th>
+            </tr>
+          </thead>
+          <tbody id="RetrieveData">
+            <tr>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+  );
   }
 }

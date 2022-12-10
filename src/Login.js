@@ -4,7 +4,8 @@
 // Login
 // TODO:: Re-style, Submit
 import React from "react";
-import Home from "./Home";
+import {Link } from "react-router-dom";
+
 
 /*
 
@@ -72,45 +73,13 @@ export default function Login(){
 */
 
 export default class Login extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      username: "",
-      password: "",
-      adminflag:
-        this.props.adminflag === undefined ? false : this.props.adminflag,
-      loginflag:
-        this.props.loginflag === undefined ? false : this.props.loginflag,
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-  handleChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
-  }
-  handleSubmit(e) {
-    e.preventDefault();
-    if (this.state.username === "admin") {
-      if (this.state.password === "admin") {
-        this.setState({ adminflag: true, loginflag: true });
-      }
-    } else if (this.state.username === "user") {
-      if (this.state.password === "user") {
-        this.setState({ adminflag: false, loginflag: true });
-      }
-    } else {
-      document.getElementById("123").innerText =
-        "Please input a correct username and password";
-      document.getElementById("123").classList.add("text-danger");
-    }
-  }
+
   render() {
     return (
       <div>
-        {!this.state.loginflag ? (
           <form className="form" method="POST">
             <div className="p-4 col-6 m-auto border border-4 border-primary rounded-3">
-              <h3>Sign In{this.state.flag}</h3>
+              <h3>Sign In</h3>
 
               <div className="p-2 form-group mt-3">
                 <label htmlFor="username">Username:</label>
@@ -118,8 +87,7 @@ export default class Login extends React.Component {
                   id="username"
                   name="username"
                   type="text"
-                  value={this.state.a}
-                  onChange={this.handleChange}
+                  onChange={this.props.data.handleChange}
                   className="form-control mt-1"
                   placeholder="Enter username here"
                   minLength="4"
@@ -133,8 +101,7 @@ export default class Login extends React.Component {
                   id="password"
                   name="password"
                   type="password"
-                  value={this.state.b}
-                  onChange={this.handleChange}
+                  onChange={this.props.data.handleChange}
                   className="form-control mt-1"
                   placeholder="Enter password here"
                   minLength="4"
@@ -143,20 +110,22 @@ export default class Login extends React.Component {
               </div>
 
               <div className="p-2 d-grid gap-2 mt-3">
-                <button onClick={this.handleSubmit} className="btn btn-primary">
-                  Sign In
-                </button>
+                <button onClick={this.props.data.handleSubmit} className="btn btn-primary">
+                  Validate
+                </button>               
               </div>
               <p id="123"></p>
             </div>
+
           </form>
-        ) : (
-          <Home
-            loggedIn={this.state.loginflag}
-            isAdmin={this.state.adminflag}
-          />
-        )}
+          <Link to={this.props.data.displaylink}>
+              <button className="btn btn-transparent">
+                {this.props.data.displaytext}
+              </button>
+          </Link>
+          
       </div>
+
     );
   }
 }

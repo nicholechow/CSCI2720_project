@@ -5,9 +5,10 @@ const express = require("express");
 const app = express();
 var mongoose = require("mongoose");
 mongoose.connect(
-  "mongodb+srv://stu046:p554024W@cluster0.wenbhsm.mongodb.net/stu046" //Fill in your own
+  "" //Fill in your own
 );
 //mongodb+srv://stu046:p554024W@cluster0.wenbhsm.mongodb.net/stu046
+//mongodb+srv://stu141:p651183W@cluster0.gbo7pn3.mongodb.net/stu141
 
 const db = mongoose.connection;
 // Upon connection failure
@@ -78,6 +79,14 @@ db.once("open", function () {
         }
       }
     );
+  });
+  app.get("/listall", (req, res)=>{
+    Venue.find({}, (err, v)=>{
+      if (err) console.log(err);
+        else {
+          res.send(v);
+        }
+    });
   });
 });
 

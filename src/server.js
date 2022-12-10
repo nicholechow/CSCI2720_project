@@ -19,7 +19,8 @@ var xmlDoc = require('xmldoc');
 const download = require('download');
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb+srv://stu174:p963119W@cluster0.gbo7pn3.mongodb.net/stu174'); //Fill in your own connection string
+mongoose.connect(''); //Fill in your own connection string
+//mongodb+srv://stu141:p651183W@cluster0.gbo7pn3.mongodb.net/stu141
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Connection error:'));
 
@@ -79,7 +80,7 @@ db.once('open', function() {
             break;
           }
 
-          if ((typeof(json2.venues.venue[i].latitude) || typeof(json2.venues.venue[i].longitude)) == 'object' || check < 3) {
+          if ((typeof(json2.venues.venue[i].latitude) == 'object' )|| (typeof(json2.venues.venue[i].longitude) == 'object') || check < 3) {
           } else {
             v[index1] = Number(json2.venues.venue[i].id);
             n[index1] = json2.venues.venue[i].venuee;
@@ -195,6 +196,11 @@ db.once('open', function() {
           }
         }
       });
+      Venue.find({}, (err, vn)=>{
+        console.log(vn);
+        console.log(v);
+      });
+      
     });
 
   });
