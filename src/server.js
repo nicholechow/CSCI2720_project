@@ -47,7 +47,7 @@ db.once("open", function () {
 
   const Venue = mongoose.model("Venue", VenueSchema);
 
-  /*const UserSchema = mongoose.Schema({
+  const UserSchema = mongoose.Schema({
     username: {type: String ,required: true, unique: true},
     pw: {type: String ,required: true},
     fav: {type: Array}
@@ -56,8 +56,9 @@ db.once("open", function () {
   const User = mongoose.model('User', UserSchema);
 
   const CommentSchema = mongoose.Schema({
-    venueid: {type: Schema.Types.ObjectId, ref: 'Venueinfo' ,required: true},
-    userid: {type: Schema.Types.ObjectId, ref: 'User' ,required: true},
+    commentid: {type: Number, required: true},
+    venueid: {type: Number, required: true},
+    userid: {type: Number,required: true},
     content: {type: String, required: true}
   });
 
