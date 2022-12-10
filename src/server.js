@@ -1,53 +1,51 @@
-
-
 const url1 = "https://www.lcsd.gov.hk/datagovhk/event/events.xml";
 const url2 = "https://www.lcsd.gov.hk/datagovhk/event/venues.xml";
 const filePath = `${__dirname}`;
 const option1 = {
-  filename: 'file.xml'
-}
+  filename: "file.xml",
+};
 const option2 = {
-  filename: 'venue.xml'
-}
+  filename: "venue.xml",
+};
 
-const express = require('express');
+const express = require("express");
 const app = express();
-const http = require('https');
-const fs = require('fs');
-const parser = require('xml2json');
-var xmlDoc = require('xmldoc');
-const download = require('download');
+const http = require("https");
+const fs = require("fs");
+const parser = require("xml2json");
+var xmlDoc = require("xmldoc");
+const download = require("download");
 
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const { Schema } = mongoose;
-mongoose.connect(''); //Fill in your own connection string
+mongoose.connect(""); //Fill in your own connection string
 const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'Connection error:'));
+db.on("error", console.error.bind(console, "Connection error:"));
 
-db.once('open', function() {
+db.once("open", function () {
   //create data schema
   const EventSchema = mongoose.Schema({
-    venueid: {type: Number, required: true},
-    title: {type: String, required: true},
-    datetime: {type: String, required: true},
-    venuename: {type: String ,required: true},
-    latitude: {type: Number ,required: true},
-    longitude: {type: Number ,required: true},
-    description: {type: String ,required: true},
-    presenter: {type: String ,required: true},
-    price: {type: String ,required: true}
+    venueid: { type: Number, required: true },
+    title: { type: String, required: true },
+    datetime: { type: String, required: true },
+    venuename: { type: String, required: true },
+    latitude: { type: Number, required: true },
+    longitude: { type: Number, required: true },
+    description: { type: String, required: true },
+    presenter: { type: String, required: true },
+    price: { type: String, required: true },
   });
 
-  const Event = mongoose.model('Event', EventSchema);
+  const Event = mongoose.model("Event", EventSchema);
 
   const VenueSchema = mongoose.Schema({
-    id: {type: Number, required: true},
-    venue: {type: String ,required: true},
-    latitude: {type: Number ,required: true},
-    longitude: {type: Number ,required: true},
+    id: { type: Number, required: true },
+    venue: { type: String, required: true },
+    latitude: { type: Number, required: true },
+    longitude: { type: Number, required: true },
   });
 
-  const Venue = mongoose.model('Venue', VenueSchema);
+  const Venue = mongoose.model("Venue", VenueSchema);
 
   /*const UserSchema = mongoose.Schema({
     username: {type: String ,required: true, unique: true},
@@ -64,12 +62,12 @@ db.once('open', function() {
   });
 
   const Comment = mongoose.model('Comment', CommentSchema);*/
-
+  db.dropCollection("venues");
   db.dropCollection("events");
-    
+
   //download file
-  download(url1,filePath, option1).then(() => {
-    download(url2,filePath, option2).then(() => {
+  download(url1, filePath, option1).then(() => {
+    download(url2, filePath, option2).then(() => {
       //read file and convert to json
       var v = [];
       var lat = [];
@@ -90,24 +88,25 @@ db.once('open', function() {
       var re;
       var check = 0;
 
-      xml = fs.readFileSync(filePath + '/file.xml','utf8');
-      json = parser.toJson(xml, {object: true});
-      xml2 = fs.readFileSync(filePath + '/venue.xml', 'utf8');
-      json2 = parser.toJson(xml2, {object: true});
-      
-      
-      
+      xml = fs.readFileSync(filePath + "/file.xml", "utf8");
+      json = parser.toJson(xml, { object: true });
+      xml2 = fs.readFileSync(filePath + "/venue.xml", "utf8");
+      json2 = parser.toJson(xml2, { object: true });
 
       function setup1() {
         for (var i = 0; i < json2.venues.venue.length; i++) {
-          re = new RegExp(json2.venues.venue[i].id, 'g');
+          re = new RegExp(json2.venues.venue[i].id, "g");
           check = xml.match(re).length;
           if (count == 10) {
             index1++;
             break;
           }
 
-          if ((typeof(json2.venues.venue[i].latitude) || typeof(json2.venues.venue[i].longitude)) == 'object' || check < 3) {
+          if (
+            (typeof json2.venues.venue[i].latitude ||
+              typeof json2.venues.venue[i].longitude) == "object" ||
+            check < 3
+          ) {
           } else {
             v[index1] = Number(json2.venues.venue[i].id);
             n[index1] = json2.venues.venue[i].venuee;
@@ -120,7 +119,6 @@ db.once('open', function() {
       }
 
       setup1();
-      
 
       function setup2(id) {
         for (var i = 0; i < json.events.event.length; i++) {
@@ -135,44 +133,33 @@ db.once('open', function() {
         }
       }
 
-
-
-
       for (var j = 0; j <= 9; j++) {
-
         setup2(v[j]);
         index = 0;
-        
+
         //change null value
         for (var i = 0; i < price.length; i++) {
-          if (typeof(price[i]) == 'object') price[i] = '/';
+          if (typeof price[i] == "object") price[i] = "/";
         }
 
         for (var k = 0; k < d.length; k++) {
           //if (typeof(price[i]) == 'object') price[i] = '/';
-          if (typeof(d[k]) == 'object') d[k] = '/';
+          if (typeof d[k] == "object") d[k] = "/";
         }
 
-
         for (var a = 0; a < t.length; a++) {
-              Event.create({
-              venueid: v[j],
-              title: t[a],
-              datetime: dt[a],
-              venuename: n[j],
-              latitude: lat[j],
-              longitude: lon[j],
-              description: d[a],
-              presenter: p[a],
-              price: price[a],
-              });
-            }
-        
-
-
-
-
-
+          Event.create({
+            venueid: v[j],
+            title: t[a],
+            datetime: dt[a],
+            venuename: n[j],
+            latitude: lat[j],
+            longitude: lon[j],
+            description: d[a],
+            presenter: p[a],
+            price: price[a],
+          });
+        }
       }
 
       for (var b = 0; b <= 9; b++) {
@@ -183,24 +170,8 @@ db.once('open', function() {
           longitude: lon[b],
         });
       }
-
-
-      
-
-    
-
-
-
-      
-
     });
-
   });
 });
-
-
-
-
-
 
 const server = app.listen(3000);
