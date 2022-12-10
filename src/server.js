@@ -20,7 +20,6 @@ const download = require('download');
 
 const mongoose = require('mongoose');
 mongoose.connect(''); //Fill in your own connection string
-//mongodb+srv://stu141:p651183W@cluster0.gbo7pn3.mongodb.net/stu141
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Connection error:'));
 
@@ -33,12 +32,13 @@ db.once('open', function() {
     venue: { type: String ,required: true},
     latitude: { type: Number ,required: true},
     longitude: { type: Number ,required: true},
-    description: { type: String },
+    description: { type: String ,required: true},
     presenter: { type: String ,required: true},
-    price: { type: Number }
+    price: { type: String ,required: true}
   });
 
   const Venue = mongoose.model('Venue', VenueSchema);
+  db.dropCollection("venues");
     
   //download file
   download(url1,filePath, option1).then(() => {
@@ -80,7 +80,7 @@ db.once('open', function() {
             break;
           }
 
-          if ((typeof(json2.venues.venue[i].latitude) == 'object' )|| (typeof(json2.venues.venue[i].longitude) == 'object') || check < 3) {
+          if ((typeof(json2.venues.venue[i].latitude) || typeof(json2.venues.venue[i].longitude)) == 'object' || check < 3) {
           } else {
             v[index1] = Number(json2.venues.venue[i].id);
             n[index1] = json2.venues.venue[i].venuee;
@@ -102,105 +102,56 @@ db.once('open', function() {
             dt[index] = json.events.event[i].predateE;
             d[index] = json.events.event[i].desce;
             p[index] = json.events.event[i].presenterorge;
-            price[index] = Number(json.events.event[i].pricee);
+            price[index] = json.events.event[i].pricee;
+            
             index++;
           }
-          if ((index + 1) % 4 == 0) {
-            index++;
-            break;
-          };
         }
       }
 
 
 
 
-      for (var i = 0; i <= 9; i++) {
-        setup2(v[i]);
-      }
-      
+      for (var j = 0; j <= 9; j++) {
 
-
-      //remove null value
-      t = t.filter(n => n);
-      dt = dt.filter(n => n);
-      d = d.filter(n => n);
-      p = p.filter(n => n);
-      price = price.filter(n => n);
-
-      while (t.length < 30) {
-        //index1 = 0;
-        setup1();
+        setup2(v[j]);
         index = 0;
-
-        for (var i = 0; i <= 9; i++) {
-          setup2(v[i]);
+        
+        //change null value
+        for (var i = 0; i < price.length; i++) {
+          if (typeof(price[i]) == 'object') price[i] = '/';
         }
-        t = t.filter(n => n);
-        dt = dt.filter(n => n);
-        d = d.filter(n => n);
-        p = p.filter(n => n);
-        price = price.filter(n => n);
-      }
 
-      //change null value
-      for (var i = 0; i < price.length; i++) {
-        if (typeof(price[i]) == 'object') price[i] = '/';
-      }
-
-      for (var i = 0; i < d.length; i++) {
-        if (typeof(d[i]) == 'object') d[i] = '/';
-      }
-
-      //create data entries
-      Venue.count(function (e, r) { 
-        if (r == 0) {
-          for (var i = 0; i <= 9; i++) {
-            Venue.create({
-            id: v[i],
-            title: t[3 * i],
-            datetime: dt[3 * i],
-            venue: n[i],
-            latitude: lat[i],
-            longitude: lon[i],
-            description: d[3 * i],
-            presenter: p[3 * i],
-            price: price[3 * i],
-            });
-          }
-          for (var i = 0; i <= 9; i++) {
-            Venue.create({
-            id: v[i],
-            title: t[3 * i + 1],
-            datetime: dt[3 * i + 1],
-            venue: n[i],
-            latitude: lat[i],
-            longitude: lon[i],
-            description: d[3 * i + 1],
-            presenter: p[3 * i + 1],
-            price: price[3 * i + 1],
-            });
-          }
-          for (var i = 0; i <= 9; i++) {
-            Venue.create({
-            id: v[i],
-            title: t[3 * i + 2],
-            datetime: dt[3 * i + 2],
-            venue: n[i],
-            latitude: lat[i],
-            longitude: lon[i],
-            description: d[3 * i + 2],
-            presenter: p[3 * i + 2],
-            price: price[3 * i + 2],
-            });
-          }
+        for (var k = 0; k < d.length; k++) {
+          //if (typeof(price[i]) == 'object') price[i] = '/';
+          if (typeof(d[k]) == 'object') d[k] = '/';
         }
-      });
-      Venue.find({}, (err, vn)=>{
-        console.log(vn);
-        console.log(v);
-      });
+
+
+        for (var a = 0; a < t.length; a++) {
+              Venue.create({
+              id: v[j],
+              title: t[a],
+              datetime: dt[a],
+              venue: n[j],
+              latitude: lat[j],
+              longitude: lon[j],
+              description: d[a],
+              presenter: p[a],
+              price: price[a],
+              });
+            }
+        
+
+      }
       
+
+    
+
+
+
+      
+
     });
 
   });
