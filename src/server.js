@@ -48,21 +48,21 @@ db.once("open", function () {
   const Venue = mongoose.model("Venue", VenueSchema);
 
   const UserSchema = mongoose.Schema({
-    username: {type: String ,required: true, unique: true},
-    pw: {type: String ,required: true},
-    fav: {type: Array}
+    username: { type: String, required: true, unique: true },
+    pw: { type: String, required: true },
+    fav: { type: Array },
   });
 
-  const User = mongoose.model('User', UserSchema);
+  const User = mongoose.model("User", UserSchema);
 
   const CommentSchema = mongoose.Schema({
-    commentid: {type: Number, required: true},
-    venueid: {type: Number, required: true},
-    userid: {type: Number,required: true},
-    content: {type: String, required: true}
+    commentid: { type: Number, required: true },
+    venueid: { type: Number, required: true },
+    userid: { type: Number, required: true },
+    content: { type: String, required: true },
   });
 
-  const Comment = mongoose.model('Comment', CommentSchema);*/
+  const Comment = mongoose.model("Comment", CommentSchema);
   db.dropCollection("venues");
   db.dropCollection("events");
 

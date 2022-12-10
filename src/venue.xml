@@ -252,12 +252,6 @@
     <latitude />
     <longitude />
   </venue>
-  <venue id="6639">
-    <venuec><![CDATA[屯門大會堂演奏廳]]></venuec>
-    <venuee><![CDATA[Auditorium, Tuen Mun Town Hall]]></venuee>
-    <latitude />
-    <longitude />
-  </venue>
   <venue id="68">
     <venuec><![CDATA[瀝源公共圖書館]]></venuec>
     <venuee><![CDATA[Lek Yuen Public Library]]></venuee>
