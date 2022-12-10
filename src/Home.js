@@ -65,7 +65,7 @@ function Location() {
       const Location = document.getElementById("Location");
       Location.innerHTML = data
         .map((ele) => {
-          return `<tr>\n<td>${ele.venue}</td>\n<td>${ele.eventCnt}</td>\n</tr>\n`;
+          return `<tr>\n<td><a href="http://localhost:3000/location/${ele.venueName}">${ele.venueName}</a></td>\n<td>${ele.eventCnt}</td>\n</tr>\n`;
         })
         .join("");
     })

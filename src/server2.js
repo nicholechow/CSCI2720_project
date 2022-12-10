@@ -34,6 +34,7 @@ db.once("open", function () {
   app.use(cors());
   app.use(bodyParser.json());
 
+  // response: [{venueName: "venue 1", eventCnt: 3},...]
   app.get("/venueEventCnt", (req, res) => {
     Venue.find({}, "venue", (err, v) => {
       if (err) console.log(err);
@@ -42,7 +43,7 @@ db.once("open", function () {
         v = v.map((arr) => arr.venue);
         let venueList = v.filter((ele, i, arr) => arr.indexOf(ele) === i);
         let venueEventCnt = venueList.map((ele) => ({
-          venue: ele,
+          venueName: ele,
           eventCnt: v.filter((ele2) => ele2 === ele).length,
         }));
         res.send(venueEventCnt);
