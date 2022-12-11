@@ -174,6 +174,7 @@ export function Map() {
       // Remove Unneeded buttons from Mapbox
       attributionControl: false,
     });
+    new mapboxgl.Marker().setLngLat([114, 22]).addTo(map.current);
   });
 
   useEffect(() => {
@@ -184,7 +185,6 @@ export function Map() {
       setZoom(map.current.getZoom().toFixed(2));
     });
   });
-
   return (
     // <section id='map' className='p-2 m-1 border border-primary rounded-1'>
     <div className="d-flex m-auto col-sm-12 col-md-8 col-lg-9 ">

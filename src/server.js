@@ -18,7 +18,9 @@ const download = require("download");
 
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-mongoose.connect(""); //Fill in your own connection string
+mongoose.connect(
+  "mongodb+srv://stu046:p554024W@cluster0.wenbhsm.mongodb.net/stu046"
+); //Fill in your own connection string
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "Connection error:"));
 
