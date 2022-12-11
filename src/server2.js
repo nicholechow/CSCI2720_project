@@ -17,6 +17,7 @@ db.on("error", console.error.bind(console, "Connection error:"));
 db.once("open", function () {
   console.log("Connection is open...");
   const EventSchema = mongoose.Schema({
+    eventid: { type: Number, required: true },
     venueid: { type: Number, required: true },
     title: { type: String, required: true },
     datetime: { type: String, required: true },
@@ -125,6 +126,16 @@ db.once("open", function () {
       }
     });
   });
+  app.delete('/delete/:eventId', (req, res)=>{
+		Event.findOne({eventid: Number(req.params['eventId'])}).exec(function (err, d){
+			if (d!=null){
+				d.remove();
+				res.send("Event ID: " + String(req.params['eventId']) + " has been deleted successfully.");
+			}else{
+				res.send("Event ID: " + String(req.params['eventId']) + " is not found.");
+			}
+		})
+	});
 });
 
 // listen to port 5000
