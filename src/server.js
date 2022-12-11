@@ -105,7 +105,7 @@ db.once("open", function () {
             break;
           }
 
-          if (typeof(json2.venues.venue[i].latitude) == "object" || typeof(json2.venues.venue[i].longitude) == "object" || check < 3 || json2.venues.venue[i].latitude == lat[index1]) {
+          if (typeof(json2.venues.venue[i].latitude) == "object" || typeof(json2.venues.venue[i].longitude) == "object" || check < 3 || json2.venues.venue[i].latitude == lat[index1 - 1]) {
           } else {
             v[index1] = Number(json2.venues.venue[i].id);
             n[index1] = json2.venues.venue[i].venuee;
