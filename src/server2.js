@@ -84,18 +84,29 @@ db.once("open", function () {
   });
 
   // get user favourite location
+  // return [{id: 123, venue: abc},...]
   app.get("/fav/:username", (req, res) => {
     User.findOne({ username: req.params["username"] }, "fav", (err, f) => {
       if (err) console.log(err);
       else {
-        res.send(f.fav);
-        //console.log(f.fav);
-        console.log("get user fav");
+        Venue.find({}, "id venue", (err2, v) => {
+          if (err2) console.log(err2);
+          else {
+            let list = v
+              .filter((ele) => f.fav.includes(ele.id))
+              .map((ele2) => ({ id: ele2.id, venue: ele2.venue }));
+            res.send(list);
+            //res.send(f.fav);
+            //console.log(list);
+            console.log("get user fav");
+          }
+        });
       }
     });
   });
 
-  // get user favourite location
+  // get whether it is a user favourite location
+  // return true or false
   app.get("/fav/:username/:venueId", (req, res) => {
     User.findOne({ username: req.params["username"] }, "fav", (err, f) => {
       if (err) console.log(err);

@@ -161,41 +161,42 @@ function Location() {
     }
   };
 
-  //useEffect(() => {
-  fetch("http://localhost:8889/venueEventCnt")
-    .then((res) => res.json())
-    .then((data) => {
-      //console.log(data);
-      if (list.length === 0) {
+  useEffect(() => {
+    fetch("http://localhost:8889/venueEventCnt")
+      .then((res) => res.json())
+      .then((data) => {
         //console.log(data);
-        if (list.length === 0 && state === false) {
-          setList(data);
-          setState(true);
+        if (list.length === 0) {
+          //console.log(data);
+          if (list.length === 0 && state === false) {
+            setList(data);
+            setState(true);
+          }
         }
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  fetch("http://localhost:8889/fav/user0")
-    .then((res) => res.json())
-    .then((fav) => {
-      if (fav.length !== 0 && state === true && state2 === false) {
-        //console.log(fav);
-        setList(
-          list.map((ele) => {
-            ele.fav = fav.includes(ele.venueId);
-            return ele;
-          })
-        );
-        setState2(true);
-        //console.log(list);
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  //});
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    fetch("http://localhost:8889/fav/user0")
+      .then((res) => res.json())
+      .then((fav) => {
+        if (fav.length !== 0 && state === true && state2 === false) {
+          fav = fav.map((ele) => ele.id);
+          //console.log(fav);
+          setList(
+            list.map((ele) => {
+              ele.fav = fav.includes(ele.venueId);
+              return ele;
+            })
+          );
+          setState2(true);
+          //console.log(list);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  });
 
   return (
     <div className="col-sm-12 col-md-12 col-lg-12 m-auto">
@@ -224,7 +225,11 @@ function Location() {
           <thead className="thead-light">
             <tr>
               <th scope="col">Location</th>
-              <th scope="col"> number of events</th>
+              <th scope="col">
+                {" "}
+                number of events{" "}
+                {sortState === -1 ? "↓" : sortState === 1 ? "↑" : ""}
+              </th>
             </tr>
           </thead>
           <tbody id="LocationTbody">

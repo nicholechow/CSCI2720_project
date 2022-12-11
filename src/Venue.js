@@ -95,7 +95,7 @@ function Detail(props) {
       console.log(error);
     });
   return (
-    <div className="col-sm-12 col-md-12 col-lg-8 mx-auto my-4">
+    <div className="col-sm-12 col-md-12 col-lg-10 mx-auto my-4">
       <h4>Events</h4>
       <table className="table table-hover">
         <thead className="thead-light">

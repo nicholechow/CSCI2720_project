@@ -5,6 +5,7 @@ import Home from "./Home";
 import Login from "./Login";
 import Venue from "./Venue";
 import Search from "./Search";
+import Account from "./Account";
 
 // App
 class App extends React.Component {
@@ -85,9 +86,9 @@ class App extends React.Component {
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#">
-                      Link
-                    </a>
+                    <Link to="account" className="nav-link">
+                      Account
+                    </Link>
                   </li>
                 </ul>
                 <div className="nav justify-content-between bg-warning sticky-top">
@@ -154,6 +155,7 @@ class App extends React.Component {
             <Route path="/debug" element={<Home loggedIn={true} />} />
             <Route path="/venue/:venueId" element={<Venue />} />
             <Route path="/search/:keyword" element={<Search />} />
+            <Route path="/account" element={<Account />} />
             <Route
               path="/user"
               element={
