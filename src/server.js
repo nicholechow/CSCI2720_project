@@ -59,7 +59,7 @@ db.once("open", function () {
   const User = mongoose.model("User", UserSchema);
 
   const CommentSchema = mongoose.Schema({
-    commentid: { type: Number, required: true },
+    // commentid: { type: Number, required: true },
     venueid: { type: Number, required: true },
     userid: { type: Number, required: true },
     content: { type: String, required: true },
