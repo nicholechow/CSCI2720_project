@@ -84,16 +84,16 @@ db.once("open", function () {
   });
 
   // get user favourite location
-  app.get("/fav/:username", (req, res) => {
-    User.findOne({ username: req.params["username"] }, "fav", (err, f) => {
-      if (err) console.log(err);
-      else {
-        res.send(f.fav);
-        //console.log(f.fav);
-        console.log("get user fav");
-      }
-    });
-  });
+  // app.get("/fav/:username", (req, res) => {
+  //   User.findOne({ username: req.params["username"] }, "fav", (err, f) => {
+  //     if (err) console.log(err);
+  //     else {
+  //       res.send(f.fav);
+  //       //console.log(f.fav);
+  //       console.log("get user fav");
+  //     }
+  //   });
+  // });
 
   // get venue name from id
   app.get("/venueName/:venueId", (req, res) => {
@@ -123,7 +123,7 @@ db.once("open", function () {
   });
 
   app.get("/allVenueLatLong/", (req, res) => {
-    Venue.find({}, "latitude longitude", (err, v) => {
+    Venue.find({}, (err, v) => {
       if (err) console.log(err);
       else {
         res.send(v);
@@ -183,49 +183,57 @@ db.once("open", function () {
   });
 
   app.get("/listvenue/:venueId", (req, res) => {
-    let buf="";
+    let buf = "";
     Venue.findOne({ id: Number(req.params["venueId"]) }, (err, v) => {
-      if (v!=null){
-        res.send(v.venue + "<Br>" + String(v.latitude) + "<Br>" + String(v.longitude));
-      }else{
+      if (v != null) {
+        res.send(
+          v.venue + "<Br>" + String(v.latitude) + "<Br>" + String(v.longitude)
+        );
+      } else {
         res.send("404");
       }
     });
   });
 
-  app.post("/create", (req, res)=>{
+  app.post("/create", (req, res) => {
     let currentid = 0;
-    Venue.findOne({id : Number(req.body['venueid'])}, (err, v)=>{
-      if (v!=null){
-        Event.find({}).sort({"eventid":-1}).limit(1).exec((err1, val)=>{
-          if (val!=null){
-            currentid = val[0].eventid+1;
-          }else{
-            currentid = 1;
-          }
-          Event.create({
-            eventid: currentid,
-            venueid: Number(req.body['venueid']),
-            title: req.body['title'],
-            datetime: req.body['datetime'],
-            venuename: String(v.venue),
-            latitude: Number(v.latitude),
-            longitude: Number(v.longitude),
-            description: req.body['description'],
-            presenter: req.body['presenter'],
-            price: req.body['price']
-          }, (err2, e)=>{
-            if (err2){
-              console.log('error');
-            }else{
-              return res.send("Event create successfuly");
+    Venue.findOne({ id: Number(req.body["venueid"]) }, (err, v) => {
+      if (v != null) {
+        Event.find({})
+          .sort({ eventid: -1 })
+          .limit(1)
+          .exec((err1, val) => {
+            if (val != null) {
+              currentid = val[0].eventid + 1;
+            } else {
+              currentid = 1;
             }
+            Event.create(
+              {
+                eventid: currentid,
+                venueid: Number(req.body["venueid"]),
+                title: req.body["title"],
+                datetime: req.body["datetime"],
+                venuename: String(v.venue),
+                latitude: Number(v.latitude),
+                longitude: Number(v.longitude),
+                description: req.body["description"],
+                presenter: req.body["presenter"],
+                price: req.body["price"],
+              },
+              (err2, e) => {
+                if (err2) {
+                  console.log("error");
+                } else {
+                  return res.send("Event create successfuly");
+                }
+              }
+            );
           });
-        });
-      }else{
+      } else {
         return res.send("Venue not found");
       }
-    })
+    });
   });
 
   app.put("/update/:eventId", (req, res) => {
