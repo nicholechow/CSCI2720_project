@@ -14,7 +14,7 @@ export default class Home extends React.Component {
       loggedIn: this.props.loggedIn === undefined ? false : this.props.loggedIn,
       isAdmin: this.props.isAdmin === undefined ? false : this.props.isAdmin,
       r: false,
-      d: false
+      d: false,
     };
 
     // Debug Account
@@ -31,7 +31,7 @@ export default class Home extends React.Component {
   handleR() {
     this.setState({ r: !this.state.r });
   }
-  handleD(){
+  handleD() {
     this.setState({ d: !this.state.d });
   }
 
@@ -65,7 +65,7 @@ export default class Home extends React.Component {
               </Link>
               <button>Create event</button>
               <button onClick={this.handleR}> Retrieve events</button>
-              <button>Update event</button>             
+              <button>Update event</button>
               <button onClick={this.handleD}>Delete event</button>
             </div>
             <div>{this.state.r ? <RetrieveData /> : <p></p>}</div>
@@ -80,7 +80,19 @@ export default class Home extends React.Component {
 // Location
 function Location() {
   const [list, setList] = useState([]);
-  //const list = useRef([]);
+  const [sortState, setSortState] = useState(0);
+  const sortTable = () => {
+    if (list.length !== 0) {
+      if (sortState === 1 || sortState === 0) {
+        setSortState(-1);
+        setList(list.sort((a, b) => b.eventCnt - a.eventCnt));
+      } else {
+        setSortState(1);
+        setList(list.sort((a, b) => a.eventCnt - b.eventCnt));
+      }
+    }
+  };
+
   useEffect(() => {
     fetch("http://localhost:8889/venueEventCnt")
       .then((res) => res.json())
@@ -110,8 +122,9 @@ function Location() {
           id="sort"
           className="mx-1 py-1 btn btn-outline-primary"
           type="button"
+          onClick={() => sortTable()}
         >
-          Sort by number of events↓
+          Sort by number of events {sortState === -1 ? "↑" : "↓"}
         </button>
         {/* <button id='favourites'></button> */}
         <table className="p-2 text-center table table-hover">
@@ -249,7 +262,7 @@ class RetrieveData extends React.Component {
         RetrieveData.innerHTML = data
           .map((ele, i) => {
             return `<tr key={i}>
-            <td>${i+1}</td>        
+            <td>${i + 1}</td>        
             <td>${ele.venueid}</td>
             <td>${ele.venuename}</td>
             <td>${ele.eventid}</td>
@@ -277,12 +290,12 @@ class RetrieveData extends React.Component {
           <table className="p-2 text-center table table-hover">
             <thead className="thead-light">
               <tr>
-              <th scope="col">Count</th>
+                <th scope="col">Count</th>
                 <th scope="col">Venue ID</th>
                 <th scope="col">Venue Name</th>
                 <th scope="col">Event ID</th>
                 <th scope="col">Title</th>
-                <th scope="col">Datetime</th>                
+                <th scope="col">Datetime</th>
                 <th scope="col">Latitude</th>
                 <th scope="col">Longitude</th>
                 <th scope="col">Description</th>
@@ -301,22 +314,15 @@ class RetrieveData extends React.Component {
 }
 
 class DeleteData extends React.Component {
-
   render() {
     return (
       <div className="col-sm-12 col-md-12 col-lg-12 m-auto">
         <section className="p-1 mx-1 border border-primary rounded-1">
           <h4>DeleteData</h4>
 
-          <table className="p-2 text-center table table-hover">
-            
-          </table>
+          <table className="p-2 text-center table table-hover"></table>
         </section>
       </div>
     );
   }
 }
-
-
-
-
