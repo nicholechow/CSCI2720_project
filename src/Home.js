@@ -14,6 +14,7 @@ export default class Home extends React.Component {
       loggedIn: this.props.loggedIn === undefined ? false : this.props.loggedIn,
       isAdmin: this.props.isAdmin === undefined ? false : this.props.isAdmin,
       r: false,
+      u: false,
       d: false
     };
 
@@ -23,13 +24,18 @@ export default class Home extends React.Component {
 
     this.handleLogout = this.handleLogout.bind(this);
     this.handleR = this.handleR.bind(this);
+    this.handleU = this.handleU.bind(this);
     this.handleD = this.handleD.bind(this);
+    
   }
   handleLogout() {
     this.setState({ loggedIn: false });
   }
   handleR() {
     this.setState({ r: !this.state.r });
+  }
+  handleU(){
+    this.setState({ u: !this.state.u });
   }
   handleD(){
     this.setState({ d: !this.state.d });
@@ -65,10 +71,11 @@ export default class Home extends React.Component {
               </Link>
               <button>Create event</button>
               <button onClick={this.handleR}> Retrieve events</button>
-              <button>Update event</button>             
+              <button onClick={this.handleU}>Update event</button>             
               <button onClick={this.handleD}>Delete event</button>
             </div>
             <div>{this.state.r ? <RetrieveData /> : <p></p>}</div>
+            <div>{this.state.u ? <UpdateData /> : <p></p>}</div>
             <div>{this.state.d ? <DeleteData /> : <p></p>}</div>
           </div>
         );
@@ -333,7 +340,7 @@ class DeleteData extends React.Component {
                 <input
                   id="eventId"
                   name="eventId"
-                  type="Number"
+                  type="number"
                   onChange={this.handleChange}
                   className="form-control mt-1"
                   placeholder="Enter event ID here"
@@ -346,6 +353,221 @@ class DeleteData extends React.Component {
                 </button>               
               </div>
               <p id="deletemessage"></p>
+            </div>
+
+          </form>
+        </section>
+      </div>
+    );
+  }
+}
+
+class UpdateData extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      eventId: "",
+      title: "",
+      venueId: "",
+      venueName: "",
+      datetime: "",
+      latitude: "",
+      longitude: "",
+      description: "",
+      presenter: "",
+      price: ""
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleLoad = this.handleLoad.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  handleChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+  handleLoad(e) {
+    e.preventDefault();   
+    fetch("http://localhost:8889/listone/"+String(this.state.eventId))
+    .then((res) => res.json())
+    .then((data) => {
+      document.getElementById("title").value=data.title;
+      document.getElementById("venueId").value=data.venueid;
+      document.getElementById("venueName").value=data.venuename;
+      document.getElementById("datetime").value=data.datetime;
+      document.getElementById("latitude").value=data.latitude;
+      document.getElementById("longitude").value=data.longitude;
+      document.getElementById("description").value=data.description;
+      document.getElementById("presenter").value=data.presenter;
+      document.getElementById("price").value=data.price;
+    });
+  }
+  handleSubmit(e) {
+    e.preventDefault();
+    let newData = {
+      'title': document.getElementById("title").value,
+      'venueid': Number(document.getElementById("venueId").value),
+      'venuename': document.getElementById("venueName").value,
+      'datetime': document.getElementById("datetime").value,
+      'latitude': Number(document.getElementById("latitude").value),
+      'longitude': Number(document.getElementById("longitude").value),
+      'description': document.getElementById("description").value,
+      'presenter': document.getElementById("presenter").value,
+      'price': document.getElementById("price").value
+    }
+    fetch("http://localhost:8889/update/" + String(this.state.eventId), {
+      method: "PUT",
+			headers: {'Content-type': 'application/json'},
+			body: JSON.stringify(newData)
+    })
+    .then(res => res.text())
+    .then(txt => {
+      console.log(txt);
+      if (txt==="success"){
+        document.getElementById("updatemessage").innerHTML="Update successfully.";
+      }else{
+        document.getElementById("updatemessage").innerHTML="Update is not success. Make sure your data is input correctly";
+      }
+    })
+  }
+  render() {
+    return (
+      <div className="col-sm-12 col-md-12 col-lg-12 m-auto">
+        <section className="p-1 mx-1 border border-primary rounded-1">
+          <h4>Update Data</h4>
+
+          <form className="form" method="POST">
+            <div className="p-4 col-6 m-auto border border-4 border-primary rounded-3">
+              <h3>Load Event</h3>
+
+              <div className="p-2 form-group mt-3">
+                <label htmlFor="eventId">Event ID:</label>
+                <input
+                  id="eventId"
+                  name="eventId"
+                  type="number"
+                  onChange={this.handleChange}
+                  className="form-control mt-1"
+                  placeholder="Enter event ID here" required
+                />
+              </div>
+
+              <div className="p-2 d-grid gap-2 mt-3">
+                <button onClick={this.handleLoad} className="btn btn-primary">
+                  Load
+                </button>               
+              </div>
+            </div>
+
+          </form>
+          <br/>
+          <form className="form" method="POST">
+            <div className="p-4 col-6 m-auto border border-4 border-primary rounded-3">
+              <h3>Update Event</h3>
+
+              <div className="p-2 form-group mt-3">
+                <label htmlFor="title">Title:</label>
+                <input
+                  id="title"
+                  name="title"
+                  type="text"
+                  onChange={this.handleChange}
+                  className="form-control mt-1" required
+                  />
+              </div>
+
+              <div className="p-2 form-group mt-3">
+                <label htmlFor="venueId">Venue ID:</label>
+                <input
+                  id="venueId"
+                  name="venueId"
+                  type="number"
+                  onChange={this.handleChange}
+                  className="form-control mt-1" required
+                  />
+              </div>
+
+              <div className="p-2 form-group mt-3">
+                <label htmlFor="venueName">Venue Name:</label>
+                <input
+                  id="venueName"
+                  name="venueName"
+                  type="text"
+                  onChange={this.handleChange}
+                  className="form-control mt-1" required
+                  />
+              </div>
+
+              <div className="p-2 form-group mt-3">
+                <label htmlFor="venueName">Datetime:</label>
+                <input
+                  id="datetime"
+                  name="datetime"
+                  type="text"
+                  onChange={this.handleChange}
+                  className="form-control mt-1" required
+                />
+              </div>
+
+              <div className="p-2 form-group mt-3">
+                <label htmlFor="venueName">Latitude:</label>
+                <input
+                  id="latitude"
+                  name="latitude"
+                  type="number"
+                  onChange={this.handleChange}
+                  className="form-control mt-1" required
+                />
+              </div>
+
+              <div className="p-2 form-group mt-3">
+                <label htmlFor="venueName">Longitude:</label>
+                <input
+                  id="longitude"
+                  name="longitude"
+                  type="number"
+                  onChange={this.handleChange}
+                  className="form-control mt-1" required
+                />
+              </div>
+
+              <div className="p-2 form-group mt-3">
+                <label htmlFor="venueName">Description:</label>
+                <input
+                  id="description"
+                  name="description"
+                  type="text"
+                  onChange={this.handleChange}
+                  className="form-control mt-1" required
+                />
+              </div>
+
+              <div className="p-2 form-group mt-3">
+                <label htmlFor="venueName">Presenter:</label>
+                <input
+                  id="presenter"
+                  name="presenter"
+                  type="text"
+                  onChange={this.handleChange}
+                  className="form-control mt-1" required
+                />
+              </div>
+
+              <div className="p-2 form-group mt-3">
+                <label htmlFor="venueName">Price:</label>
+                <input
+                  id="price"
+                  name="price"
+                  type="text"
+                  onChange={this.handleChange}
+                  className="form-control mt-1" required
+                />
+              </div>
+
+              <div className="p-2 d-grid gap-2 mt-3">
+                <button onClick={this.handleSubmit} className="btn btn-primary">
+                  Update
+                </button>               
+              </div>
+              <p id="updatemessage"></p>
             </div>
 
           </form>

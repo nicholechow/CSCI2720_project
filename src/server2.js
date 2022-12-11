@@ -136,6 +136,34 @@ db.once("open", function () {
 			}
 		})
 	});
+  app.get("/listone/:eventId", (req, res) => {
+    Event.findOne({eventid: Number(req.params['eventId'])}, (err, e) => {
+      if (e!=null){
+        res.send(e);
+      }else{
+
+      }
+    });
+  });
+  app.put("/update/:eventId", (req, res)=>{
+    Event.findOne({eventid: Number(req.params['eventId'])}, (err, e) => {
+      if (e!=null){
+        e.title=req.body['title'];
+        e.venueid=Number(req.body['venueid']);
+        e.venuename=req.body['venuename'];
+        e.datetime=req.body['datetime'];
+        e.latitude=Number(req.body['latitude']);
+        e.longitude=Number(req.body['longitude']);
+        e.description=req.body['description'];
+        e.presenter=req.body['presenter'];
+        e.price=req.body['price'];
+        e.save();
+        res.send("success");
+      }else{
+        res.send("fail");
+      }
+    });
+  });
 });
 
 // listen to port 5000
