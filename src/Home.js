@@ -107,7 +107,7 @@ function Location() {
         .then((res) => res.json())
         .then((data) => {
           //console.log(data);
-          if (list.length === 0) setList(data);
+          setList(data);
         })
         .catch((error) => {
           console.log(error);
