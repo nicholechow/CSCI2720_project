@@ -1,7 +1,15 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Map } from "./Home";
-
+function LocationRow(props) {
+  console.log(props);
+  return (
+    <tr>
+      <td>{props.username}</td>
+      <td>{props.comment}</td>
+    </tr>
+  );
+}
 export default function Venue() {
   const { venueId } = useParams();
   const [venueName, setVenueName] = useState("");
@@ -20,18 +28,16 @@ export default function Venue() {
         {venueName}
         <button className="btn btn-danger mx-2">♥</button>
       </h1>
-      <p>Some description about this location(?</p>
       <Map id={venueId} />
-      <Detail />
-      <Comments />
+      <Detail id={venueId} />
+      <Comments id={venueId} />
     </div>
   );
 }
 
-function Detail() {
+function Detail(props) {
   const [list, setList] = useState([]);
-  const { venueId } = useParams();
-  fetch("http://localhost:8889/venueEvents/" + venueId)
+  fetch("http://localhost:8889/venueEvents/" + props.id)
     .then((res) => res.json())
     .then((data) => {
       //console.log(data);
@@ -83,7 +89,22 @@ function Detail() {
 }
 
 // Comments
-function Comments() {
+function Comments(props) {
+  const [list, setList] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:8889/comment/" + props.id)
+      .then((res) => res.json())
+      .then((data) => {
+        //console.log(data);
+        if (list.length === 0) {
+          setList(data);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  });
   return (
     <section
       id="comments"
@@ -95,20 +116,21 @@ function Comments() {
           <tr>
             <th className="pe-4 mr-auto">Username</th>
             <th className="pe-4 mr-auto">Comment</th>
-            {/* <td>Time</td> */}
           </tr>
         </thead>
 
         {/* Fetch Data & Insert Here Automatically*/}
         <tbody>
-          <tr>
-            <td>Alex Au</td>
-            <td>Cool Location</td>
-          </tr>
-          <tr>
-            <td>Bedgy Bo</td>
-            <td>Agree</td>
-          </tr>
+          {list.length === 0 ? (
+            <tr>
+              <td>No Result</td>
+              <td>No Result</td>
+            </tr>
+          ) : (
+            list.map((loc, i) => (
+              <LocationRow username={loc.username} comment={loc.comment} />
+            ))
+          )}
         </tbody>
       </table>
     </section>

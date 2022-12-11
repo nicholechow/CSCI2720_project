@@ -41,12 +41,12 @@ db.once("open", function () {
   const Venue = mongoose.model("Venue", VenueSchema);
 
   const CommentSchema = mongoose.Schema({
-    venue_id: { type: Number, required: true },
-    user_id: { type: Number, required: true },
-    content: { type: String, required: true },
+    venueid: { type: Number, required: true },
+    username: { type: String, required: true },
+    comment: { type: String, required: true },
   });
 
-  const Comment = mongoose.model("Coment", CommentSchema);
+  const Comment = mongoose.model("Comment", CommentSchema);
 
   const UserSchema = mongoose.Schema({
     username: { type: String, required: true, unique: true },
@@ -223,6 +223,21 @@ db.once("open", function () {
       }
     );
   });
+
+  app.get("/comment/:venueId", (req, res) => {
+    Comment.find(
+      { venueid: req.params["venueId"] },
+      "username comment",
+      (err, v) => {
+        if (err) console.log(err);
+        else {
+          res.send(v);
+          console.log("get comment");
+        }
+      }
+    );
+  });
+
   app.delete("/delete/:eventId", (req, res) => {
     Event.findOne({ eventid: Number(req.params["eventId"]) }).exec(function (
       err,
