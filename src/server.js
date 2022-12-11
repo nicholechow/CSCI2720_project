@@ -18,9 +18,7 @@ const download = require("download");
 
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-mongoose.connect(
-  "mongodb+srv://stu141:p651183W@cluster0.gbo7pn3.mongodb.net/stu141"
-); //Fill in your own connection string
+mongoose.connect("mongodb+srv://stu046:p554024W@cluster0.wenbhsm.mongodb.net/stu046"); //Fill in your own connection string
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "Connection error:"));
 
@@ -107,11 +105,7 @@ db.once("open", function () {
             break;
           }
 
-          if (
-            (typeof json2.venues.venue[i].latitude ||
-              typeof json2.venues.venue[i].longitude) == "object" ||
-            check < 3
-          ) {
+          if (typeof(json2.venues.venue[i].latitude) == "object" || typeof(json2.venues.venue[i].longitude) == "object" || check < 3 || json2.venues.venue[i].latitude == lat[index1]) {
           } else {
             v[index1] = Number(json2.venues.venue[i].id);
             n[index1] = json2.venues.venue[i].venuee;
