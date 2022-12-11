@@ -78,6 +78,22 @@ db.once("open", function () {
     });
   });
 
+  // get venue Latitude and Longtitude from id
+  app.get("/venueLatLong/:venueId", (req, res) => {
+    Venue.findOne(
+      { id: req.params["venueId"] },
+      "latitude longitude",
+      (err, v) => {
+        if (err) console.log(err);
+        else {
+          //if (v==null) res.status(404).send("Event not found");
+          res.send(v);
+          console.log("get venue latitude and longtitude");
+        }
+      }
+    );
+  });
+
   // get all events with details of a venue
   app.get("/venueEvents/:venueId", (req, res) => {
     Event.find(
