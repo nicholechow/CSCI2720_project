@@ -13,15 +13,17 @@ function LocationRow(props) {
 export default function Venue() {
   const { venueId } = useParams();
   const [venueName, setVenueName] = useState("");
-  fetch("http://localhost:8889/venueName/" + venueId)
-    .then((res) => res.text())
-    .then((data) => {
-      //console.log(venueName);
-      if (venueName.length === 0) setVenueName(data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  useEffect(() => {
+    fetch("http://localhost:8889/venueName/" + venueId)
+      .then((res) => res.text())
+      .then((data) => {
+        //console.log(venueName);
+        if (venueName.length !== 0) setVenueName(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  });
   return (
     <div className="justify-content-center text-center">
       <h1 id="venueName">
@@ -96,10 +98,7 @@ function Comments(props) {
     fetch("http://localhost:8889/comment/" + props.id)
       .then((res) => res.json())
       .then((data) => {
-        //console.log(data);
-        if (list.length === 0) {
-          setList(data);
-        }
+        if (data.length !== 0) setList(data);
       })
       .catch((error) => {
         console.log(error);
