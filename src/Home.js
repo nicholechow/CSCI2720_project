@@ -186,6 +186,20 @@ export function Map(props) {
         .catch((error) => {
           console.log(error);
         });
+    } else {
+      fetch("http://localhost:8889/allVenueLatLong")
+        .then((res) => res.json())
+        .then((data) => {
+          // console.log(data.latitude);
+          for (let i = 0; i < 10; i++) {
+            new mapboxgl.Marker()
+              .setLngLat([data[i].longitude, data[i].latitude])
+              .addTo(map.current);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   });
 

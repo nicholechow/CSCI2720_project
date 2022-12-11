@@ -86,12 +86,21 @@ db.once("open", function () {
       (err, v) => {
         if (err) console.log(err);
         else {
-          //if (v==null) res.status(404).send("Event not found");
           res.send(v);
           console.log("get venue latitude and longitude");
         }
       }
     );
+  });
+
+  app.get("/allVenueLatLong/", (req, res) => {
+    Venue.find({}, "latitude longitude", (err, v) => {
+      if (err) console.log(err);
+      else {
+        res.send(v);
+        console.log("get all venue latitude and longitude");
+      }
+    });
   });
 
   // get all events with details of a venue
