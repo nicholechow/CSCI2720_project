@@ -5,7 +5,7 @@ const express = require("express");
 const app = express();
 var mongoose = require("mongoose");
 mongoose.connect(
-  "mongodb+srv://stu046:p554024W@cluster0.wenbhsm.mongodb.net/stu046"
+  "mongodb+srv://stu141:p651183W@cluster0.gbo7pn3.mongodb.net/stu141"
 );
 //mongodb+srv://stu046:p554024W@cluster0.wenbhsm.mongodb.net/stu046
 //mongodb+srv://stu141:p651183W@cluster0.gbo7pn3.mongodb.net/stu141
@@ -17,6 +17,7 @@ db.on("error", console.error.bind(console, "Connection error:"));
 db.once("open", function () {
   console.log("Connection is open...");
   const EventSchema = mongoose.Schema({
+    eventid: { type: Number, required: true },
     venueid: { type: Number, required: true },
     title: { type: String, required: true },
     datetime: { type: String, required: true },
@@ -134,7 +135,7 @@ db.once("open", function () {
     );
   });
   app.get("/listall", (req, res) => {
-    Venue.find({}, (err, v) => {
+    Event.find({}, (err, v) => {
       if (err) console.log(err);
       else {
         res.send(v);
@@ -163,6 +164,25 @@ db.once("open", function () {
         }
       }
     );
+  });
+  app.delete("/delete/:eventId", (req, res) => {
+    Event.findOne({ eventid: Number(req.params["eventId"]) }).exec(function (
+      err,
+      d
+    ) {
+      if (d != null) {
+        d.remove();
+        res.send(
+          "Event ID: " +
+            String(req.params["eventId"]) +
+            " has been deleted successfully."
+        );
+      } else {
+        res.send(
+          "Event ID: " + String(req.params["eventId"]) + " is not found."
+        );
+      }
+    });
   });
 });
 
