@@ -4,13 +4,12 @@ import { Map } from "./Home";
 
 export default function Venue() {
   const { venueId } = useParams();
+  const [venueName, setVenueName] = useState("");
   fetch("http://localhost:8889/venueName/" + venueId)
     .then((res) => res.text())
     .then((data) => {
-      //console.log(data);
-      const Location = document.getElementById("venueName");
-      Location.innerHTML =
-        data + `<button class="btn btn-danger mx-2">♥</button>`;
+      console.log(venueName);
+      if (venueName.length === 0) setVenueName(data);
     })
     .catch((error) => {
       console.log(error);
@@ -18,6 +17,7 @@ export default function Venue() {
   return (
     <div className="justify-content-center text-center">
       <h1 id="venueName">
+        {venueName}
         <button className="btn btn-danger mx-2">♥</button>
       </h1>
       <p>Some description about this location(?</p>

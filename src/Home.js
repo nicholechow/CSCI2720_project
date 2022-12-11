@@ -172,7 +172,7 @@ function LocationRow(props) {
       </td>
       <td>{props.eventCnt}</td>
       <td>
-        <button className="btn btn-danger">♥</button>
+        <button className="btn btn-outline-danger">♥</button>
       </td>
     </tr>
   );
