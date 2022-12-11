@@ -187,6 +187,7 @@ db.once("open", function () {
       }
     );
   });
+  
   app.get("/listall", (req, res) => {
     Event.find({}, (err, v) => {
       if (err) console.log(err);
@@ -195,6 +196,7 @@ db.once("open", function () {
       }
     });
   });
+
   app.delete("/delete/:eventId", (req, res) => {
     Event.findOne({ eventid: Number(req.params["eventId"]) }).exec(function (
       err,
@@ -214,6 +216,7 @@ db.once("open", function () {
       }
     });
   });
+
   app.get("/listone/:eventId", (req, res) => {
     Event.findOne({ eventid: Number(req.params["eventId"]) }, (err, e) => {
       if (e != null) {
