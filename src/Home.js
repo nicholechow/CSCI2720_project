@@ -47,7 +47,7 @@ export default class Home extends React.Component {
         return (
           <div className="p-1 border border-primary rounded-1 container">
             <Location />
-            <Map />
+            <Map id="all" />
           </div>
         );
 
@@ -155,7 +155,7 @@ function LocationRow(props) {
 // Location;
 
 // Map
-export function Map() {
+export function Map(props) {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [lat, setLat] = useState(22.302711);
@@ -174,7 +174,19 @@ export function Map() {
       // Remove Unneeded buttons from Mapbox
       attributionControl: false,
     });
-    new mapboxgl.Marker().setLngLat([114, 22]).addTo(map.current);
+    if (props.id !== "all") {
+      fetch("http://localhost:8889/venueLatLong/" + props.id)
+        .then((res) => res.json())
+        .then((data) => {
+          // console.log(data.latitude);
+          new mapboxgl.Marker()
+            .setLngLat([data.longitude, data.latitude])
+            .addTo(map.current);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   });
 
   useEffect(() => {

@@ -21,7 +21,7 @@ export default function Venue() {
         <button className="btn btn-danger mx-2">♥</button>
       </h1>
       <p>Some description about this location(?</p>
-      <Map />
+      <Map id={venueId} />
       <Detail />
       <Comments />
     </div>

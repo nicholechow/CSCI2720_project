@@ -78,7 +78,7 @@ db.once("open", function () {
     });
   });
 
-  // get venue Latitude and Longtitude from id
+  // get venue Latitude and longitude from id
   app.get("/venueLatLong/:venueId", (req, res) => {
     Venue.findOne(
       { id: req.params["venueId"] },
@@ -88,7 +88,7 @@ db.once("open", function () {
         else {
           //if (v==null) res.status(404).send("Event not found");
           res.send(v);
-          console.log("get venue latitude and longtitude");
+          console.log("get venue latitude and longitude");
         }
       }
     );
