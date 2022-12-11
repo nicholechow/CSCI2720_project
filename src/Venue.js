@@ -13,6 +13,26 @@ function LocationRow(props) {
 export default function Venue() {
   const { venueId } = useParams();
   const [venueName, setVenueName] = useState("");
+  const [fav, setFav] = useState(false);
+  const [state, setState] = useState(false);
+  const changeLocFav = () => {
+    fetch("http://localhost:8889/changeFav/user0", {
+      method: "PUT",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ venueId: parseInt(venueId) }),
+    })
+      .then()
+      .then(() => {
+        //console.log(fav);
+        setState(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   useEffect(() => {
     fetch("http://localhost:8889/venueName/" + venueId)
       .then((res) => res.text())
@@ -23,12 +43,38 @@ export default function Venue() {
       .catch((error) => {
         console.log(error);
       });
+    fetch("http://localhost:8889/fav/user0/" + venueId)
+      .then((res) => res.json())
+      .then((data) => {
+        //console.log(data);
+        if (state === false) {
+          setFav(data);
+          setState(true);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   });
   return (
     <div className="justify-content-center text-center">
       <h1 id="venueName">
         {venueName}
-        <button className="btn btn-danger mx-2">♥</button>
+        {fav ? (
+          <button
+            className="btn btn-danger mx-2"
+            onClick={() => changeLocFav(venueId)}
+          >
+            ♥
+          </button>
+        ) : (
+          <button
+            className="btn btn-outline-danger mx-2"
+            onClick={() => changeLocFav(venueId)}
+          >
+            ♥
+          </button>
+        )}
       </h1>
       <Map id={venueId} />
       <Detail id={venueId} />

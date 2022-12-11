@@ -95,6 +95,18 @@ db.once("open", function () {
     });
   });
 
+  // get user favourite location
+  app.get("/fav/:username/:venueId", (req, res) => {
+    User.findOne({ username: req.params["username"] }, "fav", (err, f) => {
+      if (err) console.log(err);
+      else {
+        res.send(f.fav.includes(req.params["venueId"]));
+        //console.log(f.fav);
+        console.log("get user fav");
+      }
+    });
+  });
+
   // update user fav
   app.put("/changeFav/:username", (req, res) => {
     User.findOne({ username: req.params["username"] }, "fav", (err, f) => {
