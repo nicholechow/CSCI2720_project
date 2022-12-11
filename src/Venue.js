@@ -18,7 +18,7 @@ export default function Venue() {
       .then((res) => res.text())
       .then((data) => {
         //console.log(venueName);
-        if (venueName.length !== 0) setVenueName(data);
+        if (venueName.length === 0) setVenueName(data);
       })
       .catch((error) => {
         console.log(error);
