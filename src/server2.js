@@ -5,7 +5,7 @@ const express = require("express");
 const app = express();
 var mongoose = require("mongoose");
 mongoose.connect(
-  "mongodb+srv://stu141:p651183W@cluster0.gbo7pn3.mongodb.net/stu141"
+  "mongodb+srv://stu046:p554024W@cluster0.wenbhsm.mongodb.net/stu046"
 );
 //mongodb+srv://stu046:p554024W@cluster0.wenbhsm.mongodb.net/stu046
 //mongodb+srv://stu141:p651183W@cluster0.gbo7pn3.mongodb.net/stu141
@@ -83,6 +83,18 @@ db.once("open", function () {
     });
   });
 
+  // get user favourite location
+  app.get("/fav/:username", (req, res) => {
+    User.findOne({ username: req.params["username"] }, "fav", (err, f) => {
+      if (err) console.log(err);
+      else {
+        res.send(f.fav);
+        //console.log(f.fav);
+        console.log("get user fav");
+      }
+    });
+  });
+
   // get venue name from id
   app.get("/venueName/:venueId", (req, res) => {
     Venue.findOne({ id: req.params["venueId"] }, "venue", (err, v) => {
@@ -142,40 +154,48 @@ db.once("open", function () {
       }
     });
   });
-  app.delete('/delete/:eventId', (req, res)=>{
-		Event.findOne({eventid: Number(req.params['eventId'])}).exec(function (err, d){
-			if (d!=null){
-				d.remove();
-				res.send("Event ID: " + String(req.params['eventId']) + " has been deleted successfully.");
-			}else{
-				res.send("Event ID: " + String(req.params['eventId']) + " is not found.");
-			}
-		})
-	});
-  app.get("/listone/:eventId", (req, res) => {
-    Event.findOne({eventid: Number(req.params['eventId'])}, (err, e) => {
-      if (e!=null){
-        res.send(e);
-      }else{
-
+  app.delete("/delete/:eventId", (req, res) => {
+    Event.findOne({ eventid: Number(req.params["eventId"]) }).exec(function (
+      err,
+      d
+    ) {
+      if (d != null) {
+        d.remove();
+        res.send(
+          "Event ID: " +
+            String(req.params["eventId"]) +
+            " has been deleted successfully."
+        );
+      } else {
+        res.send(
+          "Event ID: " + String(req.params["eventId"]) + " is not found."
+        );
       }
     });
   });
-  app.put("/update/:eventId", (req, res)=>{
-    Event.findOne({eventid: Number(req.params['eventId'])}, (err, e) => {
-      if (e!=null){
-        e.title=req.body['title'];
-        e.venueid=Number(req.body['venueid']);
-        e.venuename=req.body['venuename'];
-        e.datetime=req.body['datetime'];
-        e.latitude=Number(req.body['latitude']);
-        e.longitude=Number(req.body['longitude']);
-        e.description=req.body['description'];
-        e.presenter=req.body['presenter'];
-        e.price=req.body['price'];
+  app.get("/listone/:eventId", (req, res) => {
+    Event.findOne({ eventid: Number(req.params["eventId"]) }, (err, e) => {
+      if (e != null) {
+        res.send(e);
+      } else {
+      }
+    });
+  });
+  app.put("/update/:eventId", (req, res) => {
+    Event.findOne({ eventid: Number(req.params["eventId"]) }, (err, e) => {
+      if (e != null) {
+        e.title = req.body["title"];
+        e.venueid = Number(req.body["venueid"]);
+        e.venuename = req.body["venuename"];
+        e.datetime = req.body["datetime"];
+        e.latitude = Number(req.body["latitude"]);
+        e.longitude = Number(req.body["longitude"]);
+        e.description = req.body["description"];
+        e.presenter = req.body["presenter"];
+        e.price = req.body["price"];
         e.save();
         res.send("success");
-      }else{
+      } else {
         res.send("fail");
       }
     });

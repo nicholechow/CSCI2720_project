@@ -8,7 +8,7 @@ export default function Venue() {
   fetch("http://localhost:8889/venueName/" + venueId)
     .then((res) => res.text())
     .then((data) => {
-      console.log(venueName);
+      //console.log(venueName);
       if (venueName.length === 0) setVenueName(data);
     })
     .catch((error) => {

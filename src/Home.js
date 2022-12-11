@@ -104,7 +104,14 @@ function Location() {
       .then((res) => res.json())
       .then((data) => {
         //console.log(data);
-        if (list.length === 0) setList(data);
+        if (list.length === 0) {
+          setList(data);
+          return fetch("http://localhost:8889/fav/user0"); // user0 for testing
+        }
+      })
+      .then((res) => res.json())
+      .then((fav) => {
+        console.log(fav);
       })
       .catch((error) => {
         console.log(error);
