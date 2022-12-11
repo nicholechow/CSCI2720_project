@@ -14,6 +14,7 @@ export default class Home extends React.Component {
       loggedIn: this.props.loggedIn === undefined ? false : this.props.loggedIn,
       isAdmin: this.props.isAdmin === undefined ? false : this.props.isAdmin,
       r: false,
+      d: false
     };
 
     // Debug Account
@@ -22,12 +23,16 @@ export default class Home extends React.Component {
 
     this.handleLogout = this.handleLogout.bind(this);
     this.handleR = this.handleR.bind(this);
+    this.handleD = this.handleD.bind(this);
   }
   handleLogout() {
     this.setState({ loggedIn: false });
   }
   handleR() {
     this.setState({ r: !this.state.r });
+  }
+  handleD(){
+    this.setState({ d: !this.state.d });
   }
 
   render() {
@@ -59,11 +64,12 @@ export default class Home extends React.Component {
                 <button onClick="{this.handleLogout}">Logout</button>
               </Link>
               <button>Create event</button>
-              <button>Update event</button>
               <button onClick={this.handleR}> Retrieve events</button>
-              <button>Delete event</button>
+              <button>Update event</button>             
+              <button onClick={this.handleD}>Delete event</button>
             </div>
             <div>{this.state.r ? <RetrieveData /> : <p></p>}</div>
+            <div>{this.state.d ? <DeleteData /> : <p></p>}</div>
           </div>
         );
     }
@@ -241,12 +247,14 @@ class RetrieveData extends React.Component {
         //console.log(data);
         const RetrieveData = document.getElementById("RetrieveData");
         RetrieveData.innerHTML = data
-          .map((ele) => {
-            return `<tr>
-            <td>${ele.id}</td>
+          .map((ele, i) => {
+            return `<tr key={i}>
+            <td>${i+1}</td>        
+            <td>${ele.venueid}</td>
+            <td>${ele.venuename}</td>
+            <td>${ele.eventid}</td>
             <td>${ele.title}</td>
-            <td>${ele.datetime}</td>
-            <td>${ele.venue}</td>
+            <td>${ele.datetime}</td>           
             <td>${ele.latitude}</td>
             <td>${ele.longitude}</td>
             <td>${ele.description}</td>
@@ -269,10 +277,12 @@ class RetrieveData extends React.Component {
           <table className="p-2 text-center table table-hover">
             <thead className="thead-light">
               <tr>
-                <th scope="col">ID</th>
+              <th scope="col">Count</th>
+                <th scope="col">Venue ID</th>
+                <th scope="col">Venue Name</th>
+                <th scope="col">Event ID</th>
                 <th scope="col">Title</th>
-                <th scope="col">Datetime</th>
-                <th scope="col">Venue</th>
+                <th scope="col">Datetime</th>                
                 <th scope="col">Latitude</th>
                 <th scope="col">Longitude</th>
                 <th scope="col">Description</th>
@@ -289,3 +299,24 @@ class RetrieveData extends React.Component {
     );
   }
 }
+
+class DeleteData extends React.Component {
+
+  render() {
+    return (
+      <div className="col-sm-12 col-md-12 col-lg-12 m-auto">
+        <section className="p-1 mx-1 border border-primary rounded-1">
+          <h4>DeleteData</h4>
+
+          <table className="p-2 text-center table table-hover">
+            
+          </table>
+        </section>
+      </div>
+    );
+  }
+}
+
+
+
+

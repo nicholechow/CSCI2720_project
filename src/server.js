@@ -19,7 +19,7 @@ const download = require("download");
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 mongoose.connect(
-  "mongodb+srv://stu046:p554024W@cluster0.wenbhsm.mongodb.net/stu046"
+  "mongodb+srv://stu141:p651183W@cluster0.gbo7pn3.mongodb.net/stu141"
 ); //Fill in your own connection string
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "Connection error:"));
@@ -27,6 +27,7 @@ db.on("error", console.error.bind(console, "Connection error:"));
 db.once("open", function () {
   //create data schema
   const EventSchema = mongoose.Schema({
+    eventid: { type: Number, required: true },
     venueid: { type: Number, required: true },
     title: { type: String, required: true },
     datetime: { type: String, required: true },
@@ -72,6 +73,7 @@ db.once("open", function () {
   download(url1, filePath, option1).then(() => {
     download(url2, filePath, option2).then(() => {
       //read file and convert to json
+      var e = [];
       var v = [];
       var lat = [];
       var lon = [];
@@ -126,6 +128,7 @@ db.once("open", function () {
       function setup2(id) {
         for (var i = 0; i < json.events.event.length; i++) {
           if (json.events.event[i].venueid == id) {
+            e[index] = Number(json.events.event[i].id);
             t[index] = json.events.event[i].titlee;
             dt[index] = json.events.event[i].predateE;
             d[index] = json.events.event[i].desce;
@@ -152,6 +155,7 @@ db.once("open", function () {
 
         for (var a = 0; a < t.length; a++) {
           Event.create({
+            eventid: e[a],
             venueid: v[j],
             title: t[a],
             datetime: dt[a],
