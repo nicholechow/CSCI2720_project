@@ -52,6 +52,11 @@ class App extends React.Component {
       document.getElementById("123").classList.add("text-danger");
     }
   }
+  load() {
+    document.querySelector("#search_button").href =
+      "http://localhost:3000/search/" +
+      document.querySelector("#keyword_iput").value;
+  }
   render() {
     return (
       <>
@@ -105,23 +110,28 @@ class App extends React.Component {
                     )}
                   </div>
                 </div>
-                <form class="d-flex" role="search">
+                <div class="d-flex">
                   <input
                     class="form-control me-2"
                     type="search"
                     placeholder="Search"
                     aria-label="Search"
+                    id="keyword_iput"
+                    onChange={(e) => this.load()}
                   ></input>
-                  <button class="btn btn-outline-success" type="submit">
+                  <a
+                    class="btn btn-outline-success"
+                    type="submit"
+                    id="search_button"
+                    href="http://localhost:3000.com/search/"
+                  >
                     Search
-                  </button>
-                </form>
+                  </a>
+                </div>
               </div>
             </div>
           </nav>
-
           <hr className="m-0 mb-3" />
-
           <Routes>
             {/* <Route path="/login/signup" element={<Login mode={signup}/>} /> */}
             <Route

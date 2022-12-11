@@ -198,7 +198,7 @@ db.once("open", function () {
             eventCnt: venueId.filter((ele2) => ele2 === ele.venueid).length,
           }));
           res.send(venueEventCnt);
-          console.log("get venueEventCnt");
+          console.log("get search");
         }
       }
     );
