@@ -87,6 +87,7 @@ export default class Home extends React.Component {
 // Location
 function Location() {
   const [state, setState] = useState(false);
+  const [state2, setState2] = useState(false);
   const [list, setList] = useState([]);
   const [sortState, setSortState] = useState(0);
   const sortTable = () => {
@@ -100,6 +101,30 @@ function Location() {
       }
     }
   };
+  const changeFav = (venueId) => {
+    let index = list.findIndex((item) => item.venueId == venueId);
+    let list2 = list;
+    list2[index].fav = !list2[index].fav;
+
+    fetch("http://localhost:8889/changeFav/user0", {
+      method: "PUT",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ venueId: venueId }),
+    })
+      .then()
+      .then(() => {
+        setState2(false);
+        setList(list2);
+        //console.log(list2);
+        //console.log("favClick");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const fileterTable = () => {
     if (document.querySelector("#search_bar").value == "") {
@@ -107,6 +132,7 @@ function Location() {
         .then((res) => res.json())
         .then((data) => {
           //console.log(data);
+          setState2(false);
           setList(data);
         })
         .catch((error) => {
@@ -119,6 +145,7 @@ function Location() {
       )
         .then((res) => res.json())
         .then((data) => {
+          setState2(false);
           setList(data);
           console.log(list);
         })
@@ -128,28 +155,41 @@ function Location() {
     }
   };
 
-  useEffect(() => {
-    fetch("http://localhost:8889/venueEventCnt")
-      .then((res) => res.json())
-      .then((data) => {
+  //useEffect(() => {
+  fetch("http://localhost:8889/venueEventCnt")
+    .then((res) => res.json())
+    .then((data) => {
+      //console.log(data);
+      if (list.length === 0) {
         //console.log(data);
-        if (list.length === 0) {
-          //console.log(data);
-          if (list.length === 0 && state === false) {
-            setList(data);
-            setState(true);
-          }
-          return fetch("http://localhost:8889/fav/user0"); // user0 for testing
+        if (list.length === 0 && state === false) {
+          setList(data);
+          setState(true);
         }
-      })
-      .then((res) => res.json())
-      .then((fav) => {
-        console.log(fav);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  fetch("http://localhost:8889/fav/user0")
+    .then((res) => res.json())
+    .then((fav) => {
+      if (fav.length !== 0 && state === true && state2 === false) {
+        //console.log(fav);
+        setList(
+          list.map((ele) => {
+            ele.fav = fav.includes(ele.venueId);
+            return ele;
+          })
+        );
+        setState2(true);
+        //console.log(list);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  //});
 
   return (
     <div className="col-sm-12 col-md-12 col-lg-12 m-auto">
@@ -194,6 +234,8 @@ function Location() {
                   venueId={loc.venueId}
                   venueName={loc.venueName}
                   eventCnt={loc.eventCnt}
+                  fav={loc.fav}
+                  changeFav={changeFav}
                 />
               ))
             )}
@@ -213,7 +255,21 @@ function LocationRow(props) {
       </td>
       <td>{props.eventCnt}</td>
       <td>
-        <button className="btn btn-outline-danger">♥</button>
+        {props.fav === true ? (
+          <button
+            className="btn btn-danger"
+            onClick={() => props.changeFav(props.venueId)}
+          >
+            ♥
+          </button>
+        ) : (
+          <button
+            className="btn btn-outline-danger"
+            onClick={() => props.changeFav(props.venueId)}
+          >
+            ♥
+          </button>
+        )}
       </td>
     </tr>
   );
