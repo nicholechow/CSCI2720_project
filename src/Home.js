@@ -4,6 +4,7 @@ import vars from "./Vars";
 
 // Reference: https://docs.mapbox.com/help/tutorials/use-mapbox-gl-js-with-react/
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
+import { set } from "mongoose";
 mapboxgl.accessToken =
   "pk.eyJ1IjoiMTE1NTE3MDk1MiIsImEiOiJjbGI5OXI3eDgwc21vM3BxYzd1MTNrMXA0In0.0HxBmgExZx-Y_BfWj_tF8Q";
 // Home
@@ -85,6 +86,7 @@ export default class Home extends React.Component {
 
 // Location
 function Location() {
+  const [state, setState] = useState(false);
   const [list, setList] = useState([]);
   const [sortState, setSortState] = useState(0);
   const sortTable = () => {
@@ -99,12 +101,42 @@ function Location() {
     }
   };
 
+  const fileterTable = () => {
+    if (document.querySelector("#search_bar").value == "") {
+      fetch("http://localhost:8889/venueEventCnt")
+        .then((res) => res.json())
+        .then((data) => {
+          //console.log(data);
+          if (list.length === 0) setList(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      fetch(
+        "http://localhost:8889/search/" +
+          document.querySelector("#search_bar").value
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setList(data);
+          console.log(list);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
+
   useEffect(() => {
     fetch("http://localhost:8889/venueEventCnt")
       .then((res) => res.json())
       .then((data) => {
-        //console.log(data);
-        if (list.length === 0) setList(data);
+        console.log(data);
+        if (list.length === 0 && state == false) {
+          setList(data);
+          setState(true);
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -120,9 +152,10 @@ function Location() {
         <h4>Locations</h4>
         <input
           id="search_bar"
-          className="my-1"
+          className="form-control"
           type="text"
           placeholder="Search Bar"
+          onChange={() => fileterTable()}
         ></input>
         <button
           id="sort"
@@ -143,8 +176,8 @@ function Location() {
           <tbody id="LocationTbody">
             {list.length === 0 ? (
               <tr>
-                <td>Loading...</td>
-                <td>Loading...</td>
+                <td>No Result</td>
+                <td>No Result</td>
               </tr>
             ) : (
               list.map((loc, i) => (
