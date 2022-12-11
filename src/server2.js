@@ -40,6 +40,22 @@ db.once("open", function () {
 
   const Venue = mongoose.model("Venue", VenueSchema);
 
+  const CommentSchema = mongoose.Schema({
+    venue_id: { type: Number, required: true },
+    user_id: { type: Number, required: true },
+    content: { type: String, required: true },
+  });
+
+  const Comment = mongoose.model("Coment", CommentSchema);
+
+  const UserSchema = mongoose.Schema({
+    username: { type: String, required: true, unique: true },
+    pw: { type: String, required: true },
+    fav: { type: Array },
+  });
+
+  const User = mongoose.model("User", UserSchema);
+
   const bodyParser = require("body-parser");
   // Use parser to obtain the content in the body of a request
   app.use(bodyParser.urlencoded({ extended: false }));
@@ -161,6 +177,48 @@ db.once("open", function () {
         res.send("success");
       }else{
         res.send("fail");
+      }
+    });
+  });
+
+  app.get("/search/:keyword", (req, res) => {
+    Event.find(
+      { venuename: { $regex: req.params["keyword"], $options: "i" } },
+      "venueid venuename",
+      (err, v) => {
+        if (err) console.log(err);
+        else {
+          let venueId = v.map((arr) => arr.venueid);
+          let venueList = v.filter(
+            (ele, i) => venueId.indexOf(venueId[i]) === i
+          );
+          let venueEventCnt = venueList.map((ele) => ({
+            venueId: ele.venueid,
+            venueName: ele.venuename,
+            eventCnt: venueId.filter((ele2) => ele2 === ele.venueid).length,
+          }));
+          res.send(venueEventCnt);
+          console.log("get venueEventCnt");
+        }
+      }
+    );
+  });
+  app.delete("/delete/:eventId", (req, res) => {
+    Event.findOne({ eventid: Number(req.params["eventId"]) }).exec(function (
+      err,
+      d
+    ) {
+      if (d != null) {
+        d.remove();
+        res.send(
+          "Event ID: " +
+            String(req.params["eventId"]) +
+            " has been deleted successfully."
+        );
+      } else {
+        res.send(
+          "Event ID: " + String(req.params["eventId"]) + " is not found."
+        );
       }
     });
   });

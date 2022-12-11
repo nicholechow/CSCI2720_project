@@ -4,6 +4,7 @@ import vars from "./Vars";
 import Home from "./Home";
 import Login from "./Login";
 import Venue from "./Venue";
+import Search from "./Search";
 
 // App
 class App extends React.Component {
@@ -142,6 +143,7 @@ class App extends React.Component {
             />
             <Route path="/debug" element={<Home loggedIn={true} />} />
             <Route path="/venue/:venueId" element={<Venue />} />
+            <Route path="/search/:keyword" element={<Search />} />
             <Route
               path="/user"
               element={
