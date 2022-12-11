@@ -318,10 +318,18 @@ export function Map(props) {
       fetch("http://localhost:8889/allVenueLatLong")
         .then((res) => res.json())
         .then((data) => {
-          // console.log(data.latitude);
+          console.log(data);
           for (let i = 0; i < 10; i++) {
+            let url = "http://localhost:3000/venue/" + String(data[i].id);
+            // https://docs.mapbox.com/mapbox-gl-js/example/set-popup/
+            const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
+              "<a href= " + url + ">" + String(data[i].venue) + "</a>"
+            );
+            const el = document.createElement("div");
+            el.id = "marker";
             new mapboxgl.Marker()
               .setLngLat([data[i].longitude, data[i].latitude])
+              .setPopup(popup)
               .addTo(map.current);
           }
         })
@@ -740,8 +748,8 @@ class CreateData extends React.Component {
     })
       .then((res) => res.text())
       .then((txt) => {
-          document.getElementById("createmessage").innerHTML =txt;
-      });  
+        document.getElementById("createmessage").innerHTML = txt;
+      });
   }
 
   render() {
@@ -833,7 +841,6 @@ class CreateData extends React.Component {
               <p id="createmessage"></p>
             </div>
           </form>
-
         </section>
       </div>
     );
