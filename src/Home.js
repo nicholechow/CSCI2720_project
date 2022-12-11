@@ -61,9 +61,25 @@ export default class Home extends React.Component {
     } else {
       if (!this.state.isAdmin)
         return (
-          <div className="p-1 border border-primary rounded-1 container">
-            <Location />
-            <Map id="all" />
+          <div>
+            <nav class="navbar navbar-expand-sm navbar-light bg-light justify-content-center">
+              <ul class="navbar-nav">
+                <li class="nav-item mx-3">
+                  <a href="#locations" class="nav-link">
+                    Location
+                  </a>
+                </li>
+                <li class="nav-item mx-3">
+                  <a href="#map" class="nav-link">
+                    Map
+                  </a>
+                </li>
+              </ul>
+            </nav>
+            <div className="p-1 border border-primary rounded-1 container">
+              <Location id="locationComponent" />
+              <Map id="all" />
+            </div>
           </div>
         );
 

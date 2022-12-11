@@ -76,6 +76,25 @@ export default function Venue() {
           </button>
         )}
       </h1>
+      <nav className="navbar navbar-expand-sm navbar-light bg-light justify-content-center">
+        <ul className="navbar-nav">
+          <li className="nav-item mx-3">
+            <a href="#map" className="nav-link">
+              Map
+            </a>
+          </li>
+          <li className="nav-item mx-3">
+            <a href="#events" className="nav-link">
+              Events
+            </a>
+          </li>
+          <li className="nav-item mx-3">
+            <a href="#comments" className="nav-link">
+              Comments
+            </a>
+          </li>
+        </ul>
+      </nav>
       <Map id={venueId} />
       <Detail id={venueId} />
       <Comments id={venueId} />
@@ -96,42 +115,44 @@ function Detail(props) {
     });
   return (
     <div className="col-sm-12 col-md-12 col-lg-10 mx-auto my-4">
-      <h4>Events</h4>
-      <table className="table table-hover">
-        <thead className="thead-light">
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">title</th>
-            <th scope="col">datetime</th>
-            <th scope="col">presenter</th>
-            <th scope="col">price</th>
-            <th scope="col">description</th>
-          </tr>
-        </thead>
-        <tbody id="eventList">
-          {list.length === 0 ? (
+      <section id="events">
+        <h4>Events</h4>
+        <table className="table table-hover">
+          <thead className="thead-light">
             <tr>
-              <th scope="col">/</th>
-              <td>Loading...</td>
-              <td>/</td>
-              <td>/</td>
-              <td>/</td>
-              <td>/</td>
+              <th scope="col">#</th>
+              <th scope="col">title</th>
+              <th scope="col">datetime</th>
+              <th scope="col">presenter</th>
+              <th scope="col">price</th>
+              <th scope="col">description</th>
             </tr>
-          ) : (
-            list.map((loc, i) => (
-              <tr key={i}>
-                <th scope="col">{i + 1}</th>
-                <td>{loc.title}</td>
-                <td>{loc.datetime}</td>
-                <td>{loc.presenter}</td>
-                <td>{loc.price}</td>
-                <td>{loc.description}</td>
+          </thead>
+          <tbody id="eventList">
+            {list.length === 0 ? (
+              <tr>
+                <th scope="col">/</th>
+                <td>Loading...</td>
+                <td>/</td>
+                <td>/</td>
+                <td>/</td>
+                <td>/</td>
               </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+            ) : (
+              list.map((loc, i) => (
+                <tr key={i}>
+                  <th scope="col">{i + 1}</th>
+                  <td>{loc.title}</td>
+                  <td>{loc.datetime}</td>
+                  <td>{loc.presenter}</td>
+                  <td>{loc.price}</td>
+                  <td>{loc.description}</td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </section>
     </div>
   );
 }
@@ -178,6 +199,26 @@ function Comments(props) {
           )}
         </tbody>
       </table>
+      {/* post not done */}
+      <form method="post">
+        <div className="form-group">
+          {/*<label for="commentContent"></label>*/}
+          <br />
+          <textarea
+            id="commentContent"
+            className="form-control"
+            name="commentContent"
+            placeholder="Write your comment here"
+          />
+          <br />
+        </div>
+        <button type="reset" className="btn btn-primary mx-2">
+          Reset
+        </button>
+        <button type="submit" className="btn btn-primary mx-2">
+          Submit
+        </button>
+      </form>
     </section>
   );
 }
