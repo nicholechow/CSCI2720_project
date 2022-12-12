@@ -121,7 +121,7 @@ export default function Login(props) {
         </div>
       </form>
       <Link to={props.data.displaylink}>
-        <button id="autoclick" className="btn btn-transparent">
+        <button id="autoclick" className="btn btn-transparent" hidden>
           {props.data.displaytext}
         </button>
       </Link>

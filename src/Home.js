@@ -297,30 +297,25 @@ function Location() {
         >
           Sort by number of events {sortState === -1 ? "↑" : "↓"}
         </button>
-        {/* <button id='favourites'></button> */}
-        <table className="p-2 text-center table table-hover">
-          <thead className="thead-light">
-            <tr>
-              <th scope="col">Location</th>
-              <th scope="col">
-                {" "}
-                number of events{" "}
-                {sortState === -1 ? "↓" : sortState === 1 ? "↑" : ""}
-              </th>
-              <th scope="col">Latitude</th>
-              <th scope="col">Longitude</th>
-            </tr>
-          </thead>
-          <tbody id="LocationTbody">
-            {list.length === 0 ? (
+
+        {list.length === 0 ? (
+          <h4 className="text-center">No Result</h4>
+        ) : (
+          <table className="p-2 text-center table table-hover">
+            <thead className="thead-light">
               <tr>
-                <td>No Result</td>
-                <td>No Result</td>
-                <td>No Result</td>
-                <td>No Result</td>
+                <th scope="col">Location</th>
+                <th scope="col">
+                  {" "}
+                  number of events{" "}
+                  {sortState === -1 ? "↓" : sortState === 1 ? "↑" : ""}
+                </th>
+                <th scope="col">Latitude</th>
+                <th scope="col">Longitude</th>
               </tr>
-            ) : (
-              list.map((loc, i) => (
+            </thead>
+            <tbody id="LocationTbody">
+              {list.map((loc, i) => (
                 <LocationRow
                   key={i}
                   venueId={loc.venueId}
@@ -331,10 +326,10 @@ function Location() {
                   fav={loc.fav}
                   changeFav={changeFav}
                 />
-              ))
-            )}
-          </tbody>
-        </table>
+              ))}
+            </tbody>
+          </table>
+        )}
       </section>
     </div>
   );

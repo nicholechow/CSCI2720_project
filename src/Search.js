@@ -3,9 +3,8 @@ import { useParams } from "react-router-dom";
 const cors = require("cors");
 
 export default function Search() {
-  
   useEffect(() => {
-    document.title = 'Search';
+    document.title = "Search";
   }, []);
 
   return (
@@ -36,8 +35,7 @@ function Detail() {
     fetch("http://localhost:8889/search/" + keyword)
       .then((res) => res.json())
       .then((data) => {
-        if (data.length !== 0 && list.length === 0)
-          setList(data);
+        if (data.length !== 0 && list.length === 0) setList(data);
       })
       .catch((error) => {
         console.log(error);
@@ -53,28 +51,28 @@ function Detail() {
       >
         <h4>Locations</h4>
 
-        <table className="p-2 text-center table table-hover">
-          <thead className="thead-light">
-            <tr>
-              <th scope="col">Location</th>
-              <th scope="col"> number of events</th>
-            </tr>
-          </thead>
-          <tbody id="LocationTbody">
-            {list.length === 0 ? (
-              <h2>No Result</h2>
-            ) : (
-              list.map((loc, i) => (
+        {list.length === 0 ? (
+          <h2>No Result</h2>
+        ) : (
+          <table className="p-2 text-center table table-hover">
+            <thead className="thead-light">
+              <tr>
+                <th scope="col">Location</th>
+                <th scope="col"> number of events</th>
+              </tr>
+            </thead>
+            <tbody id="LocationTbody">
+              {list.map((loc, i) => (
                 <LocationRow
                   key={i}
                   venueId={loc.venueId}
                   venueName={loc.venueName}
                   eventCnt={loc.eventCnt}
                 />
-              ))
-            )}
-          </tbody>
-        </table>
+              ))}
+            </tbody>
+          </table>
+        )}
       </section>
     </div>
   );

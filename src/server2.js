@@ -391,7 +391,7 @@ db.once("open", function () {
   app.get("/search/:keyword", (req, res) => {
     Event.find(
       { venuename: { $regex: req.params["keyword"], $options: "i" } },
-      "venueid venuename",
+      "venueid venuename latitude longitude",
       (err, v) => {
         if (err) console.log(err);
         else {
@@ -402,6 +402,8 @@ db.once("open", function () {
           let venueEventCnt = venueList.map((ele) => ({
             venueId: ele.venueid,
             venueName: ele.venuename,
+            latitude: ele.latitude,
+            longitude: ele.longitude,
             eventCnt: venueId.filter((ele2) => ele2 === ele.venueid).length,
           }));
           res.send(venueEventCnt);
