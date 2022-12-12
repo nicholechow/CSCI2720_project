@@ -7,7 +7,7 @@
 const express = require("express");
 const app = express();
 
-const { Event, Venue, Comment, User, db } = require("./Schemas");
+const { Event, Venue, Comment, User, db } = require("../Schemas");
 
 // const mongoose = require("mongoose");
 // mongoose.connect(properties.get("dbURL"));

@@ -6,10 +6,10 @@ import { Link } from "react-router-dom";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 // import { set } from "mongoose";
 
-import CreateData from "./DataManagement/CreateData";
-import DeleteData from "./DataManagement/DeleteData";
-import RetrieveData from "./DataManagement/RetrieveData";
-import UpdateData from "./DataManagement/UpdateData";
+import CreateData from "./dataManagement/CreateData";
+import DeleteData from "./dataManagement/DeleteData";
+import RetrieveData from "./dataManagement/RetrieveData";
+import UpdateData from "./dataManagement/UpdateData";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiMTE1NTE3MDk1MiIsImEiOiJjbGI5OXI3eDgwc21vM3BxYzd1MTNrMXA0In0.0HxBmgExZx-Y_BfWj_tF8Q";

@@ -24,61 +24,18 @@ const download = require("download");
 // const mongoose = require("mongoose");
 // const { Schema } = mongoose;
 // mongoose.connect(properties.get("dbURL"));
-const { Event, Venue, db } = require('./Schemas');
+const { Event, Venue, db } = require('../Schemas');
 
 
 // const db = mongoose.connection;
 db.on("error", console.error.bind(console, "Connection error:"));
 
 db.once("open", function () {
-  //create data schema
-  // const EventSchema = mongoose.Schema({
-  //   eventid: { type: Number, required: true },
-  //   venueid: { type: Number, required: true },
-  //   title: { type: String, required: true },
-  //   datetime: { type: String, required: true },
-  //   venuename: { type: String, required: true },
-  //   latitude: { type: Number, required: true },
-  //   longitude: { type: Number, required: true },
-  //   description: { type: String, required: true },
-  //   presenter: { type: String, required: true },
-  //   price: { type: String, required: true },
-  // });
-
-  // const Event = mongoose.model("Event", EventSchema);
-
-  // const VenueSchema = mongoose.Schema({
-  //   id: { type: Number, required: true },
-  //   venue: { type: String, required: true },
-  //   latitude: { type: Number, required: true },
-  //   longitude: { type: Number, required: true },
-  // });
-
-  // const Venue = mongoose.model("Venue", VenueSchema);
-
-  // Commenting these 2 out since there seems to be no use for them at the moment, plus they are outdated
-  // const UserSchema = mongoose.Schema({
-  //   username: { type: String, required: true, unique: true },
-  //   pw: { type: String, required: true },
-  //   fav: { type: Array },
-  // });
-
-  // const User = mongoose.model("User", UserSchema);
-
-  // const CommentSchema = mongoose.Schema({
-  //   // commentid: { type: Number, required: true },
-  //   venueid: { type: Number, required: true },
-  //   userid: { type: Number, required: true },
-  //   content: { type: String, required: true },
-  // });
-
-  // const Comment = mongoose.model("Comment", CommentSchema);
+  
   db.dropCollection("venues");
   db.dropCollection("events");
 
   //download file
-  // download(url1, filePath, option1).then(() => {
-  //   download(url2, filePath, option2).then(() => {
   download(process.env.eventsURL, filePath, process.env.eventsPath).then(() => {
     download(process.env.venuesURL, filePath, process.env.venuesPath).then(() => {
       //read file and convert to json
