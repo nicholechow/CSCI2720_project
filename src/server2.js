@@ -244,7 +244,6 @@ db.once("open", function () {
 
   // add comment
   app.put("/createComment/:venueId", (req, res) => {
-    req.body["username"] = "user0";
     if (req.body["commentContent"].length !== 0) {
       Comment.create(
         {

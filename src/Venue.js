@@ -163,9 +163,9 @@ function Detail(props) {
 // Comments
 function Comments(props) {
   const [list, setList] = useState([]);
+  const [state, setState] = useState(false);
   const commentSubmit = () => {
-    let commentContent = document.getElementById("commentContent").value;
-    let username = "user0";
+    let commentContent = document.getElementById("commentContent").value.trim();
     if (commentContent.length !== 0) {
       fetch("http://localhost:8889/createComment/" + props.id, {
         method: "PUT",
@@ -174,12 +174,15 @@ function Comments(props) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: username,
+          username: "user0",
           commentContent: commentContent,
         }),
       })
         .then()
-        .then(() => window.location.reload())
+        .then(() => {
+          document.getElementById("commentContent").value = "";
+          setState(false);
+        })
         .catch((error) => {
           console.log(error);
         });
@@ -190,7 +193,10 @@ function Comments(props) {
     fetch("http://localhost:8889/comment/" + props.id)
       .then((res) => res.json())
       .then((data) => {
-        if (data.length !== 0 && list.length === 0) setList(data);
+        if (data.length !== 0 && state === false) {
+          setList(data);
+          setState(true);
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -241,7 +247,7 @@ function Comments(props) {
           <br />
         </div>
         <button type="reset" className="btn btn-primary mx-2">
-          Reset
+          Clear
         </button>
         <button
           type="button"
