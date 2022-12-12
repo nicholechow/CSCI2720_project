@@ -77,7 +77,7 @@ export default class Login extends React.Component {
   render() {
     return (
       <div>
-          <form className="form" method="POST">
+          <form className="form" method="POST" onsubmit={this.props.data.handleSubmit}>
             <div className="p-4 col-6 m-auto border border-4 border-primary rounded-3">
               <h3>Sign In</h3>
 
@@ -110,9 +110,11 @@ export default class Login extends React.Component {
               </div>
 
               <div className="p-2 d-grid gap-2 mt-3">
+
                 <button onClick={this.props.data.handleSubmit} className="btn btn-primary">
                   Validate
-                </button>               
+                </button>
+         
               </div>
               <p id="123"></p>
             </div>

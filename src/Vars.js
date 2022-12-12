@@ -6,7 +6,7 @@ const PropertiesReader = require('properties-reader');
 const properties = PropertiesReader('config.properties');
 const mongoose = require('mongoose')
 const { Schema } = mongoose;
-mongoose.connect(properties.get("dbURL")); //Fill in your own connection string
+mongoose.connect(properties.get("mongodb+srv://stu046:p554024W@cluster0.wenbhsm.mongodb.net/stu046")); //Fill in your own connection string
 
 // Usage:
 // import { foo } from './Vars';

@@ -29,31 +29,30 @@ class App extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    if (this.state.username === "admin") {
-      if (this.state.password === "admin") {
+    let loginbody={
+      'username': this.state.username,
+      'password': this.state.password
+    }
+    fetch("http://localhost:8889/login", {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify(loginbody)
+    })
+    .then((res) => res.text())
+    .then((txt) => {
+      if (txt=="2"){
         this.setState({
-          adminflag: true,
-          loginflag: true,
           displaytext: "You are an admin, click here to go to the admin page.",
           displaylink: "/admin",
         });
-        document.getElementById("123").innerText = "";
-      }
-    } else if (this.state.username === "user") {
-      if (this.state.password === "user") {
+      }else if (txt=="1"){
         this.setState({
-          adminflag: false,
-          loginflag: true,
           displaytext: "You are a user, click here to go to the user page.",
           displaylink: "/user",
         });
-        document.getElementById("123").innerText = "";
       }
-    } else {
-      document.getElementById("123").innerText =
-        "Please input a correct username and password";
-      document.getElementById("123").classList.add("text-danger");
-    }
+    });
+    
   }
 
   load() {
