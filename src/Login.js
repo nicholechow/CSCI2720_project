@@ -3,8 +3,8 @@
 // } from 'react';
 // Login
 // TODO:: Re-style, Submit
-import React from "react";
-import {Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 
 /*
@@ -72,63 +72,62 @@ export default function Login(){
 }
 */
 
-export default class Login extends React.Component {
+export default function Login(props) {
 
-  render() {
-    return (
-      <div>
-          <form className="form" method="POST" onsubmit={this.props.data.handleSubmit}>
-            <div className="p-4 col-6 m-auto border border-4 border-primary rounded-3">
-              <h3>Sign In</h3>
+  useEffect(() => {
+    document.title = 'Login';
+  }, []);
+  
+  return (
+    <div>
+      <form className="form" method="POST">
+        <div className="p-4 col-6 m-auto border border-4 border-primary rounded-3">
+          <h3>Sign In</h3>
 
-              <div className="p-2 form-group mt-3">
-                <label htmlFor="username">Username:</label>
-                <input
-                  id="username"
-                  name="username"
-                  type="text"
-                  onChange={this.props.data.handleChange}
-                  className="form-control mt-1"
-                  placeholder="Enter username here"
-                  minLength="4"
-                  maxLength="20"
-                />
-              </div>
+          <div className="p-2 form-group mt-3">
+            <label htmlFor="username">Username:</label>
+            <input
+              id="username"
+              name="username"
+              type="text"
+              onChange={props.data.handleChange}
+              className="form-control mt-1"
+              placeholder="Enter username here"
+              minLength="4"
+              maxLength="20"
+            />
+          </div>
 
-              <div className="p-2 form-group mt-3">
-                <label htmlFor="password">Password:</label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  onChange={this.props.data.handleChange}
-                  className="form-control mt-1"
-                  placeholder="Enter password here"
-                  minLength="4"
-                  maxLength="20"
-                />
-              </div>
+          <div className="p-2 form-group mt-3">
+            <label htmlFor="password">Password:</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              onChange={props.data.handleChange}
+              className="form-control mt-1"
+              placeholder="Enter password here"
+              minLength="4"
+              maxLength="20"
+            />
+          </div>
 
-              <div className="p-2 d-grid gap-2 mt-3">
+          <div className="p-2 d-grid gap-2 mt-3">
+            <button onClick={props.data.handleSubmit} className="btn btn-primary">
+              Validate
+            </button>               
+          </div>
+          <p id="123"></p>
+        </div>
 
-                <button onClick={this.props.data.handleSubmit} className="btn btn-primary">
-                  Validate
-                </button>
-         
-              </div>
-              <p id="123"></p>
-            </div>
-
-          </form>
-          <Link to={this.props.data.displaylink}>
-              <button className="btn btn-transparent">
-                {this.props.data.displaytext}
-              </button>
-          </Link>
-          
-      </div>
-
-    );
-  }
+      </form>
+      <Link to={props.data.displaylink}>
+          <button className="btn btn-transparent">
+            {props.data.displaytext}
+          </button>
+      </Link>
+        
+    </div>
+  );
 }
 // Login;

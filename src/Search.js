@@ -3,6 +3,11 @@ import { useParams } from "react-router-dom";
 const cors = require("cors");
 
 export default function Search() {
+  
+  useEffect(() => {
+    document.title = 'Search';
+  }, []);
+
   return (
     <div className="justify-content-center text-center">
       <Detail />

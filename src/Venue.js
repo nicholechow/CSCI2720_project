@@ -104,6 +104,11 @@ export default function Venue() {
 
 function Detail(props) {
   const [list, setList] = useState([]);
+  
+  useEffect(() => {
+    document.title = 'Detail';
+  }, []);
+
   fetch("http://localhost:8889/venueEvents/" + props.id)
     .then((res) => res.json())
     .then((data) => {
@@ -113,6 +118,7 @@ function Detail(props) {
     .catch((error) => {
       console.log(error);
     });
+
   return (
     <div className="col-sm-12 col-md-12 col-lg-10 mx-auto my-4">
       <section id="events">
