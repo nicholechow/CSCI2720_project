@@ -78,7 +78,7 @@ export default function Login(props) {
 
   return (
     <div>
-      <form className="form" method="POST">
+      <form className="form" onSubmit={props.data.handleSubmit}>
         <div className="p-4 col-6 m-auto border border-4 border-primary rounded-3">
           <h3>Sign In</h3>
 
@@ -93,6 +93,7 @@ export default function Login(props) {
               placeholder="Enter username here"
               minLength="4"
               maxLength="20"
+              required
             />
           </div>
 
@@ -107,27 +108,23 @@ export default function Login(props) {
               placeholder="Enter password here"
               minLength="4"
               maxLength="20"
+              required
             />
           </div>
 
           <div className="p-2 d-grid gap-2 mt-3">
-            <button
-              onClick={props.data.handleSubmit}
-              className="btn btn-primary"
-            >
-              Validate
+            <button type="submit" className="btn btn-primary">
+              Sign in
             </button>
           </div>
           <p id="123"></p>
         </div>
       </form>
-      {props.data.displaytext === "username or password is not correct." ? (
-        <p className="m-2 text-danger">{props.data.displaytext}</p>
-      ) : (
-        <Link to={props.data.displaylink} className="m-2">
+      <Link to={props.data.displaylink}>
+        <button id="autoclick" className="btn btn-transparent">
           {props.data.displaytext}
-        </Link>
-      )}
+        </button>
+      </Link>
     </div>
   );
 }

@@ -67,8 +67,9 @@ export default class Home extends React.Component {
       body: JSON.stringify(loginbody),
     })
       .then((res) => res.text())
-      .then((txt) => {});
-    window.location.reload();
+      .then((txt) => {
+        this.setState({ loginstate: Number(txt) });
+      });
   }
   handleC() {
     this.setState({ c: !this.state.c });
@@ -84,7 +85,7 @@ export default class Home extends React.Component {
   }
 
   render() {
-    if (this.state.loginstate == 0) {
+    if (this.state.loginstate === 0) {
       return (
         <div className="p-4 col-6 m-auto border border-4 border-primary rounded-3">
           {/* Title */}
@@ -96,7 +97,7 @@ export default class Home extends React.Component {
         </div>
       );
     } else {
-      if (this.state.loginstate == 1)
+      if (this.state.loginstate === 1)
         return (
           <div>
             <nav className="navbar navbar-expand-sm navbar-light bg-light justify-content-center">
@@ -120,17 +121,31 @@ export default class Home extends React.Component {
           </div>
         );
 
-      if (this.state.loginstate == 2)
+      if (this.state.loginstate === 2)
         return (
           <div className="p-1 border border-primary rounded-1 container">
             <div>
-              <Link to="/">
-                <button onClick={this.handleLogout}>Logout</button>
-              </Link>
-              <button onClick={this.handleC}>Create event</button>
-              <button onClick={this.handleR}> Retrieve events</button>
-              <button onClick={this.handleU}>Update event</button>
-              <button onClick={this.handleD}>Delete event</button>
+              <nav className="navbar navbar-expand-sm navbar-light bg-light justify-content-center">
+                <ul className="navbar-nav">
+                  <li className="nav-item mx-3">
+                    <Link to="/">
+                      <button onClick={this.handleLogout}>Logout</button>
+                    </Link>
+                  </li>
+                  <li className="nav-item mx-3">
+                    <button onClick={this.handleC}>Create event</button>
+                  </li>
+                  <li className="nav-item mx-3">
+                    <button onClick={this.handleR}> Retrieve events</button>
+                  </li>
+                  <li className="nav-item mx-3">
+                    <button onClick={this.handleU}>Update event</button>
+                  </li>
+                  <li className="nav-item mx-3">
+                    <button onClick={this.handleD}>Delete event</button>
+                  </li>
+                </ul>
+              </nav>
             </div>
             <div>{this.state.c ? <CreateData /> : <p></p>}</div>
             <div>{this.state.r ? <RetrieveData /> : <p></p>}</div>

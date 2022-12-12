@@ -16,6 +16,7 @@ class App extends React.Component {
       password: "",
       displaytext: "",
       displaylink: "",
+
       adminflag:
         this.props.adminflag === undefined ? false : this.props.adminflag,
       loginflag:
@@ -40,21 +41,21 @@ class App extends React.Component {
     })
       .then((res) => res.text())
       .then((txt) => {
-        if (txt == "2") {
+        if (txt === "2") {
           this.setState({
-            displaytext:
-              "You are an admin, click here to go to the admin page.",
             displaylink: "/admin",
           });
-        } else if (txt == "1") {
+          setTimeout(() => {
+            document.getElementById("autoclick").click();
+          }, "70");
+        } else if (txt === "1") {
           this.setState({
-            displaytext: "You are a user, click here to go to the user page.",
             displaylink: "/user",
           });
-        } else if (txt == "0") {
-          this.setState({
-            displaytext: "username or password is not correct.",
-          });
+          setTimeout(() => {
+            document.getElementById("autoclick").click();
+          }, "70");
+        } else {
         }
       });
   }

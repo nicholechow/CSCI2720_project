@@ -29,10 +29,7 @@ class UpdateData extends React.Component {
       .then((data) => {
         document.getElementById("title").value = data.title;
         document.getElementById("venueId").value = data.venueid;
-        document.getElementById("venueName").value = data.venuename;
         document.getElementById("datetime").value = data.datetime;
-        document.getElementById("latitude").value = data.latitude;
-        document.getElementById("longitude").value = data.longitude;
         document.getElementById("description").value = data.description;
         document.getElementById("presenter").value = data.presenter;
         document.getElementById("price").value = data.price;
@@ -43,10 +40,7 @@ class UpdateData extends React.Component {
     let newData = {
       title: document.getElementById("title").value,
       venueid: Number(document.getElementById("venueId").value),
-      venuename: document.getElementById("venueName").value,
       datetime: document.getElementById("datetime").value,
-      latitude: Number(document.getElementById("latitude").value),
-      longitude: Number(document.getElementById("longitude").value),
       description: document.getElementById("description").value,
       presenter: document.getElementById("presenter").value,
       price: document.getElementById("price").value,
@@ -58,14 +52,7 @@ class UpdateData extends React.Component {
     })
       .then((res) => res.text())
       .then((txt) => {
-        console.log(txt);
-        if (txt === "success") {
-          document.getElementById("updatemessage").innerHTML =
-            "Update successfully.";
-        } else {
-          document.getElementById("updatemessage").innerHTML =
-            "Update is not success. Make sure your data is input correctly";
-        }
+          document.getElementById("updatemessage").innerText=txt;
       });
   }
   render() {
@@ -74,7 +61,7 @@ class UpdateData extends React.Component {
         <section className="p-1 mx-1 border border-primary rounded-1">
           <h4>Update Data</h4>
 
-          <form className="form" method="POST">
+          <form className="form" onSubmit={this.handleLoad}>
             <div className="p-4 col-6 m-auto border border-4 border-primary rounded-3">
               <h3>Load Event</h3>
 
@@ -92,14 +79,14 @@ class UpdateData extends React.Component {
               </div>
 
               <div className="p-2 d-grid gap-2 mt-3">
-                <button onClick={this.handleLoad} className="btn btn-primary">
+                <button type="submit" className="btn btn-primary">
                   Load
                 </button>
               </div>
             </div>
           </form>
           <br />
-          <form className="form" method="POST">
+          <form className="form" onSubmit={this.handleSubmit}>
             <div className="p-4 col-6 m-auto border border-4 border-primary rounded-3">
               <h3>Update Event</h3>
 
@@ -128,19 +115,7 @@ class UpdateData extends React.Component {
               </div>
 
               <div className="p-2 form-group mt-3">
-                <label htmlFor="venueName">Venue Name:</label>
-                <input
-                  id="venueName"
-                  name="venueName"
-                  type="text"
-                  onChange={this.handleChange}
-                  className="form-control mt-1"
-                  required
-                />
-              </div>
-
-              <div className="p-2 form-group mt-3">
-                <label htmlFor="venueName">Datetime:</label>
+                <label htmlFor="datetime">Datetime:</label>
                 <input
                   id="datetime"
                   name="datetime"
@@ -152,31 +127,7 @@ class UpdateData extends React.Component {
               </div>
 
               <div className="p-2 form-group mt-3">
-                <label htmlFor="venueName">Latitude:</label>
-                <input
-                  id="latitude"
-                  name="latitude"
-                  type="number"
-                  onChange={this.handleChange}
-                  className="form-control mt-1"
-                  required
-                />
-              </div>
-
-              <div className="p-2 form-group mt-3">
-                <label htmlFor="venueName">Longitude:</label>
-                <input
-                  id="longitude"
-                  name="longitude"
-                  type="number"
-                  onChange={this.handleChange}
-                  className="form-control mt-1"
-                  required
-                />
-              </div>
-
-              <div className="p-2 form-group mt-3">
-                <label htmlFor="venueName">Description:</label>
+                <label htmlFor="description">Description:</label>
                 <input
                   id="description"
                   name="description"
@@ -188,7 +139,7 @@ class UpdateData extends React.Component {
               </div>
 
               <div className="p-2 form-group mt-3">
-                <label htmlFor="venueName">Presenter:</label>
+                <label htmlFor="presenter">Presenter:</label>
                 <input
                   id="presenter"
                   name="presenter"
@@ -200,7 +151,7 @@ class UpdateData extends React.Component {
               </div>
 
               <div className="p-2 form-group mt-3">
-                <label htmlFor="venueName">Price:</label>
+                <label htmlFor="price">Price:</label>
                 <input
                   id="price"
                   name="price"
@@ -212,7 +163,7 @@ class UpdateData extends React.Component {
               </div>
 
               <div className="p-2 d-grid gap-2 mt-3">
-                <button onClick={this.handleSubmit} className="btn btn-primary">
+                <button type="submit" className="btn btn-primary">
                   Update
                 </button>
               </div>

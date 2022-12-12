@@ -45,7 +45,7 @@ class CreateData extends React.Component {
         <section className="p-1 mx-1 border border-primary rounded-1">
           <h4>Create Data</h4>
 
-          <form className="form" method="POST">
+          <form className="form" onSubmit={this.handleSubmit}>
             <div className="p-4 col-6 m-auto border border-4 border-primary rounded-3">
               <h3>Create Event</h3>
 
@@ -74,7 +74,7 @@ class CreateData extends React.Component {
               </div>
 
               <div className="p-2 form-group mt-3">
-                <label htmlFor="venueName">Datetime:</label>
+                <label htmlFor="datetime">Datetime:</label>
                 <input
                   id="datetime"
                   name="datetime"
@@ -86,7 +86,7 @@ class CreateData extends React.Component {
               </div>
 
               <div className="p-2 form-group mt-3">
-                <label htmlFor="venueName">Description:</label>
+                <label htmlFor="description">Description:</label>
                 <input
                   id="description"
                   name="description"
@@ -98,7 +98,7 @@ class CreateData extends React.Component {
               </div>
 
               <div className="p-2 form-group mt-3">
-                <label htmlFor="venueName">Presenter:</label>
+                <label htmlFor="presenter">Presenter:</label>
                 <input
                   id="presenter"
                   name="presenter"
@@ -110,7 +110,7 @@ class CreateData extends React.Component {
               </div>
 
               <div className="p-2 form-group mt-3">
-                <label htmlFor="venueName">Price:</label>
+                <label htmlFor="price">Price:</label>
                 <input
                   id="price"
                   name="price"
@@ -121,7 +121,7 @@ class CreateData extends React.Component {
                 />
               </div>
               <div className="p-2 d-grid gap-2 mt-3">
-                <button onClick={this.handleSubmit} className="btn btn-primary">
+                <button type="submit" className="btn btn-primary">
                   Create
                 </button>
               </div>
