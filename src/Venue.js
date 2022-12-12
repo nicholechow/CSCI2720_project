@@ -163,6 +163,28 @@ function Detail(props) {
 // Comments
 function Comments(props) {
   const [list, setList] = useState([]);
+  const commentSubmit = () => {
+    let commentContent = document.getElementById("commentContent").value;
+    let username = "user0";
+    if (commentContent.length !== 0) {
+      fetch("http://localhost:8889/createComment/" + props.id, {
+        method: "PUT",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: username,
+          commentContent: commentContent,
+        }),
+      })
+        .then()
+        .then(() => window.location.reload())
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
 
   useEffect(() => {
     fetch("http://localhost:8889/comment/" + props.id)
@@ -206,8 +228,7 @@ function Comments(props) {
           )}
         </tbody>
       </table>
-      {/* post not done */}
-      <form method="post">
+      <form>
         <div className="form-group">
           {/*<label for="commentContent"></label>*/}
           <br />
@@ -222,7 +243,11 @@ function Comments(props) {
         <button type="reset" className="btn btn-primary mx-2">
           Reset
         </button>
-        <button type="submit" className="btn btn-primary mx-2">
+        <button
+          type="button"
+          onClick={() => commentSubmit()}
+          className="btn btn-primary mx-2"
+        >
           Submit
         </button>
       </form>

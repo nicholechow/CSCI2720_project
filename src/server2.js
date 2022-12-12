@@ -242,6 +242,26 @@ db.once("open", function () {
     );
   });
 
+  // add comment
+  app.put("/createComment/:venueId", (req, res) => {
+    req.body["username"] = "user0";
+    if (req.body["commentContent"].length !== 0) {
+      Comment.create(
+        {
+          username: req.body["username"],
+          comment: req.body["commentContent"],
+          venueid: req.params["venueId"],
+        },
+        (err, ne) => {
+          if (err) {
+            res.send(err);
+          }
+          res.send();
+        }
+      );
+    }
+  });
+
   // get all events
   app.get("/listall", (req, res) => {
     Event.find({}, (err, v) => {
