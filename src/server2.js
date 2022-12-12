@@ -74,6 +74,7 @@ db.once("open", function () {
   // app.get() / app.post() / app.delete()
   // TODO:: Maybe sort sort this for easier navigation
   // Current Order:
+  //login
   // get all venue name with its number of events
   // get user favourite location
   // get whether it is a user favourite location
@@ -92,6 +93,25 @@ db.once("open", function () {
   // get comments by venue id
   // delete event by event id
 
+//login
+  let loginstate=0;
+  
+  app.post("/login", (req, res)=>{
+    if (Number(req.body['logout'])==1){
+      loginstate=0;
+    }else
+      if ((req.body['username']=="admin")&&(req.body['password']=="admin")){
+        loginstate = 2;
+      }else{
+        User.findOne({username: req.body['username'], pw: req.body['password']}, (err, u)=>{
+          if (u!=null){
+            loginstate = 1;
+            
+          }
+        })
+      }
+      setTimeout(()=>{ res.send(String(loginstate)); }, "100");    
+  });
 
   // get all venue name with its number of events
   // response: [{venueId: 1234, venueName: "venue 1", eventCnt: 3},...]

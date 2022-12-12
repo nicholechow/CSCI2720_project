@@ -6,12 +6,13 @@ import { Link } from "react-router-dom";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 // import { set } from "mongoose";
 
-import CreateData from './DataManagement/CreateData';
-import DeleteData from './DataManagement/DeleteData';
-import RetrieveData from './DataManagement/RetrieveData';
-import UpdateData from './DataManagement/UpdateData';
+import CreateData from "./DataManagement/CreateData";
+import DeleteData from "./DataManagement/DeleteData";
+import RetrieveData from "./DataManagement/RetrieveData";
+import UpdateData from "./DataManagement/UpdateData";
 
-mapboxgl.accessToken = "pk.eyJ1IjoiMTE1NTE3MDk1MiIsImEiOiJjbGI5OXI3eDgwc21vM3BxYzd1MTNrMXA0In0.0HxBmgExZx-Y_BfWj_tF8Q";
+mapboxgl.accessToken =
+  "pk.eyJ1IjoiMTE1NTE3MDk1MiIsImEiOiJjbGI5OXI3eDgwc21vM3BxYzd1MTNrMXA0In0.0HxBmgExZx-Y_BfWj_tF8Q";
 
 // Home
 export default class Home extends React.Component {
@@ -24,6 +25,7 @@ export default class Home extends React.Component {
       r: false,
       u: false,
       d: false,
+      loginstate: 0
     };
 
     // Debug Account
@@ -36,14 +38,39 @@ export default class Home extends React.Component {
     this.handleU = this.handleU.bind(this);
     this.handleD = this.handleD.bind(this);
   }
-
-  // Change Title
-  componentDidMount() {
+  componentDidMount(){
+    let loginbody={
+      'username': '',
+      'password': ''
+    }
+    fetch("http://localhost:8889/login", {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify(loginbody)
+    })
+    .then((res) => res.text())
+    .then((txt) => { 
+      this.setState({loginstate: Number(txt)});  
+    });
     document.title = !this.state.isAdmin ? "Home" : "Admin";
   }
 
   handleLogout() {
-    this.setState({ loggedIn: false });
+    let loginbody={
+      'username': "",
+      'password': "",
+      'logout': 1,
+    }
+    fetch("http://localhost:8889/login", {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify(loginbody)
+    })
+    .then((res) => res.text())
+    .then((txt) => {
+        
+    });
+    window.location.reload();
   }
   handleC() {
     this.setState({ c: !this.state.c });
@@ -59,7 +86,7 @@ export default class Home extends React.Component {
   }
 
   render() {
-    if (!this.state.loggedIn) {
+    if (this.state.loginstate==0) {
       return (
         <div className="p-4 col-6 m-auto border border-4 border-primary rounded-3">
           {/* Title */}
@@ -71,18 +98,18 @@ export default class Home extends React.Component {
         </div>
       );
     } else {
-      if (!this.state.isAdmin)
+      if (this.state.loginstate==1)
         return (
           <div>
-            <nav class="navbar navbar-expand-sm navbar-light bg-light justify-content-center">
-              <ul class="navbar-nav">
-                <li class="nav-item mx-3">
-                  <a href="#locations" class="nav-link">
+            <nav className="navbar navbar-expand-sm navbar-light bg-light justify-content-center">
+              <ul className="navbar-nav">
+                <li className="nav-item mx-3">
+                  <a href="#locations" className="nav-link">
                     Location
                   </a>
                 </li>
-                <li class="nav-item mx-3">
-                  <a href="#map" class="nav-link">
+                <li className="nav-item mx-3">
+                  <a href="#map" className="nav-link">
                     Map
                   </a>
                 </li>
@@ -95,12 +122,12 @@ export default class Home extends React.Component {
           </div>
         );
 
-      if (this.state.isAdmin)
+      if (this.state.loginstate==2)
         return (
           <div className="p-1 border border-primary rounded-1 container">
             <div>
               <Link to="/">
-                <button onClick="{this.handleLogout}">Logout</button>
+                <button onClick={this.handleLogout}>Logout</button>
               </Link>
               <button onClick={this.handleC}>Create event</button>
               <button onClick={this.handleR}> Retrieve events</button>
@@ -303,7 +330,9 @@ function LocationRow(props) {
       <td>{props.longitude}</td>
       <td>
         <button
-          className={props.fav === true ? "btn btn-danger" : "btn btn-outline-danger"}
+          className={
+            props.fav === true ? "btn btn-danger" : "btn btn-outline-danger"
+          }
           onClick={() => props.changeFav(props.venueId)}
         >
           ♥
