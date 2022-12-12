@@ -36,9 +36,8 @@ function Detail() {
     fetch("http://localhost:8889/search/" + keyword)
       .then((res) => res.json())
       .then((data) => {
-        if (data.length !== 0) {
-          if (list.length === 0) setList(data);
-        }
+        if (data.length !== 0 && list.length === 0)
+          setList(data);
       })
       .catch((error) => {
         console.log(error);

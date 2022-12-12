@@ -193,7 +193,7 @@ function Location() {
     fetch("http://localhost:8889/venueEventCnt")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         if (list.length === 0) {
           //console.log(data);
           if (list.length === 0 && state === false) {
@@ -350,7 +350,7 @@ export function Map(props) {
       fetch("http://localhost:8889/allVenueLatLong")
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
+          // console.log(data);
           for (let i = 0; i < 10; i++) {
             let url = "http://localhost:3000/venue/" + String(data[i].id);
             // https://docs.mapbox.com/mapbox-gl-js/example/set-popup/
@@ -381,7 +381,7 @@ export function Map(props) {
   });
   return (
     // <section id='map' className='p-2 m-1 border border-primary rounded-1'>
-    <div className="d-flex m-auto col-sm-12 col-md-8 col-lg-9 ">
+    <div className="d-flex m-auto">
       <section
         id="map"
         className="p-1 mx-1 border border-primary rounded-1 d-inline-block w-100"

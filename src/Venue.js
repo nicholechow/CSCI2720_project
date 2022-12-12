@@ -60,21 +60,12 @@ export default function Venue() {
     <div className="justify-content-center text-center">
       <h1 id="venueName">
         {venueName}
-        {fav ? (
-          <button
-            className="btn btn-danger mx-2"
-            onClick={() => changeLocFav(venueId)}
-          >
-            ♥
-          </button>
-        ) : (
-          <button
-            className="btn btn-outline-danger mx-2"
-            onClick={() => changeLocFav(venueId)}
-          >
-            ♥
-          </button>
-        )}
+        <button
+          className={fav ? "btn btn-danger mx-2" : "btn btn-outline-danger mx-2"}
+          onClick={() => changeLocFav(venueId)}
+        >
+          ♥
+        </button>
       </h1>
       <nav className="navbar navbar-expand-sm navbar-light bg-light justify-content-center">
         <ul className="navbar-nav">
@@ -123,19 +114,20 @@ function Detail(props) {
     <div className="col-sm-12 col-md-12 col-lg-10 mx-auto my-4">
       <section id="events">
         <h4>Events</h4>
+        {list.length === 0 ?
         <table className="table table-hover">
           <thead className="thead-light">
             <tr>
               <th scope="col">#</th>
-              <th scope="col">title</th>
-              <th scope="col">datetime</th>
-              <th scope="col">presenter</th>
-              <th scope="col">price</th>
-              <th scope="col">description</th>
+              <th scope="col">Title</th>
+              <th scope="col">Datetime</th>
+              <th scope="col">Presenter</th>
+              <th scope="col">Price</th>
+              <th scope="col">Description</th>
             </tr>
           </thead>
           <tbody id="eventList">
-            {list.length === 0 ? (
+            {/* {list.length === 0 ? (
               <tr>
                 <th scope="col">/</th>
                 <td>Loading...</td>
@@ -144,8 +136,8 @@ function Detail(props) {
                 <td>/</td>
                 <td>/</td>
               </tr>
-            ) : (
-              list.map((loc, i) => (
+            ) : ( */}
+              {list.map((loc, i) => (
                 <tr key={i}>
                   <th scope="col">{i + 1}</th>
                   <td>{loc.title}</td>
@@ -154,10 +146,11 @@ function Detail(props) {
                   <td>{loc.price}</td>
                   <td>{loc.description}</td>
                 </tr>
-              ))
-            )}
+              ))}
+            {/* )} */}
           </tbody>
         </table>
+        : <h5>Loading</h5>}
       </section>
     </div>
   );
