@@ -19,37 +19,40 @@ const download = require("download");
 // const http = require("https");
 // const xmlDoc = require("xmldoc");
 
-const mongoose = require("mongoose");
+// const mongoose = require("mongoose");
 // const { Schema } = mongoose;
-mongoose.connect(properties.get("dbURL"));
-const db = mongoose.connection;
+// mongoose.connect(properties.get("dbURL"));
+const { Event, Venue, db } = require('./Schemas');
+
+
+// const db = mongoose.connection;
 db.on("error", console.error.bind(console, "Connection error:"));
 
 db.once("open", function () {
   //create data schema
-  const EventSchema = mongoose.Schema({
-    eventid: { type: Number, required: true },
-    venueid: { type: Number, required: true },
-    title: { type: String, required: true },
-    datetime: { type: String, required: true },
-    venuename: { type: String, required: true },
-    latitude: { type: Number, required: true },
-    longitude: { type: Number, required: true },
-    description: { type: String, required: true },
-    presenter: { type: String, required: true },
-    price: { type: String, required: true },
-  });
+  // const EventSchema = mongoose.Schema({
+  //   eventid: { type: Number, required: true },
+  //   venueid: { type: Number, required: true },
+  //   title: { type: String, required: true },
+  //   datetime: { type: String, required: true },
+  //   venuename: { type: String, required: true },
+  //   latitude: { type: Number, required: true },
+  //   longitude: { type: Number, required: true },
+  //   description: { type: String, required: true },
+  //   presenter: { type: String, required: true },
+  //   price: { type: String, required: true },
+  // });
 
-  const Event = mongoose.model("Event", EventSchema);
+  // const Event = mongoose.model("Event", EventSchema);
 
-  const VenueSchema = mongoose.Schema({
-    id: { type: Number, required: true },
-    venue: { type: String, required: true },
-    latitude: { type: Number, required: true },
-    longitude: { type: Number, required: true },
-  });
+  // const VenueSchema = mongoose.Schema({
+  //   id: { type: Number, required: true },
+  //   venue: { type: String, required: true },
+  //   latitude: { type: Number, required: true },
+  //   longitude: { type: Number, required: true },
+  // });
 
-  const Venue = mongoose.model("Venue", VenueSchema);
+  // const Venue = mongoose.model("Venue", VenueSchema);
 
   // Commenting these 2 out since there seems to be no use for them at the moment, plus they are outdated
   // const UserSchema = mongoose.Schema({
