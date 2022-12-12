@@ -6,6 +6,10 @@ export default function Account() {
   const [favList, setFavList] = useState([]);
 
   useEffect(() => {
+    document.title = 'Account Profile';
+  }, []);
+
+  useEffect(() => {
     fetch("http://localhost:8889/fav/user0")
       .then((res) => res.json())
       .then((fav) => {

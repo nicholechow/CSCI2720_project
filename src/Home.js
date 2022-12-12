@@ -36,6 +36,12 @@ export default class Home extends React.Component {
     this.handleU = this.handleU.bind(this);
     this.handleD = this.handleD.bind(this);
   }
+
+  // Change Title
+  componentDidMount() {
+    document.title = !this.state.isAdmin ? "Home" : "Admin";
+  }
+
   handleLogout() {
     this.setState({ loggedIn: false });
   }
