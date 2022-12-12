@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import React from "react";
-import vars from "./Vars";
+// import vars from "./Vars";
 import Home from "./Home";
 import Login from "./Login";
 import Venue from "./Venue";
@@ -22,9 +22,11 @@ class App extends React.Component {
         this.props.loginflag === undefined ? false : this.props.loginflag,
     };
   }
+
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
+
   handleSubmit(e) {
     e.preventDefault();
     if (this.state.username === "admin") {
@@ -53,11 +55,13 @@ class App extends React.Component {
       document.getElementById("123").classList.add("text-danger");
     }
   }
+
   load() {
     document.querySelector("#search_button").href =
       "http://localhost:3000/search/" +
       document.querySelector("#keyword_iput").value;
   }
+
   render() {
     return (
       <>
@@ -92,7 +96,7 @@ class App extends React.Component {
                   </li>
                 </ul>
                 <div className="nav justify-content-between bg-warning sticky-top">
-                  {vars.username
+                  {/* {vars.username
                     ? '<div><Link to="/debug"><button className="btn btn-transparent">' +
                       vars.username +
                       "</button></Link></div>"
@@ -108,8 +112,8 @@ class App extends React.Component {
                           Debug Login
                         </button>
                       </Link>
-                    )}
-                  </div>
+                    )} */}
+                  {/* </div> */}
                 </div>
                 <div class="d-flex">
                   <input

@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import vars from "./Vars";
+// import vars from "./Vars";
 
 // Reference: https://docs.mapbox.com/help/tutorials/use-mapbox-gl-js-with-react/
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
@@ -27,8 +27,8 @@ export default class Home extends React.Component {
     };
 
     // Debug Account
-    vars.username = vars.loggedIn === this.props.loggedIn ? "Debugger" : "";
-    console.log(vars.loggedIn);
+    // vars.username = vars.loggedIn === this.props.loggedIn ? "Debugger" : "";
+    // console.log(vars.loggedIn);
 
     this.handleLogout = this.handleLogout.bind(this);
     this.handleC = this.handleC.bind(this);

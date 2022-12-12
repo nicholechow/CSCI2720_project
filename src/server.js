@@ -1,24 +1,27 @@
-const url1 = "https://www.lcsd.gov.hk/datagovhk/event/events.xml";
-const url2 = "https://www.lcsd.gov.hk/datagovhk/event/venues.xml";
-const filePath = `${__dirname}`;
-const option1 = {
-  filename: "file.xml",
-};
-const option2 = {
-  filename: "venue.xml",
-};
+// We may rename this file to something more representative,
+// Like DataMiner.js or WebScraper.js
+
+// Properties
+const PropertiesReader = require('properties-reader');
+const properties = PropertiesReader('config.properties');
+
+// const url1 = "https://www.lcsd.gov.hk/datagovhk/event/events.xml";
+// const url2 = "https://www.lcsd.gov.hk/datagovhk/event/venues.xml";
+const filePath = __dirname + properties.get('dataPath');
 
 const express = require("express");
 const app = express();
-const http = require("https");
 const fs = require("fs");
 const parser = require("xml2json");
-var xmlDoc = require("xmldoc");
 const download = require("download");
 
+// Unused
+// const http = require("https");
+// const xmlDoc = require("xmldoc");
+
 const mongoose = require("mongoose");
-const { Schema } = mongoose;
-mongoose.connect("mongodb+srv://stu046:p554024W@cluster0.wenbhsm.mongodb.net/stu046"); //Fill in your own connection string
+// const { Schema } = mongoose;
+mongoose.connect(properties.get("dbURL"));
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "Connection error:"));
 
@@ -48,28 +51,31 @@ db.once("open", function () {
 
   const Venue = mongoose.model("Venue", VenueSchema);
 
-  const UserSchema = mongoose.Schema({
-    username: { type: String, required: true, unique: true },
-    pw: { type: String, required: true },
-    fav: { type: Array },
-  });
+  // Commenting these 2 out since there seems to be no use for them at the moment, plus they are outdated
+  // const UserSchema = mongoose.Schema({
+  //   username: { type: String, required: true, unique: true },
+  //   pw: { type: String, required: true },
+  //   fav: { type: Array },
+  // });
 
-  const User = mongoose.model("User", UserSchema);
+  // const User = mongoose.model("User", UserSchema);
 
-  const CommentSchema = mongoose.Schema({
-    // commentid: { type: Number, required: true },
-    venueid: { type: Number, required: true },
-    userid: { type: Number, required: true },
-    content: { type: String, required: true },
-  });
+  // const CommentSchema = mongoose.Schema({
+  //   // commentid: { type: Number, required: true },
+  //   venueid: { type: Number, required: true },
+  //   userid: { type: Number, required: true },
+  //   content: { type: String, required: true },
+  // });
 
-  const Comment = mongoose.model("Comment", CommentSchema);
+  // const Comment = mongoose.model("Comment", CommentSchema);
   db.dropCollection("venues");
   db.dropCollection("events");
 
   //download file
-  download(url1, filePath, option1).then(() => {
-    download(url2, filePath, option2).then(() => {
+  // download(url1, filePath, option1).then(() => {
+  //   download(url2, filePath, option2).then(() => {
+  download(properties.get('eventsURL'), filePath, properties.get('eventsPath')).then(() => {
+    download(properties.get('venuesURL'), filePath, properties.get('venuesPath')).then(() => {
       //read file and convert to json
       var e = [];
       var v = [];
@@ -91,11 +97,12 @@ db.once("open", function () {
       var re;
       var check = 0;
 
-      xml = fs.readFileSync(filePath + "/file.xml", "utf8");
+      xml = fs.readFileSync(filePath + '/' + properties.get('eventsPath'), "utf8");
       json = parser.toJson(xml, { object: true });
-      xml2 = fs.readFileSync(filePath + "/venue.xml", "utf8");
+      xml2 = fs.readFileSync(filePath + '/' + properties.get('venuesPath'), "utf8");
       json2 = parser.toJson(xml2, { object: true });
 
+      // I think setup1() can be reduced into just the for loop, since there is only one usage
       function setup1() {
         for (var i = 0; i < json2.venues.venue.length; i++) {
           re = new RegExp(json2.venues.venue[i].id, "g");
@@ -105,7 +112,8 @@ db.once("open", function () {
             break;
           }
 
-          if (typeof(json2.venues.venue[i].latitude) == "object" || typeof(json2.venues.venue[i].longitude) == "object" || check < 3 || json2.venues.venue[i].latitude == lat[index1 - 1]) {
+          if (typeof(json2.venues.venue[i].latitude) == "object" || typeof(json2.venues.venue[i].longitude) == "object" || 
+            check < 3 || json2.venues.venue[i].latitude == lat[index1 - 1]) {
           } else {
             v[index1] = Number(json2.venues.venue[i].id);
             n[index1] = json2.venues.venue[i].venuee;
@@ -119,6 +127,7 @@ db.once("open", function () {
 
       setup1();
 
+      // I think setup2() can be reduced into just the for loop and put inside the for loop, since there is only one usage
       function setup2(id) {
         for (var i = 0; i < json.events.event.length; i++) {
           if (json.events.event[i].venueid == id) {
