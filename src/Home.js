@@ -125,13 +125,24 @@ export default class Home extends React.Component {
         return (
           <div className="p-1 border border-primary rounded-1 container">
             <div>
-              <Link to="/">
+            <nav className="navbar navbar-expand-sm navbar-light bg-light justify-content-center">
+              <ul className="navbar-nav">
+                <li className="nav-item mx-3">
+                <Link to="/">
                 <button onClick={this.handleLogout}>Logout</button>
-              </Link>
-              <button onClick={this.handleC}>Create event</button>
-              <button onClick={this.handleR}> Retrieve events</button>
-              <button onClick={this.handleU}>Update event</button>
-              <button onClick={this.handleD}>Delete event</button>
+                </Link>
+                </li>
+                <li className="nav-item mx-3">
+                  <button onClick={this.handleC}>Create event</button>
+                </li>
+                <li className="nav-item mx-3"><button onClick={this.handleR}> Retrieve events</button></li>
+                <li className="nav-item mx-3"><button onClick={this.handleU}>Update event</button></li>
+                <li className="nav-item mx-3"><button onClick={this.handleD}>Delete event</button></li>
+              </ul>
+            </nav>
+              
+              
+              
             </div>
             <div>{this.state.c ? <CreateData /> : <p></p>}</div>
             <div>{this.state.r ? <RetrieveData /> : <p></p>}</div>

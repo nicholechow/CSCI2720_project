@@ -323,7 +323,7 @@ db.once("open", function () {
                 if (err2) {
                   console.log("error");
                 } else {
-                  return res.send("Event create successfuly");
+                  return res.send("Event created successfuly");
                 }
               }
             );
@@ -336,23 +336,31 @@ db.once("open", function () {
 
   // update event by event id
   app.put("/update/:eventId", (req, res) => {
+    let buf="";
     Event.findOne({ eventid: Number(req.params["eventId"]) }, (err, e) => {
       if (e != null) {
-        e.title = req.body["title"];
-        e.venueid = Number(req.body["venueid"]);
-        e.venuename = req.body["venuename"];
-        e.datetime = req.body["datetime"];
-        e.latitude = Number(req.body["latitude"]);
-        e.longitude = Number(req.body["longitude"]);
-        e.description = req.body["description"];
-        e.presenter = req.body["presenter"];
-        e.price = req.body["price"];
-        e.save();
-        res.send("success");
+        Venue.findOne({id: Number(req.body['venueid'])}, (err1, v)=>{
+          if (v!=null){
+            e.title = req.body["title"];
+            e.venueid = Number(req.body["venueid"]);
+            e.venuename = v.venue;
+            e.datetime = req.body["datetime"];
+            e.latitude = v.latitude;
+            e.longitude = v.longitude;
+            e.description = req.body["description"];
+            e.presenter = req.body["presenter"];
+            e.price = req.body["price"];
+            e.save();
+            buf="Event updated successfully";
+          }else{
+            buf="Venue ID does not exist";
+          }
+        })
       } else {
-        res.send("fail");
+        buf="Event ID does not exist";
       }
     });
+    setTimeout(()=>{res.send(buf);}, "70");
   });
 
   // get venues by keyword

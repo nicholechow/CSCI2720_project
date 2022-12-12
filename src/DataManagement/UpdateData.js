@@ -29,10 +29,7 @@ class UpdateData extends React.Component {
       .then((data) => {
         document.getElementById("title").value = data.title;
         document.getElementById("venueId").value = data.venueid;
-        document.getElementById("venueName").value = data.venuename;
         document.getElementById("datetime").value = data.datetime;
-        document.getElementById("latitude").value = data.latitude;
-        document.getElementById("longitude").value = data.longitude;
         document.getElementById("description").value = data.description;
         document.getElementById("presenter").value = data.presenter;
         document.getElementById("price").value = data.price;
@@ -43,10 +40,7 @@ class UpdateData extends React.Component {
     let newData = {
       title: document.getElementById("title").value,
       venueid: Number(document.getElementById("venueId").value),
-      venuename: document.getElementById("venueName").value,
       datetime: document.getElementById("datetime").value,
-      latitude: Number(document.getElementById("latitude").value),
-      longitude: Number(document.getElementById("longitude").value),
       description: document.getElementById("description").value,
       presenter: document.getElementById("presenter").value,
       price: document.getElementById("price").value,
@@ -58,14 +52,7 @@ class UpdateData extends React.Component {
     })
       .then((res) => res.text())
       .then((txt) => {
-        console.log(txt);
-        if (txt === "success") {
-          document.getElementById("updatemessage").innerHTML =
-            "Update successfully.";
-        } else {
-          document.getElementById("updatemessage").innerHTML =
-            "Update is not success. Make sure your data is input correctly";
-        }
+          document.getElementById("updatemessage").innerText=txt;
       });
   }
   render() {
@@ -128,47 +115,11 @@ class UpdateData extends React.Component {
               </div>
 
               <div className="p-2 form-group mt-3">
-                <label htmlFor="venueName">Venue Name:</label>
-                <input
-                  id="venueName"
-                  name="venueName"
-                  type="text"
-                  onChange={this.handleChange}
-                  className="form-control mt-1"
-                  required
-                />
-              </div>
-
-              <div className="p-2 form-group mt-3">
                 <label htmlFor="datetime">Datetime:</label>
                 <input
                   id="datetime"
                   name="datetime"
                   type="text"
-                  onChange={this.handleChange}
-                  className="form-control mt-1"
-                  required
-                />
-              </div>
-
-              <div className="p-2 form-group mt-3">
-                <label htmlFor="latitude">Latitude:</label>
-                <input
-                  id="latitude"
-                  name="latitude"
-                  type="number" step="0.000001"
-                  onChange={this.handleChange}
-                  className="form-control mt-1"
-                  required
-                />
-              </div>
-
-              <div className="p-2 form-group mt-3">
-                <label htmlFor="longitude">Longitude:</label>
-                <input
-                  id="longitude"
-                  name="longitude"
-                  type="number" step="0.000001"
                   onChange={this.handleChange}
                   className="form-control mt-1"
                   required
