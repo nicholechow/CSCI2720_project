@@ -1,13 +1,15 @@
 // We may rename this file to something more representative,
-// Like DataMiner.js or WebScraper.js
+// Like DataMinerServer.js or WebScraperServer.js
 
-// Properties
-const PropertiesReader = require('properties-reader');
-const properties = PropertiesReader('config.properties');
+// Configs
+require('dotenv').config()
+// // Properties
+// const PropertiesReader = require('properties-reader');
+// const properties = PropertiesReader('config.properties');
 
 // const url1 = "https://www.lcsd.gov.hk/datagovhk/event/events.xml";
 // const url2 = "https://www.lcsd.gov.hk/datagovhk/event/venues.xml";
-const filePath = __dirname + properties.get('dataPath');
+const filePath = __dirname + process.env.dataPath;
 
 const express = require("express");
 const app = express();
@@ -77,8 +79,8 @@ db.once("open", function () {
   //download file
   // download(url1, filePath, option1).then(() => {
   //   download(url2, filePath, option2).then(() => {
-  download(properties.get('eventsURL'), filePath, properties.get('eventsPath')).then(() => {
-    download(properties.get('venuesURL'), filePath, properties.get('venuesPath')).then(() => {
+  download(process.env.eventsURL, filePath, process.env.eventsPath).then(() => {
+    download(process.env.venuesURL, filePath, process.env.venuesPath).then(() => {
       //read file and convert to json
       var e = [];
       var v = [];
@@ -100,9 +102,9 @@ db.once("open", function () {
       var re;
       var check = 0;
 
-      xml = fs.readFileSync(filePath + '/' + properties.get('eventsPath'), "utf8");
+      xml = fs.readFileSync(filePath + '/' + process.env.eventsPath, "utf8");
       json = parser.toJson(xml, { object: true });
-      xml2 = fs.readFileSync(filePath + '/' + properties.get('venuesPath'), "utf8");
+      xml2 = fs.readFileSync(filePath + '/' + process.env.venuesPath, "utf8");
       json2 = parser.toJson(xml2, { object: true });
 
       // I think setup1() can be reduced into just the for loop, since there is only one usage
@@ -187,4 +189,4 @@ db.once("open", function () {
   });
 });
 
-const server = app.listen(3000);
+const server = app.listen(8888);

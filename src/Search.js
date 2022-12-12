@@ -1,6 +1,6 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-const cors = require("cors");
+// const cors = require("cors");
 
 export default function Search() {
   useEffect(() => {

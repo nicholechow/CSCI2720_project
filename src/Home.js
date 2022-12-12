@@ -117,6 +117,7 @@ export default class Home extends React.Component {
                   </a>
                 </li>
                 <li className="nav-item mx-3">
+                  {/* TODO:: Make this a button instead */}
                   <a onClick={this.handleLogout} className="nav-link">
                     Logout
                   </a>

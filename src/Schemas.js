@@ -2,12 +2,11 @@
 // Usage:
 // const { Event, Venue, Comment, User, db } = require('./Schemas');
 
-// Properties
-const PropertiesReader = require('properties-reader');
-const properties = PropertiesReader('config.properties');
+// Configs
+require('dotenv').config()
 
 const mongoose = require('mongoose')
-mongoose.connect(properties.get("dbURL"));
+mongoose.connect(process.env.dbURL);
 const db = mongoose.connection;
 
 const EventSchema = mongoose.Schema({
