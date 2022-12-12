@@ -6,7 +6,6 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
-
 /*
 
 // Reference: https://supertokens.com/blog/building-a-login-screen-with-react-and-bootstrap
@@ -73,11 +72,10 @@ export default function Login(){
 */
 
 export default function Login(props) {
-
   useEffect(() => {
-    document.title = 'Login';
+    document.title = "Login";
   }, []);
-  
+
   return (
     <div>
       <form className="form" method="POST">
@@ -113,20 +111,23 @@ export default function Login(props) {
           </div>
 
           <div className="p-2 d-grid gap-2 mt-3">
-            <button onClick={props.data.handleSubmit} className="btn btn-primary">
+            <button
+              onClick={props.data.handleSubmit}
+              className="btn btn-primary"
+            >
               Validate
-            </button>               
+            </button>
           </div>
           <p id="123"></p>
         </div>
-
       </form>
-      <Link to={props.data.displaylink}>
-          <button className="btn btn-transparent">
-            {props.data.displaytext}
-          </button>
-      </Link>
-        
+      {props.data.displaytext === "username or password is not correct." ? (
+        <p className="m-2 text-danger">{props.data.displaytext}</p>
+      ) : (
+        <Link to={props.data.displaylink} className="m-2">
+          {props.data.displaytext}
+        </Link>
+      )}
     </div>
   );
 }

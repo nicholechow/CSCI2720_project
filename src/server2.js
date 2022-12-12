@@ -11,7 +11,7 @@
 const express = require("express");
 const app = express();
 
-const { Event, Venue, Comment, User, db } = require('./Schemas');
+const { Event, Venue, Comment, User, db } = require("./Schemas");
 
 // const mongoose = require("mongoose");
 // mongoose.connect(properties.get("dbURL"));
@@ -62,14 +62,12 @@ db.once("open", function () {
   // const User = mongoose.model("User", UserSchema);
   // Schemas;
 
-
   const bodyParser = require("body-parser");
   // Use parser to obtain the content in the body of a request
   app.use(bodyParser.urlencoded({ extended: false }));
   const cors = require("cors");
   app.use(cors());
   app.use(bodyParser.json());
-
 
   // app.get() / app.post() / app.delete()
   // TODO:: Maybe sort sort this for easier navigation
@@ -81,7 +79,7 @@ db.once("open", function () {
   // update user fav
   // get venue name from id
   // get venue Latitude and longitude from id
-  // get all venues' Latitude and longitude 
+  // get all venues' Latitude and longitude
   // get all events with details of a venue
   // get all events
   // delete event by event id
@@ -93,24 +91,32 @@ db.once("open", function () {
   // get comments by venue id
   // delete event by event id
 
-//login
-  let loginstate=0;
-  
-  app.post("/login", (req, res)=>{
-    if (Number(req.body['logout'])==1){
-      loginstate=0;
-    }else
-      if ((req.body['username']=="admin")&&(req.body['password']=="admin")){
-        loginstate = 2;
-      }else{
-        User.findOne({username: req.body['username'], pw: req.body['password']}, (err, u)=>{
-          if (u!=null){
+  //login
+  let loginstate = 0;
+
+  app.post("/login", (req, res) => {
+    if (Number(req.body["logout"]) == 1) {
+      loginstate = 0;
+    } else if (
+      req.body["username"] == "admin" &&
+      req.body["password"] == "admin"
+    ) {
+      loginstate = 2;
+    } else {
+      User.findOne(
+        { username: req.body["username"], pw: req.body["password"] },
+        (err, u) => {
+          if (u != null) {
             loginstate = 1;
-            
+          } else {
+            loginstate = 0;
           }
-        })
-      }
-      setTimeout(()=>{ res.send(String(loginstate)); }, "100");    
+        }
+      );
+    }
+    setTimeout(() => {
+      res.send(String(loginstate));
+    }, "100");
   });
 
   // get all venue name with its number of events
@@ -177,8 +183,7 @@ db.once("open", function () {
       else {
         if (f.fav.includes(req.body["venueId"]))
           f.fav.remove(req.body["venueId"]);
-        else
-          f.fav.push(req.body["venueId"]);
+        else f.fav.push(req.body["venueId"]);
         f.save();
         res.send();
         console.log("update user fav");
@@ -213,7 +218,7 @@ db.once("open", function () {
     );
   });
 
-  // get all venues' Latitude and longitude 
+  // get all venues' Latitude and longitude
   app.get("/allVenueLatLong/", (req, res) => {
     Venue.find({}, (err, v) => {
       if (err) console.log(err);
@@ -238,7 +243,7 @@ db.once("open", function () {
       }
     );
   });
-  
+
   // get all events
   app.get("/listall", (req, res) => {
     Event.find({}, (err, v) => {

@@ -29,30 +29,34 @@ class App extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    let loginbody={
-      'username': this.state.username,
-      'password': this.state.password
-    }
+    let loginbody = {
+      username: this.state.username,
+      password: this.state.password,
+    };
     fetch("http://localhost:8889/login", {
       method: "POST",
       headers: { "Content-type": "application/json" },
-      body: JSON.stringify(loginbody)
+      body: JSON.stringify(loginbody),
     })
-    .then((res) => res.text())
-    .then((txt) => {
-      if (txt=="2"){
-        this.setState({
-          displaytext: "You are an admin, click here to go to the admin page.",
-          displaylink: "/admin",
-        });
-      }else if (txt=="1"){
-        this.setState({
-          displaytext: "You are a user, click here to go to the user page.",
-          displaylink: "/user",
-        });
-      }
-    });
-    
+      .then((res) => res.text())
+      .then((txt) => {
+        if (txt == "2") {
+          this.setState({
+            displaytext:
+              "You are an admin, click here to go to the admin page.",
+            displaylink: "/admin",
+          });
+        } else if (txt == "1") {
+          this.setState({
+            displaytext: "You are a user, click here to go to the user page.",
+            displaylink: "/user",
+          });
+        } else if (txt == "0") {
+          this.setState({
+            displaytext: "username or password is not correct.",
+          });
+        }
+      });
   }
 
   load() {
@@ -146,7 +150,7 @@ class App extends React.Component {
               element={
                 <Login
                   data={{
-                    username: this.state.usernmae,
+                    username: this.state.username,
                     password: this.state.password,
                     displaylink: this.state.displaylink,
                     displaytext: this.state.displaytext,

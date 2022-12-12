@@ -6,7 +6,7 @@ export default function Account() {
   const [favList, setFavList] = useState([]);
 
   useEffect(() => {
-    document.title = 'Account Profile';
+    document.title = "Account Profile";
   }, []);
 
   useEffect(() => {
@@ -21,8 +21,8 @@ export default function Account() {
       .catch((error) => {
         console.log(error);
       });
-  // I want to do this to get rid of a warning, this changed does not seem to ruin everything at first glance...
-  // }, [favList.length]); 
+    // I want to do this to get rid of a warning, this changed does not seem to ruin everything at first glance...
+    // }, [favList.length]);
   }, []);
 
   return (
@@ -33,26 +33,25 @@ export default function Account() {
         id="favLocation"
         className="p-1 mx-1 border border-primary rounded-1"
       >
-        <h4>Favourite Locations</h4>
-        <table className="p-2 text-center table table-hover">
-          <tbody>
-            {favList.length === 0 ? (
-              <tr>
-                <td>No result</td>
-              </tr>
-            ) : (
-              favList.map((ele, i) => (
-                <tr key={i}>
+        <h3>Favourite Locations</h3>
+
+        {favList.length === 0 ? (
+          <h5>No result</h5>
+        ) : (
+          favList.map((ele, i) => (
+            <table key={i} className="p-2 text-center table table-hover">
+              <tbody>
+                <tr>
                   <td>
                     <a href={"http://localhost:3000/venue/" + ele.id}>
                       {ele.venue}
                     </a>
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              </tbody>
+            </table>
+          ))
+        )}
       </section>
     </div>
   );

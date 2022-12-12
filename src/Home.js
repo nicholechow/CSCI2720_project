@@ -25,7 +25,7 @@ export default class Home extends React.Component {
       r: false,
       u: false,
       d: false,
-      loginstate: 0
+      loginstate: 0,
     };
 
     // Debug Account
@@ -38,38 +38,36 @@ export default class Home extends React.Component {
     this.handleU = this.handleU.bind(this);
     this.handleD = this.handleD.bind(this);
   }
-  componentDidMount(){
-    let loginbody={
-      'username': '',
-      'password': ''
-    }
+  componentDidMount() {
+    let loginbody = {
+      username: "",
+      password: "",
+    };
     fetch("http://localhost:8889/login", {
       method: "POST",
       headers: { "Content-type": "application/json" },
-      body: JSON.stringify(loginbody)
+      body: JSON.stringify(loginbody),
     })
-    .then((res) => res.text())
-    .then((txt) => { 
-      this.setState({loginstate: Number(txt)});  
-    });
+      .then((res) => res.text())
+      .then((txt) => {
+        this.setState({ loginstate: Number(txt) });
+      });
     document.title = !this.state.isAdmin ? "Home" : "Admin";
   }
 
   handleLogout() {
-    let loginbody={
-      'username': "",
-      'password': "",
-      'logout': 1,
-    }
+    let loginbody = {
+      username: "",
+      password: "",
+      logout: 1,
+    };
     fetch("http://localhost:8889/login", {
       method: "POST",
       headers: { "Content-type": "application/json" },
-      body: JSON.stringify(loginbody)
+      body: JSON.stringify(loginbody),
     })
-    .then((res) => res.text())
-    .then((txt) => {
-        
-    });
+      .then((res) => res.text())
+      .then((txt) => {});
     window.location.reload();
   }
   handleC() {
@@ -86,7 +84,7 @@ export default class Home extends React.Component {
   }
 
   render() {
-    if (this.state.loginstate==0) {
+    if (this.state.loginstate == 0) {
       return (
         <div className="p-4 col-6 m-auto border border-4 border-primary rounded-3">
           {/* Title */}
@@ -98,7 +96,7 @@ export default class Home extends React.Component {
         </div>
       );
     } else {
-      if (this.state.loginstate==1)
+      if (this.state.loginstate == 1)
         return (
           <div>
             <nav className="navbar navbar-expand-sm navbar-light bg-light justify-content-center">
@@ -122,7 +120,7 @@ export default class Home extends React.Component {
           </div>
         );
 
-      if (this.state.loginstate==2)
+      if (this.state.loginstate == 2)
         return (
           <div className="p-1 border border-primary rounded-1 container">
             <div>
@@ -216,42 +214,42 @@ function Location() {
     }
   };
 
-  useEffect(() => {
-    fetch("http://localhost:8889/venueEventCnt")
-      .then((res) => res.json())
-      .then((data) => {
-        // console.log(data);
-        if (list.length === 0) {
-          //console.log(data);
-          if (list.length === 0 && state === false) {
-            setList(data);
-            setState(true);
-          }
+  //useEffect(() => {
+  fetch("http://localhost:8889/venueEventCnt")
+    .then((res) => res.json())
+    .then((data) => {
+      // console.log(data);
+      if (list.length === 0) {
+        //console.log(data);
+        if (list.length === 0 && state === false) {
+          setList(data);
+          setState(true);
         }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    fetch("http://localhost:8889/fav/user0")
-      .then((res) => res.json())
-      .then((fav) => {
-        if (fav.length !== 0 && state === true && state2 === false) {
-          fav = fav.map((ele) => ele.id);
-          //console.log(fav);
-          setList(
-            list.map((ele) => {
-              ele.fav = fav.includes(ele.venueId);
-              return ele;
-            })
-          );
-          setState2(true);
-          //console.log(list);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  fetch("http://localhost:8889/fav/user0")
+    .then((res) => res.json())
+    .then((fav) => {
+      if (fav.length !== 0 && state === true && state2 === false) {
+        fav = fav.map((ele) => ele.id);
+        //console.log(fav);
+        setList(
+          list.map((ele) => {
+            ele.fav = fav.includes(ele.venueId);
+            return ele;
+          })
+        );
+        setState2(true);
+        //console.log(list);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  //});
 
   return (
     <div className="col-sm-12 col-md-12 col-lg-12 m-auto">

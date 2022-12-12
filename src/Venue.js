@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Map } from "./Home";
-function LocationRow(props) {
-  console.log(props);
+function CommentRow(props) {
+  //console.log(props);
   return (
     <tr>
       <td>{props.username}</td>
@@ -61,7 +61,9 @@ export default function Venue() {
       <h1 id="venueName">
         {venueName}
         <button
-          className={fav ? "btn btn-danger mx-2" : "btn btn-outline-danger mx-2"}
+          className={
+            fav ? "btn btn-danger mx-2" : "btn btn-outline-danger mx-2"
+          }
           onClick={() => changeLocFav(venueId)}
         >
           ♥
@@ -95,9 +97,9 @@ export default function Venue() {
 
 function Detail(props) {
   const [list, setList] = useState([]);
-  
+
   useEffect(() => {
-    document.title = 'Detail';
+    document.title = "Detail";
   }, []);
 
   fetch("http://localhost:8889/venueEvents/" + props.id)
@@ -114,20 +116,20 @@ function Detail(props) {
     <div className="col-sm-12 col-md-12 col-lg-10 mx-auto my-4">
       <section id="events">
         <h4>Events</h4>
-        {list.length === 0 ?
-        <table className="table table-hover">
-          <thead className="thead-light">
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Title</th>
-              <th scope="col">Datetime</th>
-              <th scope="col">Presenter</th>
-              <th scope="col">Price</th>
-              <th scope="col">Description</th>
-            </tr>
-          </thead>
-          <tbody id="eventList">
-            {/* {list.length === 0 ? (
+        {list.length !== 0 ? (
+          <table className="table table-hover">
+            <thead className="thead-light">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Datetime</th>
+                <th scope="col">Presenter</th>
+                <th scope="col">Price</th>
+                <th scope="col">Description</th>
+              </tr>
+            </thead>
+            <tbody id="eventList">
+              {/* {list.length === 0 ? (
               <tr>
                 <th scope="col">/</th>
                 <td>Loading...</td>
@@ -147,10 +149,12 @@ function Detail(props) {
                   <td>{loc.description}</td>
                 </tr>
               ))}
-            {/* )} */}
-          </tbody>
-        </table>
-        : <h5>Loading</h5>}
+              {/* )} */}
+            </tbody>
+          </table>
+        ) : (
+          <h5>Loading</h5>
+        )}
       </section>
     </div>
   );
@@ -164,7 +168,7 @@ function Comments(props) {
     fetch("http://localhost:8889/comment/" + props.id)
       .then((res) => res.json())
       .then((data) => {
-        if (data.length !== 0) setList(data);
+        if (data.length !== 0 && list.length === 0) setList(data);
       })
       .catch((error) => {
         console.log(error);
@@ -193,7 +197,11 @@ function Comments(props) {
             </tr>
           ) : (
             list.map((loc, i) => (
-              <LocationRow username={loc.username} comment={loc.comment} />
+              <CommentRow
+                key={i}
+                username={loc.username}
+                comment={loc.comment}
+              />
             ))
           )}
         </tbody>
