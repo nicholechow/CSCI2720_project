@@ -80,52 +80,52 @@ export default function Login(props) {
   
   return (
     <div>
-        <form className="form" method="POST">
-          <div className="p-4 col-6 m-auto border border-4 border-primary rounded-3">
-            <h3>Sign In</h3>
+      <form className="form" method="POST">
+        <div className="p-4 col-6 m-auto border border-4 border-primary rounded-3">
+          <h3>Sign In</h3>
 
-            <div className="p-2 form-group mt-3">
-              <label htmlFor="username">Username:</label>
-              <input
-                id="username"
-                name="username"
-                type="text"
-                onChange={props.data.handleChange}
-                className="form-control mt-1"
-                placeholder="Enter username here"
-                minLength="4"
-                maxLength="20"
-              />
-            </div>
-
-            <div className="p-2 form-group mt-3">
-              <label htmlFor="password">Password:</label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                onChange={props.data.handleChange}
-                className="form-control mt-1"
-                placeholder="Enter password here"
-                minLength="4"
-                maxLength="20"
-              />
-            </div>
-
-            <div className="p-2 d-grid gap-2 mt-3">
-              <button onClick={props.data.handleSubmit} className="btn btn-primary">
-                Validate
-              </button>               
-            </div>
-            <p id="123"></p>
+          <div className="p-2 form-group mt-3">
+            <label htmlFor="username">Username:</label>
+            <input
+              id="username"
+              name="username"
+              type="text"
+              onChange={props.data.handleChange}
+              className="form-control mt-1"
+              placeholder="Enter username here"
+              minLength="4"
+              maxLength="20"
+            />
           </div>
 
-        </form>
-        <Link to={props.data.displaylink}>
-            <button className="btn btn-transparent">
-              {props.data.displaytext}
-            </button>
-        </Link>
+          <div className="p-2 form-group mt-3">
+            <label htmlFor="password">Password:</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              onChange={props.data.handleChange}
+              className="form-control mt-1"
+              placeholder="Enter password here"
+              minLength="4"
+              maxLength="20"
+            />
+          </div>
+
+          <div className="p-2 d-grid gap-2 mt-3">
+            <button onClick={props.data.handleSubmit} className="btn btn-primary">
+              Validate
+            </button>               
+          </div>
+          <p id="123"></p>
+        </div>
+
+      </form>
+      <Link to={props.data.displaylink}>
+          <button className="btn btn-transparent">
+            {props.data.displaytext}
+          </button>
+      </Link>
         
     </div>
   );
