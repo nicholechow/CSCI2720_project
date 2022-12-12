@@ -96,7 +96,7 @@ db.once("open", function () {
   // get all venue name with its number of events
   // response: [{venueId: 1234, venueName: "venue 1", eventCnt: 3},...]
   app.get("/venueEventCnt", (req, res) => {
-    Event.find({}, "venueid venuename", (err, v) => {
+    Event.find({}, "venueid venuename latitude longitude", (err, v) => {
       if (err) console.log(err);
       else {
         //console.log(v);
@@ -105,6 +105,8 @@ db.once("open", function () {
         let venueEventCnt = venueList.map((ele) => ({
           venueId: ele.venueid,
           venueName: ele.venuename,
+          latitude: ele.latitude,
+          longitude: ele.longitude,
           eventCnt: venueId.filter((ele2) => ele2 === ele.venueid).length,
         }));
         res.send(venueEventCnt);

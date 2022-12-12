@@ -193,7 +193,7 @@ function Location() {
     fetch("http://localhost:8889/venueEventCnt")
       .then((res) => res.json())
       .then((data) => {
-        //console.log(data);
+        console.log(data);
         if (list.length === 0) {
           //console.log(data);
           if (list.length === 0 && state === false) {
@@ -258,11 +258,15 @@ function Location() {
                 number of events{" "}
                 {sortState === -1 ? "↓" : sortState === 1 ? "↑" : ""}
               </th>
+              <th scope="col">Latitude</th>
+              <th scope="col">Longitude</th>
             </tr>
           </thead>
           <tbody id="LocationTbody">
             {list.length === 0 ? (
               <tr>
+                <td>No Result</td>
+                <td>No Result</td>
                 <td>No Result</td>
                 <td>No Result</td>
               </tr>
@@ -273,6 +277,8 @@ function Location() {
                   venueId={loc.venueId}
                   venueName={loc.venueName}
                   eventCnt={loc.eventCnt}
+                  latitude={loc.latitude}
+                  longitude={loc.longitude}
                   fav={loc.fav}
                   changeFav={changeFav}
                 />
@@ -293,22 +299,15 @@ function LocationRow(props) {
         </a>
       </td>
       <td>{props.eventCnt}</td>
+      <td>{props.latitude}</td>
+      <td>{props.longitude}</td>
       <td>
-        {props.fav === true ? (
-          <button
-            className="btn btn-danger"
-            onClick={() => props.changeFav(props.venueId)}
-          >
-            ♥
-          </button>
-        ) : (
-          <button
-            className="btn btn-outline-danger"
-            onClick={() => props.changeFav(props.venueId)}
-          >
-            ♥
-          </button>
-        )}
+        <button
+          className={props.fav === true ? "btn btn-danger" : "btn btn-outline-danger"}
+          onClick={() => props.changeFav(props.venueId)}
+        >
+          ♥
+        </button>
       </td>
     </tr>
   );
