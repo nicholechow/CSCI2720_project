@@ -52,6 +52,7 @@ class App extends React.Component {
         });
         setTimeout(()=>{document.getElementById("autoclick").click();}, "70");
       }else{
+        document.getElementById("123").innerText="Please input correct username and password";
       }
     });
     
