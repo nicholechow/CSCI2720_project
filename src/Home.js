@@ -51,8 +51,12 @@ export default class Home extends React.Component {
       .then((res) => res.text())
       .then((txt) => {
         this.setState({ loginstate: Number(txt) });
+        if (txt === "2") {
+          document.title = "Admin";
+        } else {
+          document.title = "Home";
+        }
       });
-    document.title = !this.state.isAdmin ? "Home" : "Admin";
   }
 
   handleLogout() {
@@ -110,6 +114,11 @@ export default class Home extends React.Component {
                 <li className="nav-item mx-3">
                   <a href="#map" className="nav-link">
                     Map
+                  </a>
+                </li>
+                <li className="nav-item mx-3">
+                  <a onClick={this.handleLogout} className="nav-link">
+                    Logout
                   </a>
                 </li>
               </ul>
