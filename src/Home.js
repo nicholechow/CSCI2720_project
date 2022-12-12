@@ -6,12 +6,13 @@ import { Link } from "react-router-dom";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 // import { set } from "mongoose";
 
-import CreateData from './DataManagement/CreateData';
-import DeleteData from './DataManagement/DeleteData';
-import RetrieveData from './DataManagement/RetrieveData';
-import UpdateData from './DataManagement/UpdateData';
+import CreateData from "./DataManagement/CreateData";
+import DeleteData from "./DataManagement/DeleteData";
+import RetrieveData from "./DataManagement/RetrieveData";
+import UpdateData from "./DataManagement/UpdateData";
 
-mapboxgl.accessToken = "pk.eyJ1IjoiMTE1NTE3MDk1MiIsImEiOiJjbGI5OXI3eDgwc21vM3BxYzd1MTNrMXA0In0.0HxBmgExZx-Y_BfWj_tF8Q";
+mapboxgl.accessToken =
+  "pk.eyJ1IjoiMTE1NTE3MDk1MiIsImEiOiJjbGI5OXI3eDgwc21vM3BxYzd1MTNrMXA0In0.0HxBmgExZx-Y_BfWj_tF8Q";
 
 // Home
 export default class Home extends React.Component {
@@ -74,15 +75,15 @@ export default class Home extends React.Component {
       if (!this.state.isAdmin)
         return (
           <div>
-            <nav class="navbar navbar-expand-sm navbar-light bg-light justify-content-center">
-              <ul class="navbar-nav">
-                <li class="nav-item mx-3">
-                  <a href="#locations" class="nav-link">
+            <nav className="navbar navbar-expand-sm navbar-light bg-light justify-content-center">
+              <ul className="navbar-nav">
+                <li className="nav-item mx-3">
+                  <a href="#locations" className="nav-link">
                     Location
                   </a>
                 </li>
-                <li class="nav-item mx-3">
-                  <a href="#map" class="nav-link">
+                <li className="nav-item mx-3">
+                  <a href="#map" className="nav-link">
                     Map
                   </a>
                 </li>
@@ -303,7 +304,9 @@ function LocationRow(props) {
       <td>{props.longitude}</td>
       <td>
         <button
-          className={props.fav === true ? "btn btn-danger" : "btn btn-outline-danger"}
+          className={
+            props.fav === true ? "btn btn-danger" : "btn btn-outline-danger"
+          }
           onClick={() => props.changeFav(props.venueId)}
         >
           ♥
