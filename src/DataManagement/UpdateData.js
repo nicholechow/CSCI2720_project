@@ -74,7 +74,7 @@ class UpdateData extends React.Component {
         <section className="p-1 mx-1 border border-primary rounded-1">
           <h4>Update Data</h4>
 
-          <form className="form" method="POST">
+          <form className="form" onSubmit={this.handleLoad}>
             <div className="p-4 col-6 m-auto border border-4 border-primary rounded-3">
               <h3>Load Event</h3>
 
@@ -92,14 +92,14 @@ class UpdateData extends React.Component {
               </div>
 
               <div className="p-2 d-grid gap-2 mt-3">
-                <button onClick={this.handleLoad} className="btn btn-primary">
+                <button type="submit" className="btn btn-primary">
                   Load
                 </button>
               </div>
             </div>
           </form>
           <br />
-          <form className="form" method="POST">
+          <form className="form" onSubmit={this.handleSubmit}>
             <div className="p-4 col-6 m-auto border border-4 border-primary rounded-3">
               <h3>Update Event</h3>
 
@@ -140,7 +140,7 @@ class UpdateData extends React.Component {
               </div>
 
               <div className="p-2 form-group mt-3">
-                <label htmlFor="venueName">Datetime:</label>
+                <label htmlFor="datetime">Datetime:</label>
                 <input
                   id="datetime"
                   name="datetime"
@@ -152,11 +152,11 @@ class UpdateData extends React.Component {
               </div>
 
               <div className="p-2 form-group mt-3">
-                <label htmlFor="venueName">Latitude:</label>
+                <label htmlFor="latitude">Latitude:</label>
                 <input
                   id="latitude"
                   name="latitude"
-                  type="number"
+                  type="number" step="0.000001"
                   onChange={this.handleChange}
                   className="form-control mt-1"
                   required
@@ -164,11 +164,11 @@ class UpdateData extends React.Component {
               </div>
 
               <div className="p-2 form-group mt-3">
-                <label htmlFor="venueName">Longitude:</label>
+                <label htmlFor="longitude">Longitude:</label>
                 <input
                   id="longitude"
                   name="longitude"
-                  type="number"
+                  type="number" step="0.000001"
                   onChange={this.handleChange}
                   className="form-control mt-1"
                   required
@@ -176,7 +176,7 @@ class UpdateData extends React.Component {
               </div>
 
               <div className="p-2 form-group mt-3">
-                <label htmlFor="venueName">Description:</label>
+                <label htmlFor="description">Description:</label>
                 <input
                   id="description"
                   name="description"
@@ -188,7 +188,7 @@ class UpdateData extends React.Component {
               </div>
 
               <div className="p-2 form-group mt-3">
-                <label htmlFor="venueName">Presenter:</label>
+                <label htmlFor="presenter">Presenter:</label>
                 <input
                   id="presenter"
                   name="presenter"
@@ -200,7 +200,7 @@ class UpdateData extends React.Component {
               </div>
 
               <div className="p-2 form-group mt-3">
-                <label htmlFor="venueName">Price:</label>
+                <label htmlFor="price">Price:</label>
                 <input
                   id="price"
                   name="price"
@@ -212,7 +212,7 @@ class UpdateData extends React.Component {
               </div>
 
               <div className="p-2 d-grid gap-2 mt-3">
-                <button onClick={this.handleSubmit} className="btn btn-primary">
+                <button type="submit" className="btn btn-primary">
                   Update
                 </button>
               </div>

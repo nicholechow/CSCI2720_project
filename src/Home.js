@@ -68,9 +68,8 @@ export default class Home extends React.Component {
     })
     .then((res) => res.text())
     .then((txt) => {
-        
+        this.setState({loginstate: Number(txt)});
     });
-    window.location.reload();
   }
   handleC() {
     this.setState({ c: !this.state.c });
@@ -86,7 +85,7 @@ export default class Home extends React.Component {
   }
 
   render() {
-    if (this.state.loginstate==0) {
+    if (this.state.loginstate===0) {
       return (
         <div className="p-4 col-6 m-auto border border-4 border-primary rounded-3">
           {/* Title */}
@@ -98,7 +97,7 @@ export default class Home extends React.Component {
         </div>
       );
     } else {
-      if (this.state.loginstate==1)
+      if (this.state.loginstate===1)
         return (
           <div>
             <nav className="navbar navbar-expand-sm navbar-light bg-light justify-content-center">
@@ -122,7 +121,7 @@ export default class Home extends React.Component {
           </div>
         );
 
-      if (this.state.loginstate==2)
+      if (this.state.loginstate===2)
         return (
           <div className="p-1 border border-primary rounded-1 container">
             <div>
