@@ -5,12 +5,12 @@ import { Link } from "react-router-dom";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 // import { set } from "mongoose";
 
-import CreateData from "../dataManagement/CreateData";
-import DeleteData from "../dataManagement/DeleteData";
-import RetrieveData from "../dataManagement/RetrieveData";
-import UpdateData from "../dataManagement/UpdateData";
-import { server2URL, exampleServerURL } from "../utils/EnvReact"
-import { refreshPage } from "../utils/Utils"
+import CreateData from "../DataManagement/CreateData";
+import DeleteData from "../DataManagement/DeleteData";
+import RetrieveData from "../DataManagement/RetrieveData";
+import UpdateData from "../DataManagement/UpdateData";
+import { server2URL, exampleServerURL } from "../utils/EnvReact";
+import { refreshPage } from "../utils/Utils";
 // import { set } from "mongoose";
 
 mapboxgl.accessToken =
@@ -28,7 +28,7 @@ export default class Home extends React.Component {
       u: false,
       d: false,
       loginState: 0,
-      username: ""
+      username: "",
     };
 
     // Debug Account
@@ -41,46 +41,58 @@ export default class Home extends React.Component {
     this.handleU = this.handleU.bind(this);
     this.handleD = this.handleD.bind(this);
   }
-  
+
   componentDidMount() {
-    console.log("componentDidMount")
+    console.log("componentDidMount");
     fetch(exampleServerURL + "/authenticate", {
       method: "POST",
-      headers: { 
+      headers: {
         "Content-type": "application/json",
-        "Authorization": "Bearer " + sessionStorage.accessToken
+        Authorization: "Bearer " + sessionStorage.accessToken,
       },
       body: JSON.stringify({
         accessToken: sessionStorage.accessToken,
-        refreshToken: sessionStorage.refreshToken
-      })
+        refreshToken: sessionStorage.refreshToken,
+      }),
     })
-      .then(res => res.text())
-      .then(txt => {
-        console.log(txt)
-        let loginS = Number(txt)
+      .then((res) => res.text())
+      .then((txt) => {
+        console.log(txt);
+        let loginS = Number(txt);
         // For Example, "Forbidden": from the 403 code
-        if (isNaN(loginS))
-          loginS = 0;
-        
+        if (isNaN(loginS)) loginS = 0;
+
         document.title = sessionStorage.username == "admin" ? "Home" : "Admin";
 
         switch (loginS) {
           case 1:
-            this.setState({ username: sessionStorage.username, loginState: loginS, loggedIn: true })
+            this.setState({
+              username: sessionStorage.username,
+              loginState: loginS,
+              loggedIn: true,
+            });
             break;
 
           default:
             if (sessionStorage.username == "admin")
-              this.setState({ username: sessionStorage.username, loginState: 2, loggedIn: true, isAdmin: true })
+              this.setState({
+                username: sessionStorage.username,
+                loginState: 2,
+                loggedIn: true,
+                isAdmin: true,
+              });
             else
-              this.setState({ loginState: loginS, loggedIn: false, isAdmin: false })
+              this.setState({
+                loginState: loginS,
+                loggedIn: false,
+                isAdmin: false,
+              });
         }
       })
-      .catch(err => {
-        console.log(err)
-        console.log("If it is 401 or 403, then it is intended... NOT DONE")
-      })
+      .catch((err) => {
+        console.log(err);
+        console.log("If it is 401 or 403, then it is intended... NOT DONE");
+      });
   }
 
   handleLogout() {
@@ -88,13 +100,12 @@ export default class Home extends React.Component {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({ username: sessionStorage.username }),
-    })
-      .then(() => {
-        delete sessionStorage.username
-        delete sessionStorage.accessToken
-        delete sessionStorage.refreshToken
-        refreshPage()
-      });
+    }).then(() => {
+      delete sessionStorage.username;
+      delete sessionStorage.accessToken;
+      delete sessionStorage.refreshToken;
+      refreshPage();
+    });
   }
   handleC() {
     this.setState({ c: !this.state.c });
@@ -110,7 +121,7 @@ export default class Home extends React.Component {
   }
 
   render() {
-    console.log(this.state.loginState)
+    console.log(this.state.loginState);
     if (this.state.loginState === 0) {
       return (
         <div className="p-4 col-6 m-auto border border-4 border-primary rounded-3">
@@ -246,8 +257,7 @@ function Location() {
         });
     } else {
       fetch(
-        server2URL + "/search/" +
-          document.querySelector("#search_bar").value
+        server2URL + "/search/" + document.querySelector("#search_bar").value
       )
         .then((res) => res.json())
         .then((data) => {
