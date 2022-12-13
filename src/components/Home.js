@@ -9,6 +9,10 @@ import CreateData from "../DataManagement/CreateData";
 import DeleteData from "../DataManagement/DeleteData";
 import RetrieveData from "../DataManagement/RetrieveData";
 import UpdateData from "../DataManagement/UpdateData";
+import UserCreateData from "../DataManagement/UserCreateData";
+import UserDeleteData from "../DataManagement/UserDeleteData";
+import UserRetrieveData from "../DataManagement/UserRetrieveData";
+import UserUpdateData from "../DataManagement/UserUpdateData";
 import { server2URL, exampleServerURL } from "../utils/EnvReact";
 import { refreshPage } from "../utils/Utils";
 // import { set } from "mongoose";
@@ -27,6 +31,10 @@ export default class Home extends React.Component {
       r: false,
       u: false,
       d: false,
+      user_c: false,
+      user_r: false,
+      user_u: false,
+      user_d: false,
       loginState: 0,
       username: "",
     };
@@ -40,6 +48,10 @@ export default class Home extends React.Component {
     this.handleR = this.handleR.bind(this);
     this.handleU = this.handleU.bind(this);
     this.handleD = this.handleD.bind(this);
+    this.handleUserC = this.handleUserC.bind(this);
+    this.handleUserR = this.handleUserR.bind(this);
+    this.handleUserU = this.handleUserU.bind(this);
+    this.handleUserD = this.handleUserD.bind(this);
   }
 
   componentDidMount() {
@@ -119,6 +131,18 @@ export default class Home extends React.Component {
   handleD() {
     this.setState({ d: !this.state.d });
   }
+  handleUserC() {
+    this.setState({ user_c: !this.state.user_c });
+  }
+  handleUserR() {
+    this.setState({ user_r: !this.state.user_r });
+  }
+  handleUserU() {
+    this.setState({ user_u: !this.state.user_u });
+  }
+  handleUserD() {
+    this.setState({ user_d: !this.state.user_d });
+  }
 
   render() {
     console.log(this.state.loginState);
@@ -194,6 +218,29 @@ export default class Home extends React.Component {
             <div>{this.state.r ? <RetrieveData /> : <p></p>}</div>
             <div>{this.state.u ? <UpdateData /> : <p></p>}</div>
             <div>{this.state.d ? <DeleteData /> : <p></p>}</div>
+
+            <div>
+              <nav className="navbar navbar-expand-sm navbar-light bg-light justify-content-center">
+                <ul className="navbar-nav">
+                  <li className="nav-item mx-3">
+                    <button onClick={this.handleUserC}>Create user</button>
+                  </li>
+                  <li className="nav-item mx-3">
+                    <button onClick={this.handleUserR}>Retrieve user information</button>
+                  </li>
+                  <li className="nav-item mx-3">
+                    <button onClick={this.handleUserU}>Update user information</button>
+                  </li>
+                  <li className="nav-item mx-3">
+                    <button onClick={this.handleUserD}>Delete user</button>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            <div>{this.state.user_c ? <UserCreateData /> : <p></p>}</div>
+            <div>{this.state.user_r ? <UserRetrieveData /> : <p></p>}</div>
+            <div>{this.state.user_u ? <UserUpdateData /> : <p></p>}</div>
+            <div>{this.state.user_d ? <UserDeleteData /> : <p></p>}</div>
           </div>
         );
     }
