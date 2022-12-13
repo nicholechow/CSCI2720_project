@@ -30,7 +30,9 @@ const posts = [
   }
 ]
 
+
 // Working
+// TODO:: it is fine, it is working, but can be improved, maybe somehow refresh the token with this
 app.all('/authenticate', authenticateToken, (req, res) => {
   res.send("1")
 })
