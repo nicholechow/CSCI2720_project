@@ -1,8 +1,9 @@
 import React from "react";
+import { server2URL } from "../utils/EnvReact"
 
 class RetrieveData extends React.Component {
   componentDidMount() {
-    fetch("http://localhost:8889/listall")
+    fetch(server2URL + "/listall")
       .then((res) => res.json())
       .then((data) => {
         //console.log(data);

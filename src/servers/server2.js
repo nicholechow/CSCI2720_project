@@ -3,11 +3,15 @@
 
 // request handle
 // execute node src/server2.js5
+const { env, localurl, authServerURL } = require("../utils/EnvExpress")
 
 const express = require("express");
 const app = express();
 
-const { Event, Venue, Comment, User, db } = require("../Schemas");
+const cors = require("cors");
+app.use(cors());
+
+const { Event, Venue, Comment, User, db } = require("../utils/Schemas");
 
 // const mongoose = require("mongoose");
 // mongoose.connect(properties.get("dbURL"));
@@ -23,8 +27,6 @@ db.once("open", function () {
   const bodyParser = require("body-parser");
   // Use parser to obtain the content in the body of a request
   app.use(bodyParser.urlencoded({ extended: false }));
-  const cors = require("cors");
-  app.use(cors());
   app.use(bodyParser.json());
 
   // app.get() / app.post() / app.delete()
@@ -50,30 +52,73 @@ db.once("open", function () {
   // delete event by event id
 
   //login
-  let loginstate = 0;
+  // 1: user
+  // 2: admin
+  app.post("/login", async (req, res) => {
+    const username = req.body.username
+    const password = req.body.password
+    let loginState = -1;
+    let token = {};
+    let status = -1;
 
-  app.post("/login", (req, res) => {
-    if (Number(req.body["logout"]) == 1) {
-      loginstate = 0;
-    } else if (
-      req.body["username"] == "admin" &&
-      req.body["password"] == "admin"
-    ) {
-      loginstate = 2;
+    // console.log("8889: " + username + ", " + password)
+    if (username == "admin" && username == password){
+      // Admin
+      loginState = 2;
     } else {
-      User.findOne(
-        { username: req.body["username"], pw: req.body["password"] },
-        (err, u) => {
-          if (u != null) {
-            loginstate = 1;
+      // User      
+      token = await fetch(authServerURL + "/login", {
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      })
+        .then(res => {
+          status = res.status;
+          if (status == 401 || status == 403){
+            loginState = 0;
+            return {};
           }
-        }
-      );
+          loginState = 1;
+          // console.log(res)
+          return res.json()
+        })
+        .catch(err => {
+          console.log("8889/login" + err)
+          loginState = -2;
+        });
+
+        // console.log("8889: token: " + token)
+        // console.log("8889: token: " + token.accessToken)
+        // console.log("8889: token: " + token.refreshToken)
     }
-    setTimeout(() => {
-      res.send(String(loginstate));
-    }, "100");
+
+    setTimeout(() => res.json({
+      username: username,
+      password: password,
+      loginState: loginState,
+      token: token,
+      status: status
+    }), "100");
   });
+
+  app.post("/logout", async (req, res) => {
+    const username = req.body.username
+    let loginState = -1;
+
+    if (username != "admin"){
+      // User      
+      token = await fetch(authServerURL + "/logout", {
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify({ username }),
+      })
+    }
+    loginState = 0;
+
+    console.log("Logout")
+    res.redirect(204, "/");
+  });
+
 
   // get all venue name with its number of events
   // response: [{venueId: 1234, venueName: "venue 1", eventCnt: 3},...]
@@ -92,7 +137,7 @@ db.once("open", function () {
           eventCnt: venueId.filter((ele2) => ele2 === ele.venueid).length,
         }));
         res.send(venueEventCnt);
-        console.log("get venueEventCnt");
+        // console.log("get venueEventCnt");
       }
     });
   });
@@ -112,7 +157,7 @@ db.once("open", function () {
             res.send(list);
             //res.send(f.fav);
             //console.log(list);
-            console.log("get user fav");
+            // console.log("get user fav");
           }
         });
       }
@@ -127,7 +172,7 @@ db.once("open", function () {
       else {
         res.send(f.fav.includes(req.params["venueId"]));
         //console.log(f.fav);
-        console.log("get user fav");
+        // console.log("get user fav");
       }
     });
   });
@@ -154,7 +199,7 @@ db.once("open", function () {
       else {
         //if (v==null) res.status(404).send("Event not found");
         res.send(v.venue);
-        console.log("get venue name");
+        // console.log("get venue name");
       }
     });
   });
@@ -168,7 +213,7 @@ db.once("open", function () {
         if (err) console.log(err);
         else {
           res.send(v);
-          console.log("get venue latitude and longitude");
+          // console.log("get venue latitude and longitude");
         }
       }
     );
@@ -180,7 +225,7 @@ db.once("open", function () {
       if (err) console.log(err);
       else {
         res.send(v);
-        console.log("get all venue latitude and longitude");
+        // console.log("get all venue latitude and longitude");
       }
     });
   });
@@ -194,7 +239,7 @@ db.once("open", function () {
         if (err) console.log(err);
         else {
           res.send(v);
-          console.log("get venue events details");
+          // console.log("get venue events details");
         }
       }
     );
@@ -365,7 +410,7 @@ db.once("open", function () {
             eventCnt: venueId.filter((ele2) => ele2 === ele.venueid).length,
           }));
           res.send(venueEventCnt);
-          console.log("get search");
+          // console.log("get search");
         }
       }
     );
@@ -380,7 +425,7 @@ db.once("open", function () {
         if (err) console.log(err);
         else {
           res.send(v);
-          console.log("get comment");
+          // console.log("get comment");
         }
       }
     );
@@ -408,5 +453,5 @@ db.once("open", function () {
   });
 });
 
-// listen to port 8889
-const server = app.listen(8889);
+// listen to port
+const server = app.listen(env.server2Port);

@@ -1,15 +1,17 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-// import vars from "./Vars";
 
 // Reference: https://docs.mapbox.com/help/tutorials/use-mapbox-gl-js-with-react/
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 // import { set } from "mongoose";
 
-import CreateData from "./dataManagement/CreateData";
-import DeleteData from "./dataManagement/DeleteData";
-import RetrieveData from "./dataManagement/RetrieveData";
-import UpdateData from "./dataManagement/UpdateData";
+import CreateData from "../dataManagement/CreateData";
+import DeleteData from "../dataManagement/DeleteData";
+import RetrieveData from "../dataManagement/RetrieveData";
+import UpdateData from "../dataManagement/UpdateData";
+import { server2URL, exampleServerURL } from "../utils/EnvReact"
+import { refreshPage } from "../utils/Utils"
+// import { set } from "mongoose";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiMTE1NTE3MDk1MiIsImEiOiJjbGI5OXI3eDgwc21vM3BxYzd1MTNrMXA0In0.0HxBmgExZx-Y_BfWj_tF8Q";
@@ -25,7 +27,8 @@ export default class Home extends React.Component {
       r: false,
       u: false,
       d: false,
-      loginstate: 0,
+      loginState: 0,
+      username: ""
     };
 
     // Debug Account
@@ -38,41 +41,59 @@ export default class Home extends React.Component {
     this.handleU = this.handleU.bind(this);
     this.handleD = this.handleD.bind(this);
   }
+  
   componentDidMount() {
-    let loginbody = {
-      username: "",
-      password: "",
-    };
-    fetch("http://localhost:8889/login", {
+    console.log("componentDidMount")
+    fetch(exampleServerURL + "/authenticate", {
       method: "POST",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify(loginbody),
+      headers: { 
+        "Content-type": "application/json",
+        "Authorization": "Bearer " + sessionStorage.accessToken
+      },
+      body: JSON.stringify({
+        accessToken: sessionStorage.accessToken,
+        refreshToken: sessionStorage.refreshToken
+      })
     })
-      .then((res) => res.text())
-      .then((txt) => {
-        this.setState({ loginstate: Number(txt) });
-        if (txt === "2") {
-          document.title = "Admin";
-        } else {
-          document.title = "Home";
+      .then(res => res.text())
+      .then(txt => {
+        console.log(txt)
+        let loginS = Number(txt)
+        // For Example, "Forbidden": from the 403 code
+        if (isNaN(loginS))
+          loginS = 0;
+        
+        document.title = sessionStorage.username == "admin" ? "Home" : "Admin";
+
+        switch (loginS) {
+          case 1:
+            this.setState({ username: sessionStorage.username, loginState: loginS, loggedIn: true })
+            break;
+
+          default:
+            if (sessionStorage.username == "admin")
+              this.setState({ username: sessionStorage.username, loginState: 2, loggedIn: true, isAdmin: true })
+            else
+              this.setState({ loginState: loginS, loggedIn: false, isAdmin: false })
         }
-      });
+      })
+      .catch(err => {
+        console.log(err)
+        console.log("If it is 401 or 403, then it is intended... NOT DONE")
+      })
   }
 
   handleLogout() {
-    let loginbody = {
-      username: "",
-      password: "",
-      logout: 1,
-    };
-    fetch("http://localhost:8889/login", {
+    fetch(server2URL + "/logout", {
       method: "POST",
       headers: { "Content-type": "application/json" },
-      body: JSON.stringify(loginbody),
+      body: JSON.stringify({ username: sessionStorage.username }),
     })
-      .then((res) => res.text())
-      .then((txt) => {
-        this.setState({ loginstate: Number(txt) });
+      .then(() => {
+        delete sessionStorage.username
+        delete sessionStorage.accessToken
+        delete sessionStorage.refreshToken
+        refreshPage()
       });
   }
   handleC() {
@@ -89,7 +110,8 @@ export default class Home extends React.Component {
   }
 
   render() {
-    if (this.state.loginstate === 0) {
+    console.log(this.state.loginState)
+    if (this.state.loginState === 0) {
       return (
         <div className="p-4 col-6 m-auto border border-4 border-primary rounded-3">
           {/* Title */}
@@ -101,7 +123,7 @@ export default class Home extends React.Component {
         </div>
       );
     } else {
-      if (this.state.loginstate === 1)
+      if (this.state.loginState === 1)
         return (
           <div>
             <nav className="navbar navbar-expand-sm navbar-light bg-light justify-content-center">
@@ -118,7 +140,7 @@ export default class Home extends React.Component {
                 </li>
                 <li className="nav-item mx-3">
                   {/* TODO:: Make this a button instead */}
-                  <a onClick={this.handleLogout} className="nav-link">
+                  <a href="#" onClick={this.handleLogout} className="nav-link">
                     Logout
                   </a>
                 </li>
@@ -131,7 +153,7 @@ export default class Home extends React.Component {
           </div>
         );
 
-      if (this.state.loginstate === 2)
+      if (this.state.loginState === 2)
         return (
           <div className="p-1 border border-primary rounded-1 container">
             <div>
@@ -190,7 +212,7 @@ function Location() {
     let list2 = list;
     list2[index].fav = !list2[index].fav;
 
-    fetch("http://localhost:8889/changeFav/user0", {
+    fetch(server2URL + "/changeFav/user0", {
       method: "PUT",
       mode: "cors",
       headers: {
@@ -212,7 +234,7 @@ function Location() {
 
   const fileterTable = () => {
     if (document.querySelector("#search_bar").value === "") {
-      fetch("http://localhost:8889/venueEventCnt")
+      fetch(server2URL + "/venueEventCnt")
         .then((res) => res.json())
         .then((data) => {
           //console.log(data);
@@ -224,7 +246,7 @@ function Location() {
         });
     } else {
       fetch(
-        "http://localhost:8889/search/" +
+        server2URL + "/search/" +
           document.querySelector("#search_bar").value
       )
         .then((res) => res.json())
@@ -240,7 +262,7 @@ function Location() {
   };
 
   //useEffect(() => {
-  fetch("http://localhost:8889/venueEventCnt")
+  fetch(server2URL + "/venueEventCnt")
     .then((res) => res.json())
     .then((data) => {
       // console.log(data);
@@ -255,7 +277,7 @@ function Location() {
     .catch((error) => {
       console.log(error);
     });
-  fetch("http://localhost:8889/fav/user0")
+  fetch(server2URL + "/fav/user0")
     .then((res) => res.json())
     .then((fav) => {
       if (fav.length !== 0 && state === true && state2 === false) {
@@ -382,7 +404,7 @@ export function Map(props) {
       attributionControl: false,
     });
     if (props.id !== "all") {
-      fetch("http://localhost:8889/venueLatLong/" + props.id)
+      fetch(server2URL + "/venueLatLong/" + props.id)
         .then((res) => res.json())
         .then((data) => {
           // console.log(data.latitude);
@@ -394,7 +416,7 @@ export function Map(props) {
           console.log(error);
         });
     } else {
-      fetch("http://localhost:8889/allVenueLatLong")
+      fetch(server2URL + "/allVenueLatLong")
         .then((res) => res.json())
         .then((data) => {
           // console.log(data);

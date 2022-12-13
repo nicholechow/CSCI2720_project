@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-// const cors = require("cors");
+import { server2URL } from "../utils/EnvReact"
 
 export default function Search() {
   useEffect(() => {
@@ -32,7 +32,7 @@ function Detail() {
   const { keyword } = useParams();
   const [list, setList] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:8889/search/" + keyword)
+    fetch(server2URL + "/search/" + keyword)
       .then((res) => res.json())
       .then((data) => {
         if (data.length !== 0 && list.length === 0) setList(data);

@@ -1,4 +1,5 @@
 import React from "react";
+import { server2URL } from "../utils/EnvReact"
 
 class UpdateData extends React.Component {
   constructor(props) {
@@ -24,7 +25,7 @@ class UpdateData extends React.Component {
   }
   handleLoad(e) {
     e.preventDefault();
-    fetch("http://localhost:8889/listone/" + String(this.state.eventId))
+    fetch(server2URL + "/listone/" + String(this.state.eventId))
       .then((res) => res.json())
       .then((data) => {
         document.getElementById("title").value = data.title;

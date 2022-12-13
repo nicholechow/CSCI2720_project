@@ -1,0 +1,38 @@
+# For Testing
+# For Testing
+# For Testing
+
+### Login
+POST http://localhost:3003/login
+Content-Type: application/json
+
+{
+  "username": "user0",
+  "password": "user0"
+}
+
+### Logout
+DELETE http://localhost:3003/logout
+Content-Type: application/json
+
+{
+  "username": "user0"
+  // To remove the refresh token, so no more refresh until logged in again
+  // ,"refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSmltIiwiaWF0IjoxNjcwODYzOTQxfQ.3BNT_qOd7IcjUi2TO57_RlKNtP8GWHlpkizNCNfsYvM"
+}
+
+### Refresh Token (Refresh Token)
+POST http://localhost:3003/refreshToken
+Content-Type: application/json
+
+{
+  "username": "user0",
+  // By providing a refresh token, it generates a new access token
+  "refreshtoken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidXNlcjAiLCJpYXQiOjE2NzA4NzMyMTN9.pnmx4yslN3wF7iVFEVz8j_SSU0asPA7DC2X0PoF1i5I"
+}
+
+### Posts (Access Token)
+GET http://localhost:3004/posts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidXNlcjAiLCJpYXQiOjE2NzA4NzI5NzgsImV4cCI6MTY3MDg3Mjk4OH0.0zim0ZPrzJSvllElIYdvWy0mIDAKfhe3e2AaBolFZIs
+
+###

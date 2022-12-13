@@ -1,4 +1,5 @@
 import React from "react";
+import { server2URL } from "../utils/EnvReact"
 
 class CreateData extends React.Component {
   constructor(props) {
@@ -28,7 +29,7 @@ class CreateData extends React.Component {
       presenter: document.getElementById("presenter").value,
       price: document.getElementById("price").value,
     };
-    fetch("http://localhost:8889/create", {
+    fetch(server2URL + "/create", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(newData),

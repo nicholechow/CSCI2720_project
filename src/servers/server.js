@@ -2,7 +2,8 @@
 // Like DataMinerServer.js or WebScraperServer.js
 
 // Configs
-require('dotenv').config()
+// require('dotenv').config()
+const { serverPort } = require("../utils/EnvExpress")
 // // Properties
 // const PropertiesReader = require('properties-reader');
 // const properties = PropertiesReader('config.properties');
@@ -146,4 +147,4 @@ db.once("open", function () {
   });
 });
 
-const server = app.listen(8888);
+const server = app.listen(serverPort);

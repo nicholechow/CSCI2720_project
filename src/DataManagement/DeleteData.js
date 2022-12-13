@@ -1,4 +1,5 @@
 import React from "react";
+import { server2URL } from "../utils/EnvReact"
 
 class DeleteData extends React.Component {
   constructor(props) {
@@ -14,7 +15,7 @@ class DeleteData extends React.Component {
   }
   handleSubmit(e) {
     e.preventDefault();
-    fetch("http://localhost:8889/delete/" + this.state.eventId, {
+    fetch(server2URL + "/delete/" + this.state.eventId, {
       method: "DELETE",
     })
       .then((res) => res.text())

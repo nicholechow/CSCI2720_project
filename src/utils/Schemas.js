@@ -21,7 +21,7 @@ const EventSchema = mongoose.Schema({
   presenter: { type: String, required: true },
   price: { type: String, required: true },
 });
-Event = mongoose.model("Event", EventSchema);
+const Event = mongoose.model("Event", EventSchema);
 
 const VenueSchema = mongoose.Schema({
   id: { type: Number, required: true },
@@ -29,7 +29,7 @@ const VenueSchema = mongoose.Schema({
   latitude: { type: Number, required: true },
   longitude: { type: Number, required: true },
 });
-Venue = mongoose.model("Venue", VenueSchema);
+const Venue = mongoose.model("Venue", VenueSchema);
 
 const CommentSchema = mongoose.Schema({
   venueid: { type: Number, required: true },
@@ -43,10 +43,14 @@ const UserSchema = mongoose.Schema({
   pw: { type: String, required: true },
   fav: { type: Array },
 });
-User = mongoose.model("User", UserSchema);
+const User = mongoose.model("User", UserSchema);
 
-exports.db = db;
-exports.Event = Event;
-exports.Venue = Venue;
-exports.Comment = Comment;
-exports.User = User;
+const TokenSchema = mongoose.Schema({
+  userid: { type: String, required: true, unique: true, ref: "User" },
+  accessToken: { type: String, required: true },
+  refreshToken: { type: String, required: true },
+});
+const Token = mongoose.model("Token", TokenSchema);
+
+
+module.exports = { db, Event, Venue, Comment, User, Token };

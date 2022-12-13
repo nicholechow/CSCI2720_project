@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-// import { useParams } from "react-router-dom";
-// const cors = require("cors");
+import { server2URL } from "../utils/EnvReact"
 
 export default function Account() {
   const [favList, setFavList] = useState([]);
@@ -10,7 +9,7 @@ export default function Account() {
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:8889/fav/user0")
+    fetch(server2URL + "/fav/user0")
       .then((res) => res.json())
       .then((fav) => {
         if (favList.length === 0) {
