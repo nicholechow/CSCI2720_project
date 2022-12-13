@@ -20,7 +20,6 @@ function generateAccessToken(user) {
 // Authenticate User
 function login() {
   app.post('/login', async (req, res) => {
-
     // Link to login form
     const user = { name: req.body.username }
 
