@@ -38,7 +38,7 @@ async function addToken(username, accessToken, refreshToken) {
 
   if (!await Token.exists({userid: id}))
     return await Token.create({userid: id, accessToken: accessToken, refreshToken: refreshToken})
-  return await Token.findOneAndUpdate({userid: id, accessToken: accessToken, refreshToken: refreshToken})
+  return await Token.findOneAndUpdate({userid: id}, {accessToken: accessToken, refreshToken: refreshToken})
 }
 // Token;
 
