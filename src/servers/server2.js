@@ -348,7 +348,7 @@ db.once("open", function () {
                 if (err2) {
                   console.log("error");
                 } else {
-                  return res.send("Event created successfuly");
+                  return res.send("Event created successfully");
                 }
               }
             );
@@ -451,7 +451,73 @@ db.once("open", function () {
       }
     });
   });
-});
+
+  //get all users
+  app.get("/userlist", (req, res) =>{
+    User.find({}, (err, u) => {
+        if (err) console.log(err);
+        else res.send(u);
+    });
+  });
+
+  //get user by username
+  app.get("/user/:username", (req, res) => {
+    User.findOne({ username: String(req.params["username"]) }, (err, u) => {
+      if (u != null) {
+        res.send(u);
+      } else {
+
+      }
+    });
+  });
+
+  //create user
+  app.post("/usercreate", (req, res) => {
+      //User.findOne({username: String(req.body['username']) }, (err,u) => {
+      User.create({
+          username: String(req.body["username"]),
+          pw: String(req.body["pw"]),
+          fav: req.body["fav"],
+      }, (err, u) => {
+          if (err) {
+              console.log(err);
+          } else {
+              res.send("User created successfully");
+          }
+      });
+  });
+
+  //update user by username
+  app.put("/userupdate/:username", (req, res) => {
+      let buf = "";
+      User.findOne({username: String(req.params["username"]) }, (err, u) =>{
+          if (u != null) {
+              u.username = String(req.body["username"]);
+              u.pw = String(req.body["pw"]);
+              u.fav = req.body["fav"];
+              u.save();
+              buf = "User information updated successfully";
+          } else {
+              buf = "The username does not exist"
+          }
+      });
+      setTimeout(() => {
+          res.send(buf);
+      }, "70");
+  });
+
+  //delete user by username
+  app.delete("/userdelete/:username", (req, res) => {
+      User.findOne({username: String(req.params["username"]) }).exec(function (err, u){
+          if (u != null) {
+              u.remove();
+              res.send("User " + String(req.params["username"]) + " has been deleted successfully.");
+          } else {
+              res.send("User " + String(req.params["username"]) + "is not found.");
+            }
+        });
+    });
+  });
 
 // listen to port
 const server = app.listen(env.server2Port);

@@ -10,10 +10,12 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "download": "^8.0.0",
+    "express": "^4.18.2",
     "fs": "^0.0.1-security",
     "https": "^1.0.0",
+    "jsonwebtoken": "^8.5.1",
     "mapbox-gl": "^2.9.2",
-    "mongoose": "^6.7.5",
+    "mongoose": "^6.8.0",
     "nodemon": "^2.0.20",
     "properties": "^1.2.1",
     "react": "^18.2.0",
@@ -23,8 +25,7 @@
     "react-scripts": "5.0.1",
     "reader": "^0.0.8",
     "xml2json": "^0.12.0",
-    "xmldoc": "^1.2.0",
-    "jsonwebtoken": "^8.5.1"
+    "xmldoc": "^1.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
