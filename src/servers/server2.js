@@ -61,12 +61,11 @@ db.once("open", function () {
     let token = {};
     let status = -1;
 
-    // console.log("8889: " + username + ", " + password)
     if (username == "admin" && username == password){
       // Admin
       loginState = 2;
     } else {
-      // User      
+      // User
       token = await fetch(authServerURL + "/login", {
         method: "POST",
         headers: { "Content-type": "application/json" },
@@ -79,26 +78,21 @@ db.once("open", function () {
             return {};
           }
           loginState = 1;
-          // console.log(res)
           return res.json()
         })
         .catch(err => {
           console.log("8889/login" + err)
           loginState = -2;
         });
-
-        // console.log("8889: token: " + token)
-        // console.log("8889: token: " + token.accessToken)
-        // console.log("8889: token: " + token.refreshToken)
     }
 
-    setTimeout(() => res.json({
+    res.json({
       username: username,
       password: password,
       loginState: loginState,
       token: token,
       status: status
-    }), "100");
+    });
   });
 
   app.post("/logout", async (req, res) => {
@@ -318,7 +312,7 @@ db.once("open", function () {
   });
 
   // create event
-  app.post("/create", (req, res) => {
+  app.post("/create", async (req, res) => {
     let currentid = 0;
     Venue.findOne({ id: Number(req.body["venueid"]) }, (err, v) => {
       if (v != null) {
@@ -360,7 +354,7 @@ db.once("open", function () {
   });
 
   // update event by event id
-  app.put("/update/:eventId", (req, res) => {
+  app.put("/update/:eventId", async (req, res) => {
     let buf = "";
     Event.findOne({ eventid: Number(req.params["eventId"]) }, (err, e) => {
       if (e != null) {
@@ -385,9 +379,8 @@ db.once("open", function () {
         buf = "Event ID does not exist";
       }
     });
-    setTimeout(() => {
-      res.send(buf);
-    }, "70");
+
+    res.send(buf);
   });
 
   // get venues by keyword
