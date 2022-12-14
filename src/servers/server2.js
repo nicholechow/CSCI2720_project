@@ -55,13 +55,13 @@ db.once("open", function () {
   // 1: user
   // 2: admin
   app.post("/login", async (req, res) => {
-    const username = req.body.username
-    const password = req.body.password
+    const username = req.body.username;
+    const password = req.body.password;
     let loginState = -1;
     let token = {};
     let status = -1;
 
-    const ret = () => res.json({username: username, password: password, loginState: loginState, token: token, status: status})
+    const ret = () => res.json({username: username, password: password, loginState: loginState, token: token, status: status});
 
     if (username == "admin" && username == password){
       // Admin
@@ -82,7 +82,7 @@ db.once("open", function () {
         return {};
       }
       loginState = 1;
-      return res.json()
+      return res.json();
     })
     .catch(err => {
       console.log("8889/login" + err)
