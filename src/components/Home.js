@@ -4,14 +4,14 @@ import { Link } from "react-router-dom";
 // Reference: https://docs.mapbox.com/help/tutorials/use-mapbox-gl-js-with-react/
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 
-import CreateData from "../DataManagement/CreateData";
-import DeleteData from "../DataManagement/DeleteData";
-import RetrieveData from "../DataManagement/RetrieveData";
-import UpdateData from "../DataManagement/UpdateData";
-import UserCreateData from "../DataManagement/UserCreateData";
-import UserDeleteData from "../DataManagement/UserDeleteData";
-import UserRetrieveData from "../DataManagement/UserRetrieveData";
-import UserUpdateData from "../DataManagement/UserUpdateData";
+import CreateData from "../dataManagement/CreateData";
+import DeleteData from "../dataManagement/DeleteData";
+import RetrieveData from "../dataManagement/RetrieveData";
+import UpdateData from "../dataManagement/UpdateData";
+import UserCreateData from "../dataManagement/UserCreateData";
+import UserDeleteData from "../dataManagement/UserDeleteData";
+import UserRetrieveData from "../dataManagement/UserRetrieveData";
+import UserUpdateData from "../dataManagement/UserUpdateData";
 
 import { server2URL, exampleServerURL, mapboxglKey } from "../utils/EnvReact";
 import { isAdmin, isLoggedIn } from "../utils/Utils";
@@ -20,36 +20,19 @@ import { isAdmin, isLoggedIn } from "../utils/Utils";
 mapboxgl.accessToken = mapboxglKey;
 
 // Home
-export default class Home extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loggedIn: this.props.loggedIn === undefined ? false : this.props.loggedIn,
-      isAdmin: this.props.isAdmin === undefined ? false : this.props.isAdmin,
-      c: false,
-      r: false,
-      u: false,
-      d: false,
-      user_c: false,
-      user_r: false,
-      user_u: false,
-      user_d: false,
-      loginState: 0,
-      username: "",
-    };
+export default function Home() {
 
-    this.handleC = this.handleC.bind(this);
-    this.handleR = this.handleR.bind(this);
-    this.handleU = this.handleU.bind(this);
-    this.handleD = this.handleD.bind(this);
-    this.handleUserC = this.handleUserC.bind(this);
-    this.handleUserR = this.handleUserR.bind(this);
-    this.handleUserU = this.handleUserU.bind(this);
-    this.handleUserD = this.handleUserD.bind(this);
-  }
+  const [c, setC] = useState(false)
+  const [r, setR] = useState(false)
+  const [u, setU] = useState(false)
+  const [d, setD] = useState(false)
+  const [user_c, setUser_c] = useState(false)
+  const [user_r, setUser_r] = useState(false)
+  const [user_u, setUser_u] = useState(false)
+  const [user_d, setUser_d] = useState(false)
+  const [loginState, setLoginState] = useState(0)
 
-  componentDidMount() {
-    // console.log("componentDidMount");
+  useEffect(() => {
     if (!isLoggedIn()) return;
 
     fetch(exampleServerURL + "/authenticate", {
@@ -63,8 +46,8 @@ export default class Home extends React.Component {
         refreshToken: sessionStorage.refreshToken,
       }),
     })
-      .then((res) => res.text())
-      .then((txt) => {
+      .then(res => res.text())
+      .then(txt => {
         // console.log(txt);
         let loginS = Number(txt);
         // For Example, "Forbidden": from the 403 code
@@ -74,174 +57,128 @@ export default class Home extends React.Component {
 
         switch (loginS) {
           case 1:
-            this.setState({
-              username: sessionStorage.username,
-              loginState: loginS,
-              loggedIn: true,
-            });
+            setLoginState(loginS)
             break;
 
           default:
-            if (isAdmin())
-              this.setState({
-                username: sessionStorage.username,
-                loginState: 2,
-                loggedIn: true,
-                isAdmin: true,
-              });
-            else
-              this.setState({
-                loginState: loginS,
-                loggedIn: false,
-                isAdmin: false,
-              });
+            setLoginState(isAdmin() ? 2 : loginS)
         }
       })
       .catch((err) => {
         console.log(err);
         console.log("If it is 401 or 403, then it is intended... NOT DONE");
       });
-  }
+  })
+  
+  const handleC = () => setC(!c)
+  const handleR = () => setR(!r)
+  const handleU = () => setU(!u)
+  const handleD = () => setD(!d)
+  const handleUserC = () => setUser_c(!user_c)
+  const handleUserR = () => setUser_r(!user_r)
+  const handleUserU = () => setUser_u(!user_u)
+  const handleUserD = () => setUser_d(!user_d)
 
-  handleC() {
-    this.setState({ c: !this.state.c });
-  }
-  handleR() {
-    this.setState({ r: !this.state.r });
-  }
-  handleU() {
-    this.setState({ u: !this.state.u });
-  }
-  handleD() {
-    this.setState({ d: !this.state.d });
-  }
-  handleUserC() {
-    this.setState({ user_c: !this.state.user_c });
-  }
-  handleUserR() {
-    this.setState({ user_r: !this.state.user_r });
-  }
-  handleUserU() {
-    this.setState({ user_u: !this.state.user_u });
-  }
-  handleUserD() {
-    this.setState({ user_d: !this.state.user_d });
-  }
-
-  render() {
-    // console.log(this.state.loginState);
-    if (this.state.loginState === 0) {
+  switch (loginState) {
+    case 0:
       return (
         <div className="p-4 col-6 m-auto border border-4 border-primary rounded-3">
-          {/* Title */}
           <h3 className="p-3">Welcome to Group 19's Project</h3>
-          {/* <Link to="/login/signup" className="text-decoration-none p-3"><button className='btn p-auto m-auto'>Sign Up</button></Link> */}
           <Link to="/login/signin" className="text-decoration-none p-3">
             <button className="btn p-auto m-auto">Sign In</button>
           </Link>
         </div>
       );
-    } else {
-      if (this.state.loginState === 1)
-        return (
+
+    case 1:
+      return (
+        <div>
+          <nav className="navbar navbar-expand-sm navbar-light bg-light justify-content-center">
+            <ul className="navbar-nav">
+              <li className="nav-item mx-3">
+                <a href="#locations" className="nav-link">Location</a>
+              </li>
+              <li className="nav-item mx-3">
+                <a href="#map" className="nav-link">Map</a>
+              </li>
+            </ul>
+          </nav>
+          <div className="p-1 border border-primary rounded-1 container">
+            <Location id="locationComponent" />
+            <Map id="all" />
+          </div>
+        </div>
+      );
+    
+    case 2:
+      return (
+        <div className="p-1 border border-primary rounded-1 container">
           <div>
             <nav className="navbar navbar-expand-sm navbar-light bg-light justify-content-center">
               <ul className="navbar-nav">
                 <li className="nav-item mx-3">
-                  <a href="#locations" className="nav-link">
-                    Location
-                  </a>
+                  <button onClick={handleC()}>Create event</button>
                 </li>
                 <li className="nav-item mx-3">
-                  <a href="#map" className="nav-link">
-                    Map
-                  </a>
+                  <button onClick={handleR()}> Retrieve events</button>
                 </li>
-                {/* <li className="nav-item mx-3">
-                  {/* TODO:: Make this a button instead *./}
-                  <a href="#" onClick={logout} className="nav-link">
-                    Logout
-                  </a>
-                </li> */}
+                <li className="nav-item mx-3">
+                  <button onClick={handleU()}>Update event</button>
+                </li>
+                <li className="nav-item mx-3">
+                  <button onClick={handleD()}>Delete event</button>
+                </li>
               </ul>
             </nav>
-            <div className="p-1 border border-primary rounded-1 container">
-              <Location id="locationComponent" />
-              <Map id="all" />
-            </div>
           </div>
-        );
+          <div>{c ? <CreateData /> : ""}</div>
+          <div>{r ? <RetrieveData /> : ""}</div>
+          <div>{u ? <UpdateData /> : ""}</div>
+          <div>{d ? <DeleteData /> : ""}</div>
 
-      if (this.state.loginState === 2)
-        return (
-          <div className="p-1 border border-primary rounded-1 container">
-            <div>
-              <nav className="navbar navbar-expand-sm navbar-light bg-light justify-content-center">
-                <ul className="navbar-nav">
-                  {/* <li className="nav-item mx-3">
-                    <Link to="/">
-                      <button onClick={logout}>Logout</button>
-                    </Link>
-                  </li> */}
-                  <li className="nav-item mx-3">
-                    <button onClick={this.handleC}>Create event</button>
-                  </li>
-                  <li className="nav-item mx-3">
-                    <button onClick={this.handleR}> Retrieve events</button>
-                  </li>
-                  <li className="nav-item mx-3">
-                    <button onClick={this.handleU}>Update event</button>
-                  </li>
-                  <li className="nav-item mx-3">
-                    <button onClick={this.handleD}>Delete event</button>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-            <div>{this.state.c ? <CreateData /> : <p></p>}</div>
-            <div>{this.state.r ? <RetrieveData /> : <p></p>}</div>
-            <div>{this.state.u ? <UpdateData /> : <p></p>}</div>
-            <div>{this.state.d ? <DeleteData /> : <p></p>}</div>
-
-            <div>
-              <nav className="navbar navbar-expand-sm navbar-light bg-light justify-content-center">
-                <ul className="navbar-nav">
-                  <li className="nav-item mx-3">
-                    <button onClick={this.handleUserC}>Create user</button>
-                  </li>
-                  <li className="nav-item mx-3">
-                    <button onClick={this.handleUserR}>
-                      Retrieve user information
-                    </button>
-                  </li>
-                  <li className="nav-item mx-3">
-                    <button onClick={this.handleUserU}>
-                      Update user information
-                    </button>
-                  </li>
-                  <li className="nav-item mx-3">
-                    <button onClick={this.handleUserD}>Delete user</button>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-            <div>{this.state.user_c ? <UserCreateData /> : <p></p>}</div>
-            <div>{this.state.user_r ? <UserRetrieveData /> : <p></p>}</div>
-            <div>{this.state.user_u ? <UserUpdateData /> : <p></p>}</div>
-            <div>{this.state.user_d ? <UserDeleteData /> : <p></p>}</div>
+          <div>
+            <nav className="navbar navbar-expand-sm navbar-light bg-light justify-content-center">
+              <ul className="navbar-nav">
+                <li className="nav-item mx-3">
+                  <button onClick={handleUserC()}>Create user</button>
+                </li>
+                <li className="nav-item mx-3">
+                  <button onClick={handleUserR()}>
+                    Retrieve user information
+                  </button>
+                </li>
+                <li className="nav-item mx-3">
+                  <button onClick={handleUserU()}>
+                    Update user information
+                  </button>
+                </li>
+                <li className="nav-item mx-3">
+                  <button onClick={handleUserD()}>Delete user</button>
+                </li>
+              </ul>
+            </nav>
           </div>
-        );
-    }
+          <div>{user_c ? <UserCreateData /> : ""}</div>
+          <div>{user_r ? <UserRetrieveData /> : ""}</div>
+          <div>{user_u ? <UserUpdateData /> : ""}</div>
+          <div>{user_d ? <UserDeleteData /> : ""}</div>
+        </div>
+      );
+    
+    default:
+      return <div>Error</div>;
   }
 }
 // Home;
 
+
 // Location
 function Location() {
-  const [state, setState] = useState(false);
-  const [state2, setState2] = useState(false);
+  const [statee, setStatee] = useState(false);
+  const [statee2, setStatee2] = useState(false);
   const [list, setList] = useState([]);
   const [sortState, setSortState] = useState(0);
+
   const sortTable = () => {
     if (list.length !== 0) {
       if (sortState === 1 || sortState === 0) {
@@ -253,6 +190,7 @@ function Location() {
       }
     }
   };
+
   const changeFav = (venueId) => {
     let index = list.findIndex((item) => item.venueId === venueId);
     let list2 = list;
@@ -268,10 +206,8 @@ function Location() {
     })
       .then()
       .then(() => {
-        setState2(false);
+        setStatee2(false);
         setList(list2);
-        //console.log(list2);
-        //console.log("favClick");
       })
       .catch((error) => {
         console.log(error);
@@ -284,19 +220,17 @@ function Location() {
         .then((res) => res.json())
         .then((data) => {
           //console.log(data);
-          setState2(false);
+          setStatee2(false);
           setList(data);
         })
         .catch((error) => {
           console.log(error);
         });
     } else {
-      fetch(
-        server2URL + "/search/" + document.querySelector("#search_bar").value
-      )
+      fetch(server2URL + "/search/" + document.querySelector("#search_bar").value)
         .then((res) => res.json())
         .then((data) => {
-          setState2(false);
+          setStatee2(false);
           setList(data);
           console.log(list);
         })
@@ -313,9 +247,9 @@ function Location() {
       // console.log(data);
       if (list.length === 0) {
         //console.log(data);
-        if (list.length === 0 && state === false) {
+        if (list.length === 0 && statee === false) {
           setList(data);
-          setState(true);
+          setStatee(true);
         }
       }
     })
@@ -325,7 +259,7 @@ function Location() {
   fetch(server2URL + "/fav/user0")
     .then((res) => res.json())
     .then((fav) => {
-      if (fav.length !== 0 && state === true && state2 === false) {
+      if (fav.length !== 0 && statee === true && statee2 === false) {
         fav = fav.map((ele) => ele.id);
         //console.log(fav);
         setList(
@@ -334,7 +268,7 @@ function Location() {
             return ele;
           })
         );
-        setState2(true);
+        setStatee2(true);
         //console.log(list);
       }
     })
