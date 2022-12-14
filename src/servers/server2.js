@@ -61,38 +61,35 @@ db.once("open", function () {
     let token = {};
     let status = -1;
 
+    const ret = () => res.json({username: username, password: password, loginState: loginState, token: token, status: status})
+
     if (username == "admin" && username == password){
       // Admin
       loginState = 2;
-    } else {
-      // User
-      token = await fetch(authServerURL + "/login", {
-        method: "POST",
-        headers: { "Content-type": "application/json" },
-        body: JSON.stringify({ username, password }),
-      })
-        .then(res => {
-          status = res.status;
-          if (status == 401 || status == 403){
-            loginState = 0;
-            return {};
-          }
-          loginState = 1;
-          return res.json()
-        })
-        .catch(err => {
-          console.log("8889/login" + err)
-          loginState = -2;
-        });
+      return ret();
     }
 
-    res.json({
-      username: username,
-      password: password,
-      loginState: loginState,
-      token: token,
-      status: status
+    // User
+    token = await fetch(authServerURL + "/login", {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    })
+    .then(res => {
+      status = res.status;
+      if (status == 401 || status == 403){
+        loginState = 0;
+        return {};
+      }
+      loginState = 1;
+      return res.json()
+    })
+    .catch(err => {
+      console.log("8889/login" + err)
+      loginState = -2;
     });
+
+    ret();
   });
 
   app.post("/logout", async (req, res) => {
@@ -434,8 +431,7 @@ db.once("open", function () {
         d.remove();
         res.send(
           "Event ID: " +
-            String(req.params["eventId"]) +
-            " has been deleted successfully."
+            String(req.params["eventId"]) + " has been deleted successfully."
         );
       } else {
         res.send(
