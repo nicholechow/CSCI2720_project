@@ -6,7 +6,7 @@ import Venue from "./Venue";
 import Search from "./Search";
 import Account from "./Account";
 import { server2URL } from "../utils/EnvReact"
-import { logout } from "../utils/Utils";
+import { isUser, isAdmin, logout } from "../utils/Utils";
 
 // App
 function App(props) {
@@ -104,11 +104,12 @@ function App(props) {
                     Home
                   </a>
                 </li>
+                { isUser() ?
                 <li className="nav-item">
                   <Link to="account" className="nav-link">
-                    Account
+                    Account: { sessionStorage.username }
                   </Link>
-                </li>
+                </li> : null }
               </ul>
               <div className="d-flex">
                 <input
@@ -128,9 +129,9 @@ function App(props) {
                   Search
                 </a>
               </div>
-              {sessionStorage.username != null && sessionStorage.accessToken != null &&
-                    sessionStorage.refreshToken != null || sessionStorage.username == "admin" ?
-              <div className="d-flex ps-4">
+              
+              { isAdmin() ?
+              <div className="d-flex">
                   <a
                   className="btn"
                   type="submit"
@@ -141,7 +142,7 @@ function App(props) {
                   Logout
                 </a>
               </div>
-              : ""}
+              : null }
             </div>
           </div>
         </nav>

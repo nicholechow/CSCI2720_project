@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Map } from "./Home";
-import { server2URL } from "../utils/EnvExpress"
+import { server2URL } from "../utils/EnvReact"
 
 function CommentRow(props) {
   //console.log(props);
