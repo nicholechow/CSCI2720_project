@@ -30,7 +30,7 @@ class UserUpdateData extends React.Component {
             username: document.getElementById("username").value,
             pw: document.getElementById("pw").value,
         };
-        fetch("http://localhost:8889/userupdate/" + String(this.state.username), {
+        fetch(server2URL + "/userupdate/" + String(this.state.username), {
             method: "PUT",
             headers: { "Content-type": "application/json" },
             body: JSON.stringify(newData),

@@ -11,3 +11,5 @@ export const authServerURL = localurl(authServerPort)
 export const serverURL = localurl(serverPort)
 export const server2URL = localurl(server2Port)
 export const exampleServerURL = localurl(exampleServerPort)
+
+export const mapboxglKey = "pk.eyJ1IjoiMTE1NTE3MDk1MiIsImEiOiJjbGI5OXI3eDgwc21vM3BxYzd1MTNrMXA0In0.0HxBmgExZx-Y_BfWj_tF8Q"

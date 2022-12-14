@@ -3,22 +3,21 @@ import { Link } from "react-router-dom";
 
 // Reference: https://docs.mapbox.com/help/tutorials/use-mapbox-gl-js-with-react/
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
+
+import CreateData from "../dataManagement/CreateData";
+import DeleteData from "../dataManagement/DeleteData";
+import RetrieveData from "../dataManagement/RetrieveData";
+import UpdateData from "../dataManagement/UpdateData";
+import UserCreateData from "../dataManagement/UserCreateData";
+import UserDeleteData from "../dataManagement/UserDeleteData";
+import UserRetrieveData from "../dataManagement/UserRetrieveData";
+import UserUpdateData from "../dataManagement/UserUpdateData";
+
+import { server2URL, exampleServerURL, mapboxglKey } from "../utils/EnvReact";
+import { logout } from "../utils/Utils";
 // import { set } from "mongoose";
 
-import CreateData from "../DataManagement/CreateData";
-import DeleteData from "../DataManagement/DeleteData";
-import RetrieveData from "../DataManagement/RetrieveData";
-import UpdateData from "../DataManagement/UpdateData";
-import UserCreateData from "../DataManagement/UserCreateData";
-import UserDeleteData from "../DataManagement/UserDeleteData";
-import UserRetrieveData from "../DataManagement/UserRetrieveData";
-import UserUpdateData from "../DataManagement/UserUpdateData";
-import { server2URL, exampleServerURL } from "../utils/EnvReact";
-import { refreshPage } from "../utils/Utils";
-// import { set } from "mongoose";
-
-mapboxgl.accessToken =
-  "pk.eyJ1IjoiMTE1NTE3MDk1MiIsImEiOiJjbGI5OXI3eDgwc21vM3BxYzd1MTNrMXA0In0.0HxBmgExZx-Y_BfWj_tF8Q";
+mapboxgl.accessToken = mapboxglKey;
 
 // Home
 export default class Home extends React.Component {
@@ -39,11 +38,6 @@ export default class Home extends React.Component {
       username: "",
     };
 
-    // Debug Account
-    // vars.username = vars.loggedIn === this.props.loggedIn ? "Debugger" : "";
-    // console.log(vars.loggedIn);
-
-    this.handleLogout = this.handleLogout.bind(this);
     this.handleC = this.handleC.bind(this);
     this.handleR = this.handleR.bind(this);
     this.handleU = this.handleU.bind(this);
@@ -107,18 +101,6 @@ export default class Home extends React.Component {
       });
   }
 
-  handleLogout() {
-    fetch(server2URL + "/logout", {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify({ username: sessionStorage.username }),
-    }).then(() => {
-      delete sessionStorage.username;
-      delete sessionStorage.accessToken;
-      delete sessionStorage.refreshToken;
-      refreshPage();
-    });
-  }
   handleC() {
     this.setState({ c: !this.state.c });
   }
@@ -173,12 +155,12 @@ export default class Home extends React.Component {
                     Map
                   </a>
                 </li>
-                <li className="nav-item mx-3">
-                  {/* TODO:: Make this a button instead */}
-                  <a href="#" onClick={this.handleLogout} className="nav-link">
+                {/* <li className="nav-item mx-3">
+                  {/* TODO:: Make this a button instead *./}
+                  <a href="#" onClick={logout} className="nav-link">
                     Logout
                   </a>
-                </li>
+                </li> */}
               </ul>
             </nav>
             <div className="p-1 border border-primary rounded-1 container">
@@ -194,11 +176,11 @@ export default class Home extends React.Component {
             <div>
               <nav className="navbar navbar-expand-sm navbar-light bg-light justify-content-center">
                 <ul className="navbar-nav">
-                  <li className="nav-item mx-3">
+                  {/* <li className="nav-item mx-3">
                     <Link to="/">
-                      <button onClick={this.handleLogout}>Logout</button>
+                      <button onClick={logout}>Logout</button>
                     </Link>
-                  </li>
+                  </li> */}
                   <li className="nav-item mx-3">
                     <button onClick={this.handleC}>Create event</button>
                   </li>

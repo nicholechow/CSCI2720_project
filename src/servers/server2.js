@@ -76,8 +76,7 @@ db.once("open", function () {
       body: JSON.stringify({ username, password }),
     })
     .then(res => {
-      status = res.status;
-      if (status == 401 || status == 403){
+      if (res.status in [401, 403]){
         loginState = 0;
         return {};
       }
@@ -85,7 +84,7 @@ db.once("open", function () {
       return res.json();
     })
     .catch(err => {
-      console.log("8889/login" + err)
+      console.log("8889/login" + err);
       loginState = -2;
     });
 

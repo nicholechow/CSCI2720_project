@@ -46,7 +46,7 @@ class UpdateData extends React.Component {
       presenter: document.getElementById("presenter").value,
       price: document.getElementById("price").value,
     };
-    fetch("http://localhost:8889/update/" + String(this.state.eventId), {
+    fetch(server2URL + "/update/" + String(this.state.eventId), {
       method: "PUT",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(newData),

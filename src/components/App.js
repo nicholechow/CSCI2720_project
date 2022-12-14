@@ -6,23 +6,10 @@ import Venue from "./Venue";
 import Search from "./Search";
 import Account from "./Account";
 import { server2URL } from "../utils/EnvReact"
+import { logout } from "../utils/Utils";
 
 // App
 function App(props) {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     username: "",
-  //     password: "",
-  //     displaytext: "",
-  //     displaylink: "",
-
-  //     adminflag:
-  //       this.props.adminflag === undefined ? false : this.props.adminflag,
-  //     loginflag:
-  //       this.props.loginflag === undefined ? false : this.props.loginflag,
-  //   };
-  // }
 
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
@@ -30,11 +17,6 @@ function App(props) {
   const [displaylink, setDisplaylink] = useState("")
   const [adminflag, setAdminflag] = useState(props.adminflag === undefined ? false : props.adminflag)
   const [loginflag, setLoginflag] = useState(props.loginflag === undefined ? false : props.loginflag)
-
-
-  // handleChange(e) {
-  //   this.setState({ [e.target.name]: e.target.value });
-  // }
 
   const handleChangeUsername = (e) => {
     setUsername(e.target.value);
@@ -85,25 +67,6 @@ function App(props) {
             document.getElementById("123").innerText = "Please input correct username and password";
         }
       })
-
-      // .then((res) => res.text())
-      // .then((txt) => {
-      //   console.log("3000: " + txt)
-      //   if (txt === "2") {
-      //     setDisplaylink("/admin");
-      //     setTimeout(() => {
-      //       document.getElementById("autoclick").click();
-      //     }, "70");
-      //   } else if (txt === "1") {
-      //     setDisplaylink("/user");
-      //     setTimeout(() => {
-      //       document.getElementById("autoclick").click();
-      //     }, "70");
-      //   } else {
-      //     document.getElementById("123").innerText =
-      //       "Please input correct username and password";
-      //   }
-      // });
   }
 
   const load = () => {
@@ -165,6 +128,20 @@ function App(props) {
                   Search
                 </a>
               </div>
+              {sessionStorage.username != null && sessionStorage.accessToken != null &&
+                    sessionStorage.refreshToken != null || sessionStorage.username == "admin" ?
+              <div className="d-flex ps-4">
+                  <a
+                  className="btn"
+                  type="submit"
+                  id="search_button"
+                  href="../"
+                  onClick={logout}
+                >
+                  Logout
+                </a>
+              </div>
+              : ""}
             </div>
           </div>
         </nav>

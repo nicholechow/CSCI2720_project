@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Map } from "./Home";
+import { server2URL } from "../utils/EnvExpress"
+
 function CommentRow(props) {
   //console.log(props);
   return (
@@ -16,7 +18,7 @@ export default function Venue() {
   const [fav, setFav] = useState(false);
   const [state, setState] = useState(false);
   const changeLocFav = () => {
-    fetch("http://localhost:8889/changeFav/user0", {
+    fetch(server2URL + "/changeFav/user0", {
       method: "PUT",
       mode: "cors",
       headers: {
@@ -34,7 +36,7 @@ export default function Venue() {
       });
   };
   useEffect(() => {
-    fetch("http://localhost:8889/venueName/" + venueId)
+    fetch(server2URL + "/venueName/" + venueId)
       .then((res) => res.text())
       .then((data) => {
         //console.log(venueName);
@@ -43,7 +45,7 @@ export default function Venue() {
       .catch((error) => {
         console.log(error);
       });
-    fetch("http://localhost:8889/fav/user0/" + venueId)
+    fetch(server2URL + "/fav/user0/" + venueId)
       .then((res) => res.json())
       .then((data) => {
         //console.log(data);
@@ -102,7 +104,7 @@ function Detail(props) {
     document.title = "Detail";
   }, []);
 
-  fetch("http://localhost:8889/venueEvents/" + props.id)
+  fetch(server2URL + "/venueEvents/" + props.id)
     .then((res) => res.json())
     .then((data) => {
       //console.log(data);
@@ -167,7 +169,7 @@ function Comments(props) {
   const commentSubmit = () => {
     let commentContent = document.getElementById("commentContent").value.trim();
     if (commentContent.length !== 0) {
-      fetch("http://localhost:8889/createComment/" + props.id, {
+      fetch(server2URL + "/createComment/" + props.id, {
         method: "PUT",
         mode: "cors",
         headers: {
@@ -190,7 +192,7 @@ function Comments(props) {
   };
 
   useEffect(() => {
-    fetch("http://localhost:8889/comment/" + props.id)
+    fetch(server2URL + "/comment/" + props.id)
       .then((res) => res.json())
       .then((data) => {
         if (data.length !== 0 && state === false) {
