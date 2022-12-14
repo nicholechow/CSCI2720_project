@@ -3,7 +3,7 @@
 
 // request handle
 // execute node src/server2.js5
-const { env, localurl, authServerURL } = require("../utils/EnvExpress")
+const { env, localurl, authServerURL } = require("../utils/EnvExpress");
 
 const express = require("express");
 const app = express();
@@ -61,9 +61,16 @@ db.once("open", function () {
     let token = {};
     let status = -1;
 
-    const ret = () => res.json({username: username, password: password, loginState: loginState, token: token, status: status});
+    const ret = () =>
+      res.json({
+        username: username,
+        password: password,
+        loginState: loginState,
+        token: token,
+        status: status,
+      });
 
-    if (username == "admin" && username == password){
+    if (username == "admin" && username == password) {
       // Admin
       loginState = 2;
       return ret();
@@ -75,40 +82,37 @@ db.once("open", function () {
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({ username, password }),
     })
-    .then(res => {
-      if (res.status in [401, 403]){
-        loginState = 0;
-        return {};
-      }
-      loginState = 1;
-      return res.json();
-    })
-    .catch(err => {
-      console.log("8889/login" + err);
-      loginState = -2;
-    });
+      .then((res) => {
+        if (res.status in [401, 403]) {
+          loginState = 0;
+          return {};
+        }
+        loginState = 1;
+        return res.json();
+      })
+      .catch((err) => {
+        console.log("8889/login" + err);
+        loginState = -2;
+      });
 
     ret();
   });
 
   app.post("/logout", async (req, res) => {
-    const username = req.body.username
-    let loginState = -1;
+    const username = req.body.username;
 
-    if (username != "admin"){
-      // User      
-      token = await fetch(authServerURL + "/logout", {
+    if (username != "admin") {
+      // User
+      await fetch(authServerURL + "/logout", {
         method: "POST",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify({ username }),
-      })
+      });
     }
-    loginState = 0;
 
-    console.log("Logout")
+    console.log("Logout");
     res.redirect(204, "/");
   });
-
 
   // get all venue name with its number of events
   // response: [{venueId: 1234, venueName: "venue 1", eventCnt: 3},...]
@@ -376,7 +380,9 @@ db.once("open", function () {
       }
     });
 
-    setTimeout(()=>{res.send(buf);},"70");
+    setTimeout(() => {
+      res.send(buf);
+    }, "70");
   });
 
   // get venues by keyword
@@ -430,7 +436,8 @@ db.once("open", function () {
         d.remove();
         res.send(
           "Event ID: " +
-            String(req.params["eventId"]) + " has been deleted successfully."
+            String(req.params["eventId"]) +
+            " has been deleted successfully."
         );
       } else {
         res.send(
@@ -441,10 +448,10 @@ db.once("open", function () {
   });
 
   //get all users
-  app.get("/userlist", (req, res) =>{
+  app.get("/userlist", (req, res) => {
     User.find({}, (err, u) => {
-        if (err) console.log(err);
-        else res.send(u);
+      if (err) console.log(err);
+      else res.send(u);
     });
   });
 
@@ -454,58 +461,67 @@ db.once("open", function () {
       if (u != null) {
         res.send(u);
       } else {
-
       }
     });
   });
 
   //create user
   app.post("/usercreate", (req, res) => {
-      //User.findOne({username: String(req.body['username']) }, (err,u) => {
-      User.create({
-          username: String(req.body["username"]),
-          pw: String(req.body["pw"]),
-          fav: req.body["fav"],
-      }, (err, u) => {
-          if (err) {
-              console.log(err);
-          } else {
-              res.send("User created successfully");
-          }
-      });
+    //User.findOne({username: String(req.body['username']) }, (err,u) => {
+    User.create(
+      {
+        username: String(req.body["username"]),
+        pw: String(req.body["pw"]),
+        fav: req.body["fav"],
+      },
+      (err, u) => {
+        if (err) {
+          console.log(err);
+        } else {
+          res.send("User created successfully");
+        }
+      }
+    );
   });
 
   //update user by username
   app.put("/userupdate/:username", (req, res) => {
-      let buf = "";
-      User.findOne({username: String(req.params["username"]) }, (err, u) =>{
-          if (u != null) {
-              u.username = String(req.body["username"]);
-              u.pw = String(req.body["pw"]);
-              u.fav = req.body["fav"];
-              u.save();
-              buf = "User information updated successfully";
-          } else {
-              buf = "The username does not exist"
-          }
-      });
-      setTimeout(() => {
-          res.send(buf);
-      }, "70");
+    let buf = "";
+    User.findOne({ username: String(req.params["username"]) }, (err, u) => {
+      if (u != null) {
+        u.username = String(req.body["username"]);
+        u.pw = String(req.body["pw"]);
+        u.fav = req.body["fav"];
+        u.save();
+        buf = "User information updated successfully";
+      } else {
+        buf = "The username does not exist";
+      }
+    });
+    setTimeout(() => {
+      res.send(buf);
+    }, "70");
   });
 
   //delete user by username
   app.delete("/userdelete/:username", (req, res) => {
-      User.findOne({username: String(req.params["username"]) }).exec(function (err, u){
-          if (u != null) {
-              u.remove();
-              res.send("User " + String(req.params["username"]) + " has been deleted successfully.");
-          } else {
-              res.send("User " + String(req.params["username"]) + "is not found.");
-            }
-        });
+    User.findOne({ username: String(req.params["username"]) }).exec(function (
+      err,
+      u
+    ) {
+      if (u != null) {
+        u.remove();
+        res.send(
+          "User " +
+            String(req.params["username"]) +
+            " has been deleted successfully."
+        );
+      } else {
+        res.send("User " + String(req.params["username"]) + "is not found.");
+      }
     });
   });
+});
 
 // listen to port
 const server = app.listen(env.server2Port);

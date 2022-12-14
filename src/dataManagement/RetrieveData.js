@@ -1,5 +1,5 @@
 import React from "react";
-import { server2URL } from "../utils/EnvReact"
+import { server2URL } from "../utils/EnvReact";
 
 class RetrieveData extends React.Component {
   componentDidMount() {
@@ -10,7 +10,7 @@ class RetrieveData extends React.Component {
         const RetrieveData = document.getElementById("RetrieveData");
         RetrieveData.innerHTML = data
           .map((ele, i) => {
-            return `<tr key={i}>
+            return `<tr key=${i}>
             <td>${i + 1}</td>        
             <td>${ele.venueid}</td>
             <td>${ele.venuename}</td>
