@@ -376,7 +376,7 @@ db.once("open", function () {
       }
     });
 
-    res.send(buf);
+    setTimeout(()=>{res.send(buf);},"70");
   });
 
   // get venues by keyword
