@@ -4,14 +4,14 @@ import { Link } from "react-router-dom";
 // Reference: https://docs.mapbox.com/help/tutorials/use-mapbox-gl-js-with-react/
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 
-import CreateData from "../dataManagement/CreateData";
-import DeleteData from "../dataManagement/DeleteData";
-import RetrieveData from "../dataManagement/RetrieveData";
-import UpdateData from "../dataManagement/UpdateData";
-import UserCreateData from "../dataManagement/UserCreateData";
-import UserDeleteData from "../dataManagement/UserDeleteData";
-import UserRetrieveData from "../dataManagement/UserRetrieveData";
-import UserUpdateData from "../dataManagement/UserUpdateData";
+import CreateData from "../DataManagement/CreateData";
+import DeleteData from "../DataManagement/DeleteData";
+import RetrieveData from "../DataManagement/RetrieveData";
+import UpdateData from "../DataManagement/UpdateData";
+import UserCreateData from "../DataManagement/UserCreateData";
+import UserDeleteData from "../DataManagement/UserDeleteData";
+import UserRetrieveData from "../DataManagement/UserRetrieveData";
+import UserUpdateData from "../DataManagement/UserUpdateData";
 
 import { server2URL, exampleServerURL, mapboxglKey } from "../utils/EnvReact";
 import { isAdmin, isLoggedIn } from "../utils/Utils";
@@ -50,9 +50,8 @@ export default class Home extends React.Component {
 
   componentDidMount() {
     // console.log("componentDidMount");
-    if (!isLoggedIn()) 
-      return;
-    
+    if (!isLoggedIn()) return;
+
     fetch(exampleServerURL + "/authenticate", {
       method: "POST",
       headers: {
@@ -211,10 +210,14 @@ export default class Home extends React.Component {
                     <button onClick={this.handleUserC}>Create user</button>
                   </li>
                   <li className="nav-item mx-3">
-                    <button onClick={this.handleUserR}>Retrieve user information</button>
+                    <button onClick={this.handleUserR}>
+                      Retrieve user information
+                    </button>
                   </li>
                   <li className="nav-item mx-3">
-                    <button onClick={this.handleUserU}>Update user information</button>
+                    <button onClick={this.handleUserU}>
+                      Update user information
+                    </button>
                   </li>
                   <li className="nav-item mx-3">
                     <button onClick={this.handleUserD}>Delete user</button>
