@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Map } from "./Home";
-import { server2URL } from "../utils/EnvReact"
+import { server2URL } from "../utils/EnvReact";
 
 function CommentRow(props) {
   //console.log(props);
@@ -18,7 +18,7 @@ export default function Venue() {
   const [fav, setFav] = useState(false);
   const [state, setState] = useState(false);
   const changeLocFav = () => {
-    fetch(server2URL + "/changeFav/user0", {
+    fetch(server2URL + "/changeFav/" + sessionStorage.username, {
       method: "PUT",
       mode: "cors",
       headers: {
@@ -45,7 +45,7 @@ export default function Venue() {
       .catch((error) => {
         console.log(error);
       });
-    fetch(server2URL + "/fav/user0/" + venueId)
+    fetch(server2URL + "/fav/" + sessionStorage.username + "/" + venueId)
       .then((res) => res.json())
       .then((data) => {
         //console.log(data);
@@ -176,7 +176,7 @@ function Comments(props) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: "user0",
+          username: sessionStorage.username,
           commentContent: commentContent,
         }),
       })

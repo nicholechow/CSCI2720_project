@@ -21,16 +21,15 @@ mapboxgl.accessToken = mapboxglKey;
 
 // Home
 export default function Home() {
-
-  const [c, setC] = useState(false)
-  const [r, setR] = useState(false)
-  const [u, setU] = useState(false)
-  const [d, setD] = useState(false)
-  const [user_c, setUser_c] = useState(false)
-  const [user_r, setUser_r] = useState(false)
-  const [user_u, setUser_u] = useState(false)
-  const [user_d, setUser_d] = useState(false)
-  const [loginState, setLoginState] = useState(0)
+  const [c, setC] = useState(false);
+  const [r, setR] = useState(false);
+  const [u, setU] = useState(false);
+  const [d, setD] = useState(false);
+  const [user_c, setUser_c] = useState(false);
+  const [user_r, setUser_r] = useState(false);
+  const [user_u, setUser_u] = useState(false);
+  const [user_d, setUser_d] = useState(false);
+  const [loginState, setLoginState] = useState(0);
 
   useEffect(() => {
     if (!isLoggedIn()) return;
@@ -46,8 +45,8 @@ export default function Home() {
         refreshToken: sessionStorage.refreshToken,
       }),
     })
-      .then(res => res.text())
-      .then(txt => {
+      .then((res) => res.text())
+      .then((txt) => {
         // console.log(txt);
         let loginS = Number(txt);
         // For Example, "Forbidden": from the 403 code
@@ -57,27 +56,27 @@ export default function Home() {
 
         switch (loginS) {
           case 1:
-            setLoginState(loginS)
+            setLoginState(loginS);
             break;
 
           default:
-            setLoginState(isAdmin() ? 2 : loginS)
+            setLoginState(isAdmin() ? 2 : loginS);
         }
       })
       .catch((err) => {
         console.log(err);
         console.log("If it is 401 or 403, then it is intended... NOT DONE");
       });
-  })
-  
-  const handleC = () => setC(!c)
-  const handleR = () => setR(!r)
-  const handleU = () => setU(!u)
-  const handleD = () => setD(!d)
-  const handleUserC = () => setUser_c(!user_c)
-  const handleUserR = () => setUser_r(!user_r)
-  const handleUserU = () => setUser_u(!user_u)
-  const handleUserD = () => setUser_d(!user_d)
+  });
+
+  const handleC = () => setC(!c);
+  const handleR = () => setR(!r);
+  const handleU = () => setU(!u);
+  const handleD = () => setD(!d);
+  const handleUserC = () => setUser_c(!user_c);
+  const handleUserR = () => setUser_r(!user_r);
+  const handleUserU = () => setUser_u(!user_u);
+  const handleUserD = () => setUser_d(!user_d);
 
   switch (loginState) {
     case 0:
@@ -96,10 +95,14 @@ export default function Home() {
           <nav className="navbar navbar-expand-sm navbar-light bg-light justify-content-center">
             <ul className="navbar-nav">
               <li className="nav-item mx-3">
-                <a href="#locations" className="nav-link">Location</a>
+                <a href="#locations" className="nav-link">
+                  Location
+                </a>
               </li>
               <li className="nav-item mx-3">
-                <a href="#map" className="nav-link">Map</a>
+                <a href="#map" className="nav-link">
+                  Map
+                </a>
               </li>
             </ul>
           </nav>
@@ -109,7 +112,7 @@ export default function Home() {
           </div>
         </div>
       );
-    
+
     case 2:
       return (
         <div className="p-1 border border-primary rounded-1 container">
@@ -164,13 +167,12 @@ export default function Home() {
           <div>{user_d ? <UserDeleteData /> : ""}</div>
         </div>
       );
-    
+
     default:
       return <div>Error</div>;
   }
 }
 // Home;
-
 
 // Location
 function Location() {
@@ -196,7 +198,7 @@ function Location() {
     let list2 = list;
     list2[index].fav = !list2[index].fav;
 
-    fetch(server2URL + "/changeFav/user0", {
+    fetch(server2URL + "/changeFav/" + sessionStorage.username, {
       method: "PUT",
       mode: "cors",
       headers: {
@@ -227,7 +229,9 @@ function Location() {
           console.log(error);
         });
     } else {
-      fetch(server2URL + "/search/" + document.querySelector("#search_bar").value)
+      fetch(
+        server2URL + "/search/" + document.querySelector("#search_bar").value
+      )
         .then((res) => res.json())
         .then((data) => {
           setStatee2(false);
@@ -256,7 +260,7 @@ function Location() {
     .catch((error) => {
       console.log(error);
     });
-  fetch(server2URL + "/fav/user0")
+  fetch(server2URL + "/fav/" + sessionStorage.username)
     .then((res) => res.json())
     .then((fav) => {
       if (fav.length !== 0 && statee === true && statee2 === false) {
