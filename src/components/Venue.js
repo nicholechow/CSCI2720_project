@@ -17,6 +17,7 @@ export default function Venue() {
   const [venueName, setVenueName] = useState("");
   const [fav, setFav] = useState(false);
   const [state, setState] = useState(false);
+  const [status, setStatus] = useState(true);
   const changeLocFav = () => {
     fetch(server2URL + "/changeFav/" + sessionStorage.username, {
       method: "PUT",
@@ -29,7 +30,9 @@ export default function Venue() {
       .then()
       .then(() => {
         //console.log(fav);
-        setState(false);
+        if (status === true) {
+          setState(false);
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -39,8 +42,13 @@ export default function Venue() {
     fetch(server2URL + "/venueName/" + venueId)
       .then((res) => res.text())
       .then((data) => {
-        //console.log(venueName);
-        if (venueName.length === 0) setVenueName(data);
+        //console.log(data);
+        if (data === "not found") {
+          setStatus(false);
+        } else if (venueName.length === 0) {
+          setVenueName(data);
+          setStatus(true);
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -49,7 +57,7 @@ export default function Venue() {
       .then((res) => res.json())
       .then((data) => {
         //console.log(data);
-        if (state === false) {
+        if (state === false && status === true) {
           setFav(data);
           setState(true);
         }
@@ -58,7 +66,7 @@ export default function Venue() {
         console.log(error);
       });
   });
-  return (
+  return status ? (
     <div className="justify-content-center text-center">
       <h1 id="venueName">
         {venueName}
@@ -94,6 +102,8 @@ export default function Venue() {
       <Detail id={venueId} />
       <Comments id={venueId} />
     </div>
+  ) : (
+    <h1 className="text-center">Location not found</h1>
   );
 }
 

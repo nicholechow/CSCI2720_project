@@ -115,7 +115,6 @@ db.once("open", function () {
   });
 
   // get all venue name with its number of events
-  // response: [{venueId: 1234, venueName: "venue 1", eventCnt: 3},...]
   app.get("/venueEventCnt", (req, res) => {
     Event.find({}, "venueid venuename latitude longitude", (err, v) => {
       if (err) console.log(err);
@@ -191,9 +190,13 @@ db.once("open", function () {
     Venue.findOne({ id: req.params["venueId"] }, "venue", (err, v) => {
       if (err) console.log(err);
       else {
-        //if (v==null) res.status(404).send("Event not found");
-        res.send(v.venue);
-        // console.log("get venue name");
+        if (v === null) {
+          res.status(404).send("not found");
+        } else {
+          res.send(v.venue);
+          console.log(v.venue);
+          console.log("get venue name");
+        }
       }
     });
   });
