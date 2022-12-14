@@ -3,7 +3,7 @@
 
 // request handle
 // execute node src/server2.js5
-const { env, localurl, authServerURL } = require("../utils/EnvExpress");
+const { env, localurl, authServerURL, serverPort, server2Port, authServerPort, exampleServerPort, mapboxglKey, salt } = require("../utils/EnvExpress");
 
 const express = require("express");
 const app = express();
@@ -31,25 +31,6 @@ db.once("open", function () {
 
   // app.get() / app.post() / app.delete()
   // TODO:: Maybe sort sort this for easier navigation
-  // Current Order:
-  //login
-  // get all venue name with its number of events
-  // get user favourite location
-  // get whether it is a user favourite location
-  // update user fav
-  // get venue name from id
-  // get venue Latitude and longitude from id
-  // get all venues' Latitude and longitude
-  // get all events with details of a venue
-  // get all events
-  // delete event by event id
-  // get event by event id
-  // get venue by venue id
-  // create event
-  // update event by event id
-  // get venues by keyword
-  // get comments by venue id
-  // delete event by event id
 
   //login
   // 1: user
@@ -524,6 +505,9 @@ db.once("open", function () {
       }
     });
   });
+
+  // get env variables
+  app.get("/env", (_, res) => res.json({ mapboxglKey: mapboxglKey }));
 });
 
 // listen to port

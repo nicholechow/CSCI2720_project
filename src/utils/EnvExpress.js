@@ -2,7 +2,7 @@ require('dotenv').config()
 
 const env = process.env;
 
-function localurl(port) {
+const localurl = port => {
   return "http://localhost:" + port
 }
 
@@ -16,5 +16,11 @@ const serverURL = localurl(serverPort)
 const server2URL = localurl(server2Port)
 const exampleServerURL = localurl(exampleServerPort)
 
+const salt = env.salt
+const mapboxglKey = env.mapboxglKey
 
-module.exports ={ env, localurl, authServerPort, serverPort, server2Port, exampleServerPort, authServerURL, serverURL, server2URL, exampleServerURL  }
+
+module.exports ={
+  env, localurl, authServerPort, serverPort, server2Port, exampleServerPort,
+  authServerURL, serverURL, server2URL, exampleServerURL, salt, mapboxglKey
+}

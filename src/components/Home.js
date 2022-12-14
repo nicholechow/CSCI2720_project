@@ -15,7 +15,6 @@ import UserUpdateData from "../dataManagement/UserUpdateData";
 
 import { server2URL, exampleServerURL, mapboxglKey } from "../utils/EnvReact";
 import { isAdmin, isLoggedIn } from "../utils/Utils";
-// import { logout } from "../utils/Utils";
 
 mapboxgl.accessToken = mapboxglKey;
 
@@ -45,12 +44,10 @@ export default function Home() {
         refreshToken: sessionStorage.refreshToken,
       }),
     })
-      .then((res) => res.text())
-      .then((txt) => {
-        // console.log(txt);
-        let loginS = Number(txt);
-        // For Example, "Forbidden": from the 403 code
-        if (isNaN(loginS)) loginS = 0;
+      .then(res => res.text())
+      .then(txt => {
+        // It may be NaN For Example, "Forbidden": from the 403 code (?)
+        const loginS = isNaN(Number(txt)) ? 0 : Number(txt);
 
         document.title = !isAdmin() ? "Home" : "Admin";
 

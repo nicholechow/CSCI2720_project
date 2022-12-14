@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Home from "./Home";
 import Login from "./Login";
 import Venue from "./Venue";
@@ -7,6 +7,7 @@ import Search from "./Search";
 import Account from "./Account";
 import { server2URL } from "../utils/EnvReact"
 import { isUser, isLoggedIn, logout } from "../utils/Utils";
+import { onLoad } from "../utils/EnvReact";
 
 // App
 function App(props) {
@@ -18,12 +19,10 @@ function App(props) {
   const [adminflag] = useState(props.adminflag === undefined ? false : props.adminflag)
   const [loginflag] = useState(props.loginflag === undefined ? false : props.loginflag)
 
-  const handleChangeUsername = (e) => {
-    setUsername(e.target.value);
-  }
-  const handleChangePassword = (e) => {
-    setPassword(e.target.value);
-  }
+  useEffect(() => async () => await onLoad(), [])
+
+  const handleChangeUsername = e => setUsername(e.target.value);
+  const handleChangePassword = e => setPassword(e.target.value);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -118,7 +117,7 @@ function App(props) {
                   placeholder="Search"
                   aria-label="Search"
                   id="keyword_iput"
-                  onChange={(e) => load()}
+                  onChange={() => load()}
                 ></input>
                 <a
                   className="btn btn-outline-success"
@@ -137,7 +136,7 @@ function App(props) {
                   type="submit"
                   id="search_button"
                   href="../"
-                  onClick={logout}
+                  onClick={() => logout()}
                 >
                   Logout
                 </a>
