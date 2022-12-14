@@ -6,17 +6,17 @@ import Venue from "./Venue";
 import Search from "./Search";
 import Account from "./Account";
 import { server2URL } from "../utils/EnvReact"
-import { isUser, isAdmin, logout } from "../utils/Utils";
+import { isUser, isLoggedIn, logout } from "../utils/Utils";
 
 // App
 function App(props) {
 
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
-  const [displaytext, setDisplaytext] = useState("")
+  const [displaytext] = useState("")
   const [displaylink, setDisplaylink] = useState("")
-  const [adminflag, setAdminflag] = useState(props.adminflag === undefined ? false : props.adminflag)
-  const [loginflag, setLoginflag] = useState(props.loginflag === undefined ? false : props.loginflag)
+  const [adminflag] = useState(props.adminflag === undefined ? false : props.adminflag)
+  const [loginflag] = useState(props.loginflag === undefined ? false : props.loginflag)
 
   const handleChangeUsername = (e) => {
     setUsername(e.target.value);
@@ -40,7 +40,7 @@ function App(props) {
     })
       .then (res => res.json())
       .then (json => {
-        console.log(json)
+        // console.log(json)
         switch (json.loginState) {
           case 2:
             setDisplaylink("/admin");
@@ -130,7 +130,7 @@ function App(props) {
                 </a>
               </div>
               
-              { isAdmin() ?
+              { isLoggedIn() ?
               <div className="d-flex">
                   <a
                   className="btn"

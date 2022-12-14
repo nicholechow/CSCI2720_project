@@ -14,8 +14,8 @@ import UserRetrieveData from "../dataManagement/UserRetrieveData";
 import UserUpdateData from "../dataManagement/UserUpdateData";
 
 import { server2URL, exampleServerURL, mapboxglKey } from "../utils/EnvReact";
-import { logout } from "../utils/Utils";
-// import { set } from "mongoose";
+import { isAdmin, isLoggedIn } from "../utils/Utils";
+// import { logout } from "../utils/Utils";
 
 mapboxgl.accessToken = mapboxglKey;
 
@@ -49,7 +49,10 @@ export default class Home extends React.Component {
   }
 
   componentDidMount() {
-    console.log("componentDidMount");
+    // console.log("componentDidMount");
+    if (!isLoggedIn()) 
+      return;
+    
     fetch(exampleServerURL + "/authenticate", {
       method: "POST",
       headers: {
@@ -63,12 +66,12 @@ export default class Home extends React.Component {
     })
       .then((res) => res.text())
       .then((txt) => {
-        console.log(txt);
+        // console.log(txt);
         let loginS = Number(txt);
         // For Example, "Forbidden": from the 403 code
         if (isNaN(loginS)) loginS = 0;
 
-        document.title = sessionStorage.username == "admin" ? "Home" : "Admin";
+        document.title = !isAdmin() ? "Home" : "Admin";
 
         switch (loginS) {
           case 1:
@@ -80,7 +83,7 @@ export default class Home extends React.Component {
             break;
 
           default:
-            if (sessionStorage.username == "admin")
+            if (isAdmin())
               this.setState({
                 username: sessionStorage.username,
                 loginState: 2,
@@ -127,7 +130,7 @@ export default class Home extends React.Component {
   }
 
   render() {
-    console.log(this.state.loginState);
+    // console.log(this.state.loginState);
     if (this.state.loginState === 0) {
       return (
         <div className="p-4 col-6 m-auto border border-4 border-primary rounded-3">

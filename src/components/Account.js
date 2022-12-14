@@ -21,8 +21,8 @@ export default function Account() {
         console.log(error);
       });
     // I want to do this to get rid of a warning, this changed does not seem to ruin everything at first glance...
-    // }, [favList.length]);
-  }, []);
+    }, [favList.length]);
+  // }, []);
 
   return (
     <div className="col-sm-12 col-md-10 col-lg-8 m-auto justify-content-center text-center">
