@@ -2,9 +2,7 @@ require('dotenv').config()
 
 const env = process.env;
 
-const localurl = port => {
-  return "http://localhost:" + port
-}
+const localurl = port => "http://localhost:" + port
 
 const authServerPort = env.authServerPort
 const serverPort = env.serverPort

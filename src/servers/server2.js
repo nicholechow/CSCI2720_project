@@ -3,7 +3,8 @@
 
 // request handle
 // execute node src/server2.js5
-const { env, localurl, authServerURL, serverPort, server2Port, authServerPort, exampleServerPort, mapboxglKey, salt } = require("../utils/EnvExpress");
+const { env, authServerURL, mapboxglKey } = require("../utils/EnvExpress");
+const { pwd } = require('../utils/UtilsExpress')
 
 const express = require("express");
 const app = express();
@@ -455,7 +456,7 @@ db.once("open", function () {
     User.create(
       {
         username: String(req.body["username"]),
-        pw: String(req.body["pw"]),
+        pw: pwd(String(req.body["pw"])),
         fav: req.body["fav"],
       },
       (err, u) => {

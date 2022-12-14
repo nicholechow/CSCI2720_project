@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import Home from "./Home";
+import Home, { setMapboxglKey } from "./Home";
 import Login from "./Login";
 import Venue from "./Venue";
 import Search from "./Search";
@@ -19,7 +19,10 @@ function App(props) {
   const [adminflag] = useState(props.adminflag === undefined ? false : props.adminflag)
   const [loginflag] = useState(props.loginflag === undefined ? false : props.loginflag)
 
-  useEffect(() => async () => await onLoad(), [])
+  useEffect(() => async () => {
+    await onLoad();
+    setMapboxglKey();
+  }, [])
 
   const handleChangeUsername = e => setUsername(e.target.value);
   const handleChangePassword = e => setPassword(e.target.value);

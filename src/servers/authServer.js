@@ -7,14 +7,13 @@ const express = require('express')
 const app = express()
 app.use(express.json())
 
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const { pwd } = require('../utils/UtilsExpress')
 
 
 db.on("error", console.error.bind(console, "Connection error:"));
 
-function generateAccessToken(user) {
-  return jwt.sign(user, env.ACCESS_TOKEN_KEY, { expiresIn: env.ACCESS_TOKEN_EXPIRE_TIME })
-}
+const generateAccessToken = user => jwt.sign(user, env.ACCESS_TOKEN_KEY, { expiresIn: env.ACCESS_TOKEN_EXPIRE_TIME });
 
 // Apps.
 // Authenticate User
@@ -23,7 +22,7 @@ function login() {
     // Link to login form
     const user = { name: req.body.username }
 
-    const password = req.body.password;
+    const password = pwd(req.body.password);
     if (!await loginQuery(user.name, password))
       // 401: Unauthorized, this request has the wrong username password pair
       return res.sendStatus(401)
