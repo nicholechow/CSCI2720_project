@@ -4,7 +4,7 @@
 // request handle
 // execute node src/server2.js5
 const { env, authServerURL, mapboxglKey } = require("../utils/EnvExpress");
-const { pwd } = require('../utils/UtilsExpress')
+const { pwd } = require("../utils/UtilsExpress");
 
 const express = require("express");
 const app = express();
@@ -126,13 +126,17 @@ db.once("open", function () {
         Venue.find({}, "id venue", (err2, v) => {
           if (err2) console.log(err2);
           else {
-            let list = v
-              .filter((ele) => f.fav.includes(ele.id))
-              .map((ele2) => ({ id: ele2.id, venue: ele2.venue }));
-            res.send(list);
-            //res.send(f.fav);
-            //console.log(list);
-            // console.log("get user fav");
+            if (f !== null) {
+              let list = v
+                .filter((ele) => f.fav.includes(ele.id))
+                .map((ele2) => ({ id: ele2.id, venue: ele2.venue }));
+              res.send(list);
+              //res.send(f.fav);
+              //console.log(list);
+              // console.log("get user fav");
+            } else {
+              res.send();
+            }
           }
         });
       }

@@ -21,7 +21,7 @@ export default function Search() {
 }
 
 function LocationRow(props) {
-  console.log(props);
+  //console.log(props);
   return (
     <tr>
       <td>
@@ -41,12 +41,14 @@ function Detail() {
     fetch(server2URL + "/search/" + keyword)
       .then((res) => res.json())
       .then((data) => {
-        if (data.length !== 0 && list.length === 0) setList(data);
+        //console.log(keyword);
+        //console.log(list);
+        if (data.length !== null) setList(data);
       })
       .catch((error) => {
         console.log(error);
       });
-  });
+  }, [keyword]);
 
   return (
     <div className="col-sm-12 col-md-12 col-lg-12 m-auto">

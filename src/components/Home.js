@@ -350,9 +350,7 @@ function LocationRow(props) {
   return (
     <tr>
       <td>
-        <a href={"http://localhost:3000/venue/" + props.venueId}>
-          {props.venueName}
-        </a>
+        <Link to={"/venue/" + props.venueId}>{props.venueName}</Link>
       </td>
       <td>{props.eventCnt}</td>
       <td>{props.latitude}</td>

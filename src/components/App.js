@@ -21,6 +21,7 @@ function App(props) {
   const [loginflag] = useState(
     props.loginflag === undefined ? false : props.loginflag
   );
+  const [keyword, setKeyword] = useState("");
 
   useEffect(
     () => async () => {
@@ -85,9 +86,8 @@ function App(props) {
   };
 
   const load = () => {
-    document.querySelector("#search_button").href =
-      "http://localhost:3000/search/" +
-      document.querySelector("#keyword_iput").value;
+    //console.log(document.querySelector("#keyword_iput").value);
+    setKeyword(document.querySelector("#keyword_iput").value);
   };
 
   return (
@@ -95,9 +95,9 @@ function App(props) {
       <BrowserRouter>
         <nav className="navbar navbar-expand-lg bg-light">
           <div className="container-fluid">
-            <a className="navbar-brand" href="/">
+            <Link to="/" className="navbar-brand">
               CSCI2720 Group 19's Project
-            </a>
+            </Link>
             <button
               className="navbar-toggler"
               type="button"
@@ -115,9 +115,9 @@ function App(props) {
             >
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                 <li className="nav-item">
-                  <a className="nav-link active" aria-current="page" href="/">
+                  <Link to="/" className="nav-link active" aria-current="page">
                     Home
-                  </a>
+                  </Link>
                 </li>
               </ul>
               {isLoggedIn() ? (
@@ -130,14 +130,14 @@ function App(props) {
                     id="keyword_iput"
                     onChange={() => load()}
                   ></input>
-                  <a
+                  <Link
+                    to={"/search/" + keyword}
                     className="btn btn-outline-success"
                     type="submit"
                     id="search_button"
-                    href="http://localhost:3000.com/search/"
                   >
                     Search
-                  </a>
+                  </Link>
                 </div>
               ) : null}
 
