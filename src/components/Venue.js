@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Map } from "./Home";
 import { server2URL } from "../utils/EnvReact";
+import { isUser, isLoggedIn } from "../utils/Utils";
+import { Link } from "react-router-dom";
 
 function CommentRow(props) {
   //console.log(props);
@@ -39,71 +41,85 @@ export default function Venue() {
       });
   };
   useEffect(() => {
-    fetch(server2URL + "/venueName/" + venueId)
-      .then((res) => res.text())
-      .then((data) => {
-        //console.log(data);
-        if (data === "not found") {
-          setStatus(false);
-        } else if (venueName.length === 0) {
-          setVenueName(data);
-          setStatus(true);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    fetch(server2URL + "/fav/" + sessionStorage.username + "/" + venueId)
-      .then((res) => res.json())
-      .then((data) => {
-        //console.log(data);
-        if (state === false && status === true) {
-          setFav(data);
-          setState(true);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  });
-  return status ? (
-    <div className="justify-content-center text-center">
-      <h1 id="venueName">
-        {venueName}
-        <button
-          className={
-            fav ? "btn btn-danger mx-2" : "btn btn-outline-danger mx-2"
+    if (isLoggedIn()) {
+      fetch(server2URL + "/venueName/" + venueId)
+        .then((res) => res.text())
+        .then((data) => {
+          //console.log(data);
+          if (data === "not found") {
+            setStatus(false);
+          } else if (venueName.length === 0) {
+            setVenueName(data);
+            setStatus(true);
           }
-          onClick={() => changeLocFav(venueId)}
-        >
-          ♥
-        </button>
-      </h1>
-      <nav className="navbar navbar-expand-sm navbar-light bg-light justify-content-center">
-        <ul className="navbar-nav">
-          <li className="nav-item mx-3">
-            <a href="#map" className="nav-link">
-              Map
-            </a>
-          </li>
-          <li className="nav-item mx-3">
-            <a href="#events" className="nav-link">
-              Events
-            </a>
-          </li>
-          <li className="nav-item mx-3">
-            <a href="#comments" className="nav-link">
-              Comments
-            </a>
-          </li>
-        </ul>
-      </nav>
-      <Map id={venueId} />
-      <Detail id={venueId} />
-      <Comments id={venueId} />
-    </div>
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      if (isUser()) {
+        fetch(server2URL + "/fav/" + sessionStorage.username + "/" + venueId)
+          .then((res) => res.json())
+          .then((data) => {
+            //console.log(data);
+            if (state === false && status === true) {
+              setFav(data);
+              setState(true);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    }
+  });
+  return isLoggedIn() ? (
+    status ? (
+      <div className="justify-content-center text-center">
+        <h1 id="venueName">
+          {venueName}
+          {isUser() ? (
+            <button
+              className={
+                fav ? "btn btn-danger mx-2" : "btn btn-outline-danger mx-2"
+              }
+              onClick={() => changeLocFav(venueId)}
+            >
+              ♥
+            </button>
+          ) : (
+            ""
+          )}
+        </h1>
+        <nav className="navbar navbar-expand-sm navbar-light bg-light justify-content-center">
+          <ul className="navbar-nav">
+            <li className="nav-item mx-3">
+              <a href="#map" className="nav-link">
+                Map
+              </a>
+            </li>
+            <li className="nav-item mx-3">
+              <a href="#events" className="nav-link">
+                Events
+              </a>
+            </li>
+            <li className="nav-item mx-3">
+              <a href="#comments" className="nav-link">
+                Comments
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <Map id={venueId} />
+        <Detail id={venueId} />
+        <Comments id={venueId} />
+      </div>
+    ) : (
+      <h1 className="text-center">Location not found</h1>
+    )
   ) : (
-    <h1 className="text-center">Location not found</h1>
+    <h2 className="text-center">
+      <Link to="/">Please login</Link>
+    </h2>
   );
 }
 

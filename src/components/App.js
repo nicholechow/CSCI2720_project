@@ -5,77 +5,90 @@ import Login from "./Login";
 import Venue from "./Venue";
 import Search from "./Search";
 import Account from "./Account";
-import { server2URL } from "../utils/EnvReact"
+import { server2URL } from "../utils/EnvReact";
 import { isUser, isLoggedIn, logout } from "../utils/Utils";
 import { onLoad } from "../utils/EnvReact";
 
 // App
 function App(props) {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [displaytext] = useState("");
+  const [displaylink, setDisplaylink] = useState("");
+  const [adminflag] = useState(
+    props.adminflag === undefined ? false : props.adminflag
+  );
+  const [loginflag] = useState(
+    props.loginflag === undefined ? false : props.loginflag
+  );
 
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
-  const [displaytext] = useState("")
-  const [displaylink, setDisplaylink] = useState("")
-  const [adminflag] = useState(props.adminflag === undefined ? false : props.adminflag)
-  const [loginflag] = useState(props.loginflag === undefined ? false : props.loginflag)
+  useEffect(
+    () => async () => {
+      await onLoad();
+      setMapboxglKey();
+    },
+    []
+  );
 
-  useEffect(() => async () => {
-    await onLoad();
-    setMapboxglKey();
-  }, [])
-
-  const handleChangeUsername = e => setUsername(e.target.value);
-  const handleChangePassword = e => setPassword(e.target.value);
+  const handleChangeUsername = (e) => setUsername(e.target.value);
+  const handleChangePassword = (e) => setPassword(e.target.value);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     let loginbody = {
       username: username,
-      password: password
+      password: password,
     };
     fetch(server2URL + "/login", {
       method: "POST",
-      headers: { 
-        "Content-type": "application/json"
+      headers: {
+        "Content-type": "application/json",
       },
       body: JSON.stringify(loginbody),
     })
-      .then (res => res.json())
-      .then (json => {
+      .then((res) => res.json())
+      .then((json) => {
         // console.log(json)
         switch (json.loginState) {
           case 2:
             setDisplaylink("/admin");
-            setTimeout(() =>  document.getElementById("autoclick").click(), "70");
-            sessionStorage.username = "admin"
+            setTimeout(
+              () => document.getElementById("autoclick").click(),
+              "70"
+            );
+            sessionStorage.username = "admin";
             break;
 
           case 1:
             setDisplaylink("/user");
-            setTimeout(() => document.getElementById("autoclick").click(), "70");
+            setTimeout(
+              () => document.getElementById("autoclick").click(),
+              "70"
+            );
 
-            if (!json.username) delete sessionStorage.username
-            else sessionStorage.username = json.username
+            if (!json.username) delete sessionStorage.username;
+            else sessionStorage.username = json.username;
 
-            if (!json.token.accessToken) delete sessionStorage.accessToken
-            else sessionStorage.accessToken = json.token.accessToken
+            if (!json.token.accessToken) delete sessionStorage.accessToken;
+            else sessionStorage.accessToken = json.token.accessToken;
 
-            if (!json.token.refreshToken) delete sessionStorage.refreshToken
-            else sessionStorage.refreshToken = json.token.refreshToken
-            
+            if (!json.token.refreshToken) delete sessionStorage.refreshToken;
+            else sessionStorage.refreshToken = json.token.refreshToken;
+
             break;
-          
+
           default:
-            document.getElementById("123").innerText = "Please input correct username and password";
+            document.getElementById("123").innerText =
+              "Please input correct username and password";
         }
-      })
-  }
+      });
+  };
 
   const load = () => {
     document.querySelector("#search_button").href =
       "http://localhost:3000/search/" +
       document.querySelector("#keyword_iput").value;
-  }
+  };
 
   return (
     <>
@@ -106,45 +119,48 @@ function App(props) {
                     Home
                   </a>
                 </li>
-                { isUser() ?
-                <li className="nav-item">
-                  <Link to="account" className="nav-link">
-                    Account: { sessionStorage.username }
-                  </Link>
-                </li> : null }
+                {isUser() ? (
+                  <li className="nav-item">
+                    <Link to="account" className="nav-link">
+                      Account: {sessionStorage.username}
+                    </Link>
+                  </li>
+                ) : null}
               </ul>
-              <div className="d-flex">
-                <input
-                  className="form-control me-2"
-                  type="search"
-                  placeholder="Search"
-                  aria-label="Search"
-                  id="keyword_iput"
-                  onChange={() => load()}
-                ></input>
-                <a
-                  className="btn btn-outline-success"
-                  type="submit"
-                  id="search_button"
-                  href="http://localhost:3000.com/search/"
-                >
-                  Search
-                </a>
-              </div>
-              
-              { isLoggedIn() ?
-              <div className="d-flex">
+              {isLoggedIn() ? (
+                <div className="d-flex">
+                  <input
+                    className="form-control me-2"
+                    type="search"
+                    placeholder="Search"
+                    aria-label="Search"
+                    id="keyword_iput"
+                    onChange={() => load()}
+                  ></input>
                   <a
-                  className="btn"
-                  type="submit"
-                  id="search_button"
-                  href="../"
-                  onClick={() => logout()}
-                >
-                  Logout
-                </a>
-              </div>
-              : null }
+                    className="btn btn-outline-success"
+                    type="submit"
+                    id="search_button"
+                    href="http://localhost:3000.com/search/"
+                  >
+                    Search
+                  </a>
+                </div>
+              ) : null}
+
+              {isLoggedIn() ? (
+                <div className="d-flex">
+                  <a
+                    className="btn"
+                    type="submit"
+                    id="search_button"
+                    href="../"
+                    onClick={() => logout()}
+                  >
+                    Logout
+                  </a>
+                </div>
+              ) : null}
             </div>
           </div>
         </nav>
@@ -174,21 +190,11 @@ function App(props) {
           <Route path="/account" element={<Account />} />
           <Route
             path="/user"
-            element={
-              <Home
-                loggedIn={loginflag}
-                isAdmin={adminflag}
-              />
-            }
+            element={<Home loggedIn={loginflag} isAdmin={adminflag} />}
           />
           <Route
             path="/admin"
-            element={
-              <Home
-                loggedIn={loginflag}
-                isAdmin={adminflag}
-              />
-            }
+            element={<Home loggedIn={loginflag} isAdmin={adminflag} />}
           />
           <Route path="*" element={<Home loggedIn={false} />} />
         </Routes>

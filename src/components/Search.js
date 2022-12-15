@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { server2URL } from "../utils/EnvReact"
+import { server2URL } from "../utils/EnvReact";
+import { isLoggedIn } from "../utils/Utils";
+import { Link } from "react-router-dom";
 
 export default function Search() {
   useEffect(() => {
     document.title = "Search";
   }, []);
 
-  return (
+  return isLoggedIn() ? (
     <div className="justify-content-center text-center">
       <Detail />
     </div>
+  ) : (
+    <h2 className="text-center">
+      <Link to="/">Please login</Link>
+    </h2>
   );
 }
 
