@@ -119,13 +119,6 @@ function App(props) {
                     Home
                   </a>
                 </li>
-                {isUser() ? (
-                  <li className="nav-item">
-                    <Link to="account" className="nav-link">
-                      Account: {sessionStorage.username}
-                    </Link>
-                  </li>
-                ) : null}
               </ul>
               {isLoggedIn() ? (
                 <div className="d-flex">
@@ -150,6 +143,11 @@ function App(props) {
 
               {isLoggedIn() ? (
                 <div className="d-flex">
+                  {isUser() ? (
+                    <Link to="account" className="btn btn-warning mx-1">
+                      Account: {sessionStorage.username}
+                    </Link>
+                  ) : null}
                   <a
                     className="btn"
                     type="submit"

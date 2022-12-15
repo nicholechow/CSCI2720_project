@@ -221,7 +221,8 @@ function Comments(props) {
     fetch(server2URL + "/comment/" + props.id)
       .then((res) => res.json())
       .then((data) => {
-        if (data.length !== 0 && state === false) {
+        if (state === false) {
+          //console.log(data);
           setList(data);
           setState(true);
         }
@@ -236,32 +237,31 @@ function Comments(props) {
       className="col-sm-12 col-md-4 p-2 m-1 border border-primary rounded-1 d-inline-block"
     >
       <h4>Comments</h4>
-      <table className="d-inline-block">
-        <thead>
-          <tr>
-            <th className="pe-4 mr-auto">Username</th>
-            <th className="pe-4 mr-auto">Comment</th>
-          </tr>
-        </thead>
 
-        {/* Fetch Data & Insert Here Automatically*/}
-        <tbody>
-          {list.length === 0 ? (
+      {list.length === 0 ? (
+        <h5>No comment</h5>
+      ) : (
+        <table className="d-inline-block">
+          <thead>
             <tr>
-              <td>No Result</td>
-              <td>No Result</td>
+              <th className="pe-4 mr-auto">Username</th>
+              <th className="pe-4 mr-auto">Comment</th>
             </tr>
-          ) : (
-            list.map((loc, i) => (
+          </thead>
+          <tbody>
+            {/* Fetch Data & Insert Here Automatically*/}
+
+            {list.map((loc, i) => (
               <CommentRow
                 key={i}
                 username={loc.username}
                 comment={loc.comment}
               />
-            ))
-          )}
-        </tbody>
-      </table>
+            ))}
+          </tbody>
+        </table>
+      )}
+
       {isUser() ? (
         <form>
           <div className="form-group">
