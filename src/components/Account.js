@@ -71,9 +71,7 @@ export default function Account() {
                   <tbody>
                     <tr>
                       <td>
-                        <a href={"http://localhost:3000/venue/" + ele.id}>
-                          {ele.venue}
-                        </a>
+                        <Link to={"/venue/" + ele.id}>{ele.venue}</Link>
                         <button
                           className={"btn btn-danger mx-3"}
                           onClick={() => changeFav(ele.id)}
