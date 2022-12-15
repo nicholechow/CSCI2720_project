@@ -262,29 +262,31 @@ function Comments(props) {
           )}
         </tbody>
       </table>
-      <form>
-        <div className="form-group">
-          {/*<label for="commentContent"></label>*/}
-          <br />
-          <textarea
-            id="commentContent"
-            className="form-control"
-            name="commentContent"
-            placeholder="Write your comment here"
-          />
-          <br />
-        </div>
-        <button type="reset" className="btn btn-primary mx-2">
-          Clear
-        </button>
-        <button
-          type="button"
-          onClick={() => commentSubmit()}
-          className="btn btn-primary mx-2"
-        >
-          Submit
-        </button>
-      </form>
+      {isUser() ? (
+        <form>
+          <div className="form-group">
+            {/*<label for="commentContent"></label>*/}
+            <br />
+            <textarea
+              id="commentContent"
+              className="form-control"
+              name="commentContent"
+              placeholder="Write your comment here"
+            />
+            <br />
+          </div>
+          <button type="reset" className="btn btn-primary mx-2">
+            Clear
+          </button>
+          <button
+            type="button"
+            onClick={() => commentSubmit()}
+            className="btn btn-primary mx-2"
+          >
+            Submit
+          </button>
+        </form>
+      ) : null}
     </section>
   );
 }
