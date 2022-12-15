@@ -31,10 +31,10 @@ function App(props) {
     []
   );
 
-  const handleChangeUsername = (e) => setUsername(e.target.value);
-  const handleChangePassword = (e) => setPassword(e.target.value);
+  const handleChangeUsername = e => setUsername(e.target.value);
+  const handleChangePassword = e => setPassword(e.target.value);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
     let loginbody = {
       username: username,
