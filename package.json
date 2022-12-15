@@ -37,8 +37,10 @@
     "authServer": "nodemon src/servers/authServer.js",
     "exampleServer": "nodemon src/servers/exampleServer.js",
     "XMLserver": "nodemon src/servers/server.js",
-    "dev": "concurrently \"npm run server\" \"npm run authServer\" \"npm run exampleServer\" \"npm start\" ",
-    "demo": "concurrently \"npm run server\" \"npm run authServer\" \"npm run exampleServer\" \"serve -s build -l 80\" "
+    "dev": "concurrently \"npm run server\" \"npm run authServer\" \"npm run exampleServer\" \"npm start\"",
+    "demo": "concurrently \"npm run server\" \"npm run authServer\" \"npm run exampleServer\" \"serve -s build -l 80\"",
+    "winDemo": "concurrently \"npm run server\" \"npm run authServer\" \"npm run exampleServer\" \"set PORT=80 && react-scripts start\"",
+    "macDemo": "concurrently \"npm run server\" \"npm run authServer\" \"npm run exampleServer\" \"export PORT=80 react-scripts start\""
   },
   "eslintConfig": {
     "extends": [
