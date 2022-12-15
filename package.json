@@ -38,7 +38,7 @@
     "exampleServer": "nodemon src/servers/exampleServer.js",
     "XMLserver": "nodemon src/servers/server.js",
     "dev": "concurrently \"npm run server\" \"npm run authServer\" \"npm run exampleServer\" \"npm start\" ",
-    "demo": "concurrently \"npm run server\" \"npm run authServer\" \"npm run exampleServer\" \"npm build\" "
+    "demo": "concurrently \"npm run server\" \"npm run authServer\" \"npm run exampleServer\" \"npm run build\" "
   },
   "eslintConfig": {
     "extends": [
