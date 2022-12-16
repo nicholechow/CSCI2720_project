@@ -1,6 +1,4 @@
 const filePath = __dirname + process.env.dataPath;
-// const express = require("express");
-// const app = express();
 const fs = require("fs");
 const parser = require("xml2json");
 const download = require("download");

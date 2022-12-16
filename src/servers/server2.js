@@ -507,35 +507,47 @@ db.once("open", function () {
 
   //update user by username
   /*app.put(*/ aput(app, "/userupdate/:username", async (req, res) => {
-    let buf = "";
-    if (req.params["username"] == null || req.params["username"] == "") {
-      buf = "The username does not exist";
-    } else {
-      await User.findOne(
-        { username: String(req.params["username"]) },
-        async (err, u) => {
-          if (u != null) {
-            if (
-              !(await User.exist({
-                username: String(req.params["newusername"]),
-              }))
-            ) {
-              u.username = String(req.body["newusername"]);
-              u.pw = pwd(String(req.body["pw"]));
-              u.save();
-              buf = "User information updated successfully";
-            } else {
-              buf = "Username already exists";
-            }
-          } else {
-            buf = "The username does not exist";
-          }
-        }
-      );
-    }
-    setTimeout(() => {
-      res.send(buf);
-    }, "70");
+    // let buf = "";
+    if (req.params["username"] == null || req.params["username"] == "")
+      return res.send("The username cannot be empty.")
+    
+    const user = await User.findOne({ username: String(req.params["username"])})
+    if (!user)
+      return res.send("The username does not exist.")
+
+    const newUsername = await User.exist({ username: String(req.params["newusername"])})
+    if (newUsername)
+      return res.send("Username already exists.")
+    
+    user.username = String(req.body["newusername"]);
+    user.pw = pwd(String(req.body["pw"]));
+    user.save();
+
+    return res.send("User information updated successfully")
+      
+    //     async (err, u) => {
+    //       if (u != null) {
+    //         if (
+    //           !(await User.exist({
+    //             username: String(req.params["newusername"]),
+    //           }))
+    //         ) {
+    //           u.username = String(req.body["newusername"]);
+    //           u.pw = pwd(String(req.body["pw"]));
+    //           u.save();
+    //           buf = "User information updated successfully";
+    //         } else {
+    //           buf = "Username already exists";
+    //         }
+    //       } else {
+    //         buf = "The username does not exist";
+    //       }
+    //     }
+    //   );
+    // }
+    // setTimeout(() => {
+    //   res.send(buf);
+    // }, "70");
   });
 
   //delete user by username

@@ -13,6 +13,7 @@ import UserDeleteData from "../dataManagement/UserDeleteData";
 import UserRetrieveData from "../dataManagement/UserRetrieveData";
 import UserUpdateData from "../dataManagement/UserUpdateData";
 import { Map } from "./Map";
+import { New_Map } from "./New_Map";
 
 import {
   server2URL,
@@ -43,6 +44,7 @@ export default function Home(props) {
         refreshToken: sessionStorage.refreshToken,
       }),
     })
+      .then(res => res.ok ? res : {})
       .then((res) => res.text())
       .then((txt) => {
         // It may be NaN For Example, "Forbidden": from the 403 code (?)
@@ -95,9 +97,10 @@ export default function Home(props) {
           </nav>
           <div className="p-1 border border-primary rounded-1 container">
             <Location id="locationComponent" loadState={props.loadState} />
-            <React.StrictMode>
+            <New_Map id="all"/>
+            {/* <React.StrictMode>
               <Map id="all" />
-            </React.StrictMode>
+            </React.StrictMode> */}
           </div>
         </div>
       ) : (
