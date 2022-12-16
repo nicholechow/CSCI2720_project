@@ -8,7 +8,6 @@ import Account from "./Account";
 import { server2URL } from "../utils/EnvReact";
 import { isUser, isLoggedIn, logout } from "../utils/Utils";
 import { onLoad } from "../utils/EnvReact";
-import mapboxgl from "mapbox-gl";
 import { mapboxglKey } from "../utils/EnvReact";
 
 // App
