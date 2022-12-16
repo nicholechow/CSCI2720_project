@@ -21,6 +21,7 @@ export default function Venue(props) {
   const [state, setState] = useState(false);
   const [status, setStatus] = useState(true);
   const changeLocFav = () => {
+    setFav(!fav);
     fetch(server2URL + "/changeFav/" + sessionStorage.username, {
       method: "PUT",
       mode: "cors",
@@ -71,7 +72,7 @@ export default function Venue(props) {
           });
       }
     }
-  }, [props.loadState, state]);
+  }, [props.loadState, state, fav]);
   return isLoggedIn() ? (
     status ? (
       <div className="justify-content-center text-center">

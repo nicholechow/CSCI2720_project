@@ -336,7 +336,7 @@ function Location(props) {
           console.log(error);
         });
     }
-  }, [props.loadState, list.length, statee, statee2]);
+  }, [props.loadState, list, statee, statee2]);
 
   return (
     <div className="col-sm-12 col-md-12 col-lg-12 m-auto">
