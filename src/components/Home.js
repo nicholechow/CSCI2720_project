@@ -71,14 +71,54 @@ export default function Home() {
       });
   });
 
-  const handleC = () => setC(!c);
-  const handleR = () => setR(!r);
-  const handleU = () => setU(!u);
-  const handleD = () => setD(!d);
-  const handleUserC = () => setUser_c(!user_c);
-  const handleUserR = () => setUser_r(!user_r);
-  const handleUserU = () => setUser_u(!user_u);
-  const handleUserD = () => setUser_d(!user_d);
+  const handleC = () => {
+    setC(true);
+    setR(false);
+    setU(false);
+    setD(false);
+  };
+  const handleR = () => {
+    setR(true);
+    setC(false);
+    setU(false);
+    setD(false);
+  };
+  const handleU = () => {
+    setU(true);
+    setR(false);
+    setC(false);
+    setD(false);
+  };
+  const handleD = () => {
+    setD(true);
+    setR(false);
+    setC(false);
+    setU(false);
+  };
+  const handleUserC = () => {
+    setUser_c(true);
+    setUser_r(false);
+    setUser_u(false);
+    setUser_d(false);
+  };
+  const handleUserR = () => {
+    setUser_c(false);
+    setUser_r(true);
+    setUser_u(false);
+    setUser_d(false);
+  };
+  const handleUserU = () => {
+    setUser_c(false);
+    setUser_r(false);
+    setUser_u(true);
+    setUser_d(false);
+  };
+  const handleUserD = () => {
+    setUser_c(false);
+    setUser_r(false);
+    setUser_u(false);
+    setUser_d(true);
+  };
 
   switch (loginState) {
     case 0:
