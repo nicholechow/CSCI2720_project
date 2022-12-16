@@ -358,7 +358,7 @@ function Location(props) {
           type="button"
           onClick={() => sortTable()}
         >
-          Sort by number of events {sortState === -1 ? "↑" : "↓"}
+          Sort by Number of events {sortState === -1 ? "↑" : "↓"}
         </button>
 
         {list.length === 0 ? (
@@ -370,7 +370,7 @@ function Location(props) {
                 <th scope="col">Location</th>
                 <th scope="col">
                   {" "}
-                  number of events{" "}
+                  Number of events{" "}
                   {sortState === -1 ? "↓" : sortState === 1 ? "↑" : ""}
                 </th>
                 <th scope="col">Latitude</th>

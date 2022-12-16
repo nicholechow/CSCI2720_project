@@ -506,22 +506,32 @@ db.once("open", function () {
   });
 
   //update user by username
-  /*app.put(*/ aput(app, "/userupdate/:username", (req, res) => {
+  /*app.put(*/ aput(app, "/userupdate/:username", async (req, res) => {
     let buf = "";
     if (req.params["username"] == null || req.params["username"] == "") {
       buf = "The username does not exist";
     } else {
-      User.findOne({ username: String(req.params["username"]) }, (err, u) => {
-        if (u != null) {
-          u.username = String(req.body["newusername"]);
-          u.pw = pwd(String(req.body["pw"]));
-          u.fav = req.body["fav"];
-          u.save();
-          buf = "User information updated successfully";
-        } else {
-          buf = "The username does not exist";
+      await User.findOne(
+        { username: String(req.params["username"]) },
+        async (err, u) => {
+          if (u != null) {
+            if (
+              !(await User.exist({
+                username: String(req.params["newusername"]),
+              }))
+            ) {
+              u.username = String(req.body["newusername"]);
+              u.pw = pwd(String(req.body["pw"]));
+              u.save();
+              buf = "User information updated successfully";
+            } else {
+              buf = "Username already exists";
+            }
+          } else {
+            buf = "The username does not exist";
+          }
         }
-      });
+      );
     }
     setTimeout(() => {
       res.send(buf);
