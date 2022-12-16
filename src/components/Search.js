@@ -37,7 +37,7 @@ function Detail(props) {
   const [list, setList] = useState([]);
   useEffect(() => {
     if (props.loadState) {
-      console.log(props.loadState);
+      //console.log(props.loadState);
       fetch(server2URL + "/search/" + keyword)
         .then((res) => res.json())
         .then((data) => {

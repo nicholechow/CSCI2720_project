@@ -250,7 +250,7 @@ function Location(props) {
     let list2 = list;
     list2[index].fav = !list2[index].fav;
     setList(list2);
-    console.log(list2);
+    //console.log(list2);
 
     fetch(server2URL + "/changeFav/" + sessionStorage.username, {
       method: "PUT",
@@ -290,7 +290,7 @@ function Location(props) {
         .then((data) => {
           setStatee2(false);
           setList(data);
-          console.log(list);
+          //console.log(list);
         })
         .catch((error) => {
           console.log(error);

@@ -40,19 +40,18 @@ db.once("open", function () {
   // TODO:: Maybe sort sort this for easier navigation
 
   // post(app,
-  /*app.post(*/aput(app,
-    "/loadData", async (_, res) => {
-    console.log("Data Loading")
+  /*app.post(*/ aput(app, "/loadData", async (_, res) => {
+    console.log("Data Loading");
     // test(0)
     await datamine(db);
-    console.log("Data Loaded")
-    res.send("loaded")
-  })
+    console.log("Data Loaded");
+    res.send("loaded");
+  });
 
   //login
   // 1: user
   // 2: admin
-  /*app.post(*/apost(app, "/login", async (req, res) => {
+  /*app.post(*/ apost(app, "/login", async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
     let loginState = -1;
@@ -82,7 +81,7 @@ db.once("open", function () {
     })
       .then((res) => {
         // console.log(res)
-        console.log(typeof(res.status))
+        console.log(typeof res.status);
         if (res.status == 401 || res.status == 403) {
           loginState = 0;
           return {};
@@ -91,8 +90,7 @@ db.once("open", function () {
         return res.json();
       })
       .catch((err) => {
-        if (err.status in [401, 403])
-          return;
+        if (err.status in [401, 403]) return;
         console.log("8889/login " + err);
         loginState = -2;
       });
@@ -100,7 +98,7 @@ db.once("open", function () {
     ret();
   });
 
-  /*app.post(*/apost(app, "/logout", async (req, res) => {
+  /*app.post(*/ apost(app, "/logout", async (req, res) => {
     const username = req.body.username;
 
     if (username != "admin") {
@@ -117,61 +115,69 @@ db.once("open", function () {
   });
 
   // get all venue name with its number of events
-  
-  aget(app,
-  // app.get(
-      "/venueEventCnt", (req, res) => {
-    Event.find({}, "venueid venuename latitude longitude", (err, v) => {
-      if (err) console.log(err);
-      else {
-        //console.log(v);
-        let venueId = v.map((arr) => arr.venueid);
-        let venueList = v.filter((ele, i) => venueId.indexOf(venueId[i]) === i);
-        let venueEventCnt = venueList.map((ele) => ({
-          venueId: ele.venueid,
-          venueName: ele.venuename,
-          latitude: ele.latitude,
-          longitude: ele.longitude,
-          eventCnt: venueId.filter((ele2) => ele2 === ele.venueid).length,
-        }));
-        res.send(venueEventCnt);
-        // console.log("get venueEventCnt");
-      }
-    });
-  });
+
+  aget(
+    app,
+    // app.get(
+    "/venueEventCnt",
+    (req, res) => {
+      Event.find({}, "venueid venuename latitude longitude", (err, v) => {
+        if (err) console.log(err);
+        else {
+          //console.log(v);
+          let venueId = v.map((arr) => arr.venueid);
+          let venueList = v.filter(
+            (ele, i) => venueId.indexOf(venueId[i]) === i
+          );
+          let venueEventCnt = venueList.map((ele) => ({
+            venueId: ele.venueid,
+            venueName: ele.venuename,
+            latitude: ele.latitude,
+            longitude: ele.longitude,
+            eventCnt: venueId.filter((ele2) => ele2 === ele.venueid).length,
+          }));
+          res.send(venueEventCnt);
+          // console.log("get venueEventCnt");
+        }
+      });
+    }
+  );
 
   // get user favourite location
   // return [{id: 123, venue: abc},...]
-  
-  aget(app,
-  // app.get(
-    "/fav/:username", (req, res) => {
-    User.findOne({ username: req.params["username"] }, "fav", (err, f) => {
-      if (err) console.log(err);
-      else {
-        Venue.find({}, "id venue", (err2, v) => {
-          if (err2) console.log(err2);
-          else {
-            if (f !== null) {
-              let list = v
-                .filter((ele) => f.fav.includes(ele.id))
-                .map((ele2) => ({ id: ele2.id, venue: ele2.venue }));
-              res.send(list);
-              //res.send(f.fav);
-              //console.log(list);
-              // console.log("get user fav");
-            } else {
-              res.send();
+
+  aget(
+    app,
+    // app.get(
+    "/fav/:username",
+    (req, res) => {
+      User.findOne({ username: req.params["username"] }, "fav", (err, f) => {
+        if (err) console.log(err);
+        else {
+          Venue.find({}, "id venue", (err2, v) => {
+            if (err2) console.log(err2);
+            else {
+              if (f !== null) {
+                let list = v
+                  .filter((ele) => f.fav.includes(ele.id))
+                  .map((ele2) => ({ id: ele2.id, venue: ele2.venue }));
+                res.send(list);
+                //res.send(f.fav);
+                //console.log(list);
+                // console.log("get user fav");
+              } else {
+                res.send();
+              }
             }
-          }
-        });
-      }
-    });
-  });
+          });
+        }
+      });
+    }
+  );
 
   // get whether it is a user favourite location
   // return true or false
-  /*app.get(*/aget(app, "/fav/:username/:venueId", (req, res) => {
+  /*app.get(*/ aget(app, "/fav/:username/:venueId", (req, res) => {
     User.findOne({ username: req.params["username"] }, "fav", (err, f) => {
       if (err) console.log(err);
       else {
@@ -183,7 +189,7 @@ db.once("open", function () {
   });
 
   // update user fav
-  /*app.put(*/aput(app, "/changeFav/:username", (req, res) => {
+  /*app.put(*/ aput(app, "/changeFav/:username", (req, res) => {
     User.findOne({ username: req.params["username"] }, "fav", (err, f) => {
       if (err) console.log(err);
       else {
@@ -198,7 +204,7 @@ db.once("open", function () {
   });
 
   // get venue name from id
-  /*app.get(*/aget(app, "/venueName/:venueId", (req, res) => {
+  /*app.get(*/ aget(app, "/venueName/:venueId", (req, res) => {
     Venue.findOne({ id: req.params["venueId"] }, "venue", (err, v) => {
       if (err) console.log(err);
       else {
@@ -214,7 +220,7 @@ db.once("open", function () {
   });
 
   // get venue Latitude and longitude from id
-  /*app.get(*/aget(app, "/venueLatLong/:venueId", (req, res) => {
+  /*app.get(*/ aget(app, "/venueLatLong/:venueId", (req, res) => {
     Venue.findOne(
       { id: req.params["venueId"] },
       "latitude longitude",
@@ -229,7 +235,7 @@ db.once("open", function () {
   });
 
   // get all venues' Latitude and longitude
-  /*app.get(*/aget(app, "/allVenueLatLong/", (req, res) => {
+  /*app.get(*/ aget(app, "/allVenueLatLong/", (req, res) => {
     Venue.find({}, (err, v) => {
       if (err) console.log(err);
       else {
@@ -240,7 +246,7 @@ db.once("open", function () {
   });
 
   // get all events with details of a venue
-  /*app.get(*/aget(app, "/venueEvents/:venueId", (req, res) => {
+  /*app.get(*/ aget(app, "/venueEvents/:venueId", (req, res) => {
     Event.find(
       { venueid: req.params["venueId"] },
       "title datetime description presenter price",
@@ -255,7 +261,7 @@ db.once("open", function () {
   });
 
   // add comment
-  /*app.put(*/aput(app, "/createComment/:venueId", (req, res) => {
+  /*app.put(*/ aput(app, "/createComment/:venueId", (req, res) => {
     if (req.body["commentContent"].length !== 0) {
       Comment.create(
         {
@@ -274,7 +280,7 @@ db.once("open", function () {
   });
 
   // get all events
-  /*app.get(*/aget(app, "/listall", (req, res) => {
+  /*app.get(*/ aget(app, "/listall", (req, res) => {
     Event.find({}, (err, v) => {
       if (err) console.log(err);
       else res.send(v);
@@ -282,7 +288,7 @@ db.once("open", function () {
   });
 
   // delete event by event id
-  /*app.delete(*/adelete(app, "/delete/:eventId", (req, res) => {
+  /*app.delete(*/ adelete(app, "/delete/:eventId", (req, res) => {
     Event.findOne({ eventid: Number(req.params["eventId"]) }).exec(function (
       err,
       d
@@ -303,7 +309,7 @@ db.once("open", function () {
   });
 
   // get event by event id
-  /*app.get(*/aget(app, "/listone/:eventId", (req, res) => {
+  /*app.get(*/ aget(app, "/listone/:eventId", (req, res) => {
     Event.findOne({ eventid: Number(req.params["eventId"]) }, (err, e) => {
       if (e != null) {
         res.send(e);
@@ -313,7 +319,7 @@ db.once("open", function () {
   });
 
   // get venue by venue id
-  /*app.get(*/aget(app, "/listvenue/:venueId", (req, res) => {
+  /*app.get(*/ aget(app, "/listvenue/:venueId", (req, res) => {
     let buf = "";
     Venue.findOne({ id: Number(req.params["venueId"]) }, (err, v) => {
       if (v != null) {
@@ -327,7 +333,7 @@ db.once("open", function () {
   });
 
   // create event
-  /*app.post(*/apost(app, "/create", async (req, res) => {
+  /*app.post(*/ apost(app, "/create", async (req, res) => {
     let currentid = 0;
     Venue.findOne({ id: Number(req.body["venueid"]) }, (err, v) => {
       if (v != null) {
@@ -369,7 +375,7 @@ db.once("open", function () {
   });
 
   // update event by event id
-  /*app.put(*/aput(app, "/update/:eventId", async (req, res) => {
+  /*app.put(*/ aput(app, "/update/:eventId", async (req, res) => {
     let buf = "";
     Event.findOne({ eventid: Number(req.params["eventId"]) }, (err, e) => {
       if (e != null) {
@@ -401,7 +407,7 @@ db.once("open", function () {
   });
 
   // get venues by keyword
-  /*app.get(*/aget(app, "/search/:keyword", (req, res) => {
+  /*app.get(*/ aget(app, "/search/:keyword", (req, res) => {
     Event.find(
       { venuename: { $regex: req.params["keyword"], $options: "i" } },
       "venueid venuename latitude longitude",
@@ -427,7 +433,7 @@ db.once("open", function () {
   });
 
   // get comments by venue id
-  /*app.get(*/aget(app, "/comment/:venueId", (req, res) => {
+  /*app.get(*/ aget(app, "/comment/:venueId", (req, res) => {
     Comment.find(
       { venueid: req.params["venueId"] },
       "username comment",
@@ -442,7 +448,7 @@ db.once("open", function () {
   });
 
   // delete event by event id
-  /*app.delete(*/adelete(app, "/delete/:eventId", (req, res) => {
+  /*app.delete(*/ adelete(app, "/delete/:eventId", (req, res) => {
     Event.findOne({ eventid: Number(req.params["eventId"]) }).exec(function (
       err,
       d
@@ -463,7 +469,7 @@ db.once("open", function () {
   });
 
   //get all users
-  /*app.get(*/aget(app, "/userlist", (req, res) => {
+  /*app.get(*/ aget(app, "/userlist", (req, res) => {
     User.find({}, (err, u) => {
       if (err) console.log(err);
       else res.send(u);
@@ -471,7 +477,7 @@ db.once("open", function () {
   });
 
   //get user by username
-  /*app.get(*/aget(app, "/user/:username", (req, res) => {
+  /*app.get(*/ aget(app, "/user/:username", (req, res) => {
     User.findOne({ username: String(req.params["username"]) }, (err, u) => {
       if (u != null) {
         res.send(u);
@@ -481,7 +487,7 @@ db.once("open", function () {
   });
 
   //create user
-  /*app.post(*/apost(app, "/usercreate", (req, res) => {
+  /*app.post(*/ apost(app, "/usercreate", (req, res) => {
     //User.findOne({username: String(req.body['username']) }, (err,u) => {
     User.create(
       {
@@ -500,30 +506,30 @@ db.once("open", function () {
   });
 
   //update user by username
-  /*app.put(*/aput(app, "/userupdate/:username", (req, res) => {
+  /*app.put(*/ aput(app, "/userupdate/:username", (req, res) => {
     let buf = "";
-    if ((req.params["username"]==null)||(req.params["username"]=="")){
+    if (req.params["username"] == null || req.params["username"] == "") {
       buf = "The username does not exist";
-    }else{
-    User.findOne({ username: String(req.params["username"]) }, (err, u) => {
-      if (u != null) {
-        u.username = String(req.body["newusername"]);
-        u.pw = String(req.body["pw"]);
-        u.fav = req.body["fav"];
-        u.save();
-        buf = "User information updated successfully";
-      } else {
-        buf = "The username does not exist";
-      }
-    });
-  }
+    } else {
+      User.findOne({ username: String(req.params["username"]) }, (err, u) => {
+        if (u != null) {
+          u.username = String(req.body["newusername"]);
+          u.pw = pwd(String(req.body["pw"]));
+          u.fav = req.body["fav"];
+          u.save();
+          buf = "User information updated successfully";
+        } else {
+          buf = "The username does not exist";
+        }
+      });
+    }
     setTimeout(() => {
       res.send(buf);
     }, "70");
   });
 
   //delete user by username
-  /*app.delete(*/adelete(app, "/userdelete/:username", (req, res) => {
+  /*app.delete(*/ adelete(app, "/userdelete/:username", (req, res) => {
     User.findOne({ username: String(req.params["username"]) }).exec(function (
       err,
       u
@@ -542,7 +548,9 @@ db.once("open", function () {
   });
 
   // get env variables
-  /*app.get(*/aget(app, "/env", (_, res) => res.json({ mapboxglKey: mapboxglKey }));
+  /*app.get(*/ aget(app, "/env", (_, res) =>
+    res.json({ mapboxglKey: mapboxglKey })
+  );
 });
 
 // listen to port

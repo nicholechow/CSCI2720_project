@@ -33,13 +33,13 @@ export default function Account(props) {
 
   useEffect(() => {
     if (isUser() && props.loadState && stateAcc === false) {
-      console.log(props.loadState);
+      //console.log(props.loadState);
       //setTimeout(() => {
       fetch(server2URL + "/fav/" + sessionStorage.username)
         .then((res) => res.json())
         .then((fav) => {
           //if (stateAcc === false) {
-          console.log(fav);
+          //console.log(fav);
           setFavList(fav);
           setStateAcc(true);
           //}

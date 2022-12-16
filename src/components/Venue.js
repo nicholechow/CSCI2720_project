@@ -77,7 +77,7 @@ export default function Venue(props) {
       <div className="justify-content-center text-center">
         <h1 id="venueName">
           {venueName}
-          {isUser() ? (
+          {isUser() && props.loadState ? (
             <button
               className={
                 fav ? "btn btn-danger mx-2" : "btn btn-outline-danger mx-2"
@@ -113,8 +113,8 @@ export default function Venue(props) {
           <Map id={venueId} />
         </React.StrictMode>
 
-        <Detail id={venueId} />
-        <Comments id={venueId} />
+        <Detail id={venueId} loadState={props.loadState} />
+        <Comments id={venueId} loadState={props.loadState} />
       </div>
     ) : (
       <h1 className="text-center">Location not found</h1>
@@ -133,15 +133,19 @@ function Detail(props) {
     document.title = "Detail";
   }, []);
 
-  fetch(server2URL + "/venueEvents/" + props.id)
-    .then((res) => res.json())
-    .then((data) => {
-      //console.log(data);
-      if (list.length === 0) setList(data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  useEffect(() => {
+    if (props.loadState) {
+      fetch(server2URL + "/venueEvents/" + props.id)
+        .then((res) => res.json())
+        .then((data) => {
+          //console.log(data);
+          if (list.length === 0) setList(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [props.loadState, list]);
 
   return (
     <div className="col-sm-12 col-md-12 col-lg-10 mx-auto my-4">
@@ -160,16 +164,6 @@ function Detail(props) {
               </tr>
             </thead>
             <tbody id="eventList">
-              {/* {list.length === 0 ? (
-              <tr>
-                <th scope="col">/</th>
-                <td>Loading...</td>
-                <td>/</td>
-                <td>/</td>
-                <td>/</td>
-                <td>/</td>
-              </tr>
-            ) : ( */}
               {list.map((loc, i) => (
                 <tr key={i}>
                   <th scope="col">{i + 1}</th>
@@ -221,23 +215,25 @@ function Comments(props) {
   };
 
   useEffect(() => {
-    fetch(server2URL + "/comment/" + props.id)
-      .then((res) => res.json())
-      .then((data) => {
-        if (state === false) {
-          //console.log(data);
-          setList(data);
-          setState(true);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  });
+    if (props.loadState) {
+      fetch(server2URL + "/comment/" + props.id)
+        .then((res) => res.json())
+        .then((data) => {
+          if (state === false) {
+            //console.log(data);
+            setList(data);
+            setState(true);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [props.loadState, state]);
   return (
     <section
       id="comments"
-      className="col-sm-12 col-md-4 p-2 m-1 border border-primary rounded-1 d-inline-block"
+      className="col-sm-12 col-md-10 p-2 m-1 border border-primary rounded-1 d-inline-block"
     >
       <h4>Comments</h4>
 

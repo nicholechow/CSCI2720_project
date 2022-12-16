@@ -9,6 +9,7 @@ import { server2URL } from "../utils/EnvReact";
 import { isUser, isLoggedIn, logout } from "../utils/Utils";
 import { onLoad } from "../utils/EnvReact";
 import { mapboxglKey } from "../utils/EnvReact";
+import { set } from "mongoose";
 
 // App
 function App(props) {
@@ -30,7 +31,7 @@ function App(props) {
   useEffect(
     () => async () => {
       //console.log(getLoadState);
-      console.log(mapboxglKey);
+      //console.log("get Mapbox key");
       await onLoad();
       setMapboxglKey();
     },
@@ -86,7 +87,8 @@ function App(props) {
               "70"
             );
             sessionStorage.username = "admin";
-            /*
+
+            setLoadState(false);
             fetch(server2URL + "/loadData", {
               method: "PUT",
               mode: "cors",
@@ -97,10 +99,15 @@ function App(props) {
             })
               .then()
               .then(() => {
+                let time = new Date();
+                updateTime.current = time
+                  .toString()
+                  .split(" ")
+                  .slice(0, 5)
+                  .join(" ");
                 setLoadState(true);
               })
               .catch((err) => console.log(err));
-              */
             break;
 
           case 1:
@@ -109,7 +116,7 @@ function App(props) {
               () => document.getElementById("autoclick").click(),
               "70"
             );
-            /*
+            setLoadState(false);
             fetch(server2URL + "/loadData", {
               method: "PUT",
               mode: "cors",
@@ -120,10 +127,15 @@ function App(props) {
             })
               .then()
               .then(() => {
+                let time = new Date();
+                updateTime.current = time
+                  .toString()
+                  .split(" ")
+                  .slice(0, 5)
+                  .join(" ");
                 setLoadState(true);
               })
               .catch((err) => console.log(err));
-              */
 
             if (!json.username) delete sessionStorage.username;
             else sessionStorage.username = json.username;
