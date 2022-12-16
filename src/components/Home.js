@@ -25,14 +25,7 @@ export const setMapboxglKey = () => (mapboxgl.accessToken = mapboxglKey());
 
 // Home
 export default function Home() {
-  const [c, setC] = useState(true);
-  const [r, setR] = useState(false);
-  const [u, setU] = useState(false);
-  const [d, setD] = useState(false);
-  const [user_c, setUser_c] = useState(false);
-  const [user_r, setUser_r] = useState(false);
-  const [user_u, setUser_u] = useState(false);
-  const [user_d, setUser_d] = useState(false);
+  const [open, setOpen] = useState("c");
   const [loginState, setLoginState] = useState(0);
 
   useEffect(() => {
@@ -72,84 +65,28 @@ export default function Home() {
   });
 
   const handleC = () => {
-    setC(true);
-    setR(false);
-    setU(false);
-    setD(false);
-    setUser_c(false);
-    setUser_r(false);
-    setUser_u(false);
-    setUser_d(false);
+    setOpen("c");
   };
   const handleR = () => {
-    setR(true);
-    setC(false);
-    setU(false);
-    setD(false);
-    setUser_c(false);
-    setUser_r(false);
-    setUser_u(false);
-    setUser_d(false);
+    setOpen("r");
   };
   const handleU = () => {
-    setU(true);
-    setR(false);
-    setC(false);
-    setD(false);
-    setUser_c(false);
-    setUser_r(false);
-    setUser_u(false);
-    setUser_d(false);
+    setOpen("u");
   };
   const handleD = () => {
-    setD(true);
-    setR(false);
-    setC(false);
-    setU(false);
-    setUser_c(false);
-    setUser_r(false);
-    setUser_u(false);
-    setUser_d(false);
+    setOpen("d");
   };
   const handleUserC = () => {
-    setUser_c(true);
-    setUser_r(false);
-    setUser_u(false);
-    setUser_d(false);
-    setD(false);
-    setR(false);
-    setC(false);
-    setU(false);
+    setOpen("uc");
   };
   const handleUserR = () => {
-    setUser_c(false);
-    setUser_r(true);
-    setUser_u(false);
-    setUser_d(false);
-    setD(false);
-    setR(false);
-    setC(false);
-    setU(false);
+    setOpen("ur");
   };
   const handleUserU = () => {
-    setUser_c(false);
-    setUser_r(false);
-    setUser_u(true);
-    setUser_d(false);
-    setD(false);
-    setR(false);
-    setC(false);
-    setU(false);
+    setOpen("uu");
   };
   const handleUserD = () => {
-    setUser_c(false);
-    setUser_r(false);
-    setUser_u(false);
-    setUser_d(true);
-    setD(false);
-    setR(false);
-    setC(false);
-    setU(false);
+    setOpen("ud");
   };
 
   switch (loginState) {
@@ -266,14 +203,14 @@ export default function Home() {
               </nav>
             </div>
             <div className="col-10 ">
-              <div>{c ? <CreateData /> : ""}</div>
-              <div>{r ? <RetrieveData /> : ""}</div>
-              <div>{u ? <UpdateData /> : ""}</div>
-              <div>{d ? <DeleteData /> : ""}</div>
-              <div>{user_c ? <UserCreateData /> : ""}</div>
-              <div>{user_r ? <UserRetrieveData /> : ""}</div>
-              <div>{user_u ? <UserUpdateData /> : ""}</div>
-              <div>{user_d ? <UserDeleteData /> : ""}</div>{" "}
+              <div>{open === "c" ? <CreateData /> : ""}</div>
+              <div>{open === "r" ? <RetrieveData /> : ""}</div>
+              <div>{open === "u" ? <UpdateData /> : ""}</div>
+              <div>{open === "d" ? <DeleteData /> : ""}</div>
+              <div>{open === "uc" ? <UserCreateData /> : ""}</div>
+              <div>{open === "ur" ? <UserRetrieveData /> : ""}</div>
+              <div>{open === "uu" ? <UserUpdateData /> : ""}</div>
+              <div>{open === "ud" ? <UserDeleteData /> : ""}</div>{" "}
             </div>
           </div>
         </div>
