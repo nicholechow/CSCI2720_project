@@ -41,7 +41,7 @@ db.once("open", function () {
 
   // post(app,
   /*app.post(*/apost(app,
-    "/dataload", async (req, res) => {
+    "/loadData", async (req, res) => {
     console.log("Data Loading")
     // test(0)
     await datamine(db);
