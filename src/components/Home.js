@@ -76,48 +76,80 @@ export default function Home() {
     setR(false);
     setU(false);
     setD(false);
+    setUser_c(false);
+    setUser_r(false);
+    setUser_u(false);
+    setUser_d(false);
   };
   const handleR = () => {
     setR(true);
     setC(false);
     setU(false);
     setD(false);
+    setUser_c(false);
+    setUser_r(false);
+    setUser_u(false);
+    setUser_d(false);
   };
   const handleU = () => {
     setU(true);
     setR(false);
     setC(false);
     setD(false);
+    setUser_c(false);
+    setUser_r(false);
+    setUser_u(false);
+    setUser_d(false);
   };
   const handleD = () => {
     setD(true);
     setR(false);
     setC(false);
     setU(false);
+    setUser_c(false);
+    setUser_r(false);
+    setUser_u(false);
+    setUser_d(false);
   };
   const handleUserC = () => {
     setUser_c(true);
     setUser_r(false);
     setUser_u(false);
     setUser_d(false);
+    setD(false);
+    setR(false);
+    setC(false);
+    setU(false);
   };
   const handleUserR = () => {
     setUser_c(false);
     setUser_r(true);
     setUser_u(false);
     setUser_d(false);
+    setD(false);
+    setR(false);
+    setC(false);
+    setU(false);
   };
   const handleUserU = () => {
     setUser_c(false);
     setUser_r(false);
     setUser_u(true);
     setUser_d(false);
+    setD(false);
+    setR(false);
+    setC(false);
+    setU(false);
   };
   const handleUserD = () => {
     setUser_c(false);
     setUser_r(false);
     setUser_u(false);
     setUser_d(true);
+    setD(false);
+    setR(false);
+    setC(false);
+    setU(false);
   };
 
   switch (loginState) {
@@ -161,56 +193,65 @@ export default function Home() {
 
     case 2:
       return (
-        <div className="p-1 border border-primary rounded-1 container">
-          <div>
-            <nav className="navbar navbar-expand-sm navbar-light bg-light justify-content-center">
-              <ul className="navbar-nav">
-                <li className="nav-item mx-3">
-                  <button onClick={() => handleC()}>Create event</button>
-                </li>
-                <li className="nav-item mx-3">
-                  <button onClick={() => handleR()}> Retrieve events</button>
-                </li>
-                <li className="nav-item mx-3">
-                  <button onClick={() => handleU()}>Update event</button>
-                </li>
-                <li className="nav-item mx-3">
-                  <button onClick={() => handleD()}>Delete event</button>
-                </li>
-              </ul>
-            </nav>
+        <div class="container h-100">
+          <div class="row h-100">
+            <div class="col-2">
+              <nav className="navbar navbar-vertical-left">
+                <ul className="navbar-nav mr-auto">
+                  <li className="nav-item">
+                    <a class="nav-link" href="#" onClick={() => handleC()}>
+                      Create event
+                    </a>
+                  </li>
+                  <li className="nav-item ">
+                    <a class="nav-link" href="#" onClick={() => handleR()}>
+                      Retrieve events
+                    </a>
+                  </li>
+                  <li className="nav-item ">
+                    <a class="nav-link" href="#" onClick={() => handleU()}>
+                      Update event
+                    </a>
+                  </li>
+                  <li className="nav-item ">
+                    <a class="nav-link" href="#" onClick={() => handleD()}>
+                      Delete event
+                    </a>
+                  </li>
+                  <li className="nav-item ">
+                    <a class="nav-link" href="#" onClick={() => handleUserC()}>
+                      Create user
+                    </a>
+                  </li>
+                  <li className="nav-item ">
+                    <a class="nav-link" href="#" onClick={() => handleUserR()}>
+                      Retrieve user information
+                    </a>
+                  </li>
+                  <li className="nav-item ">
+                    <a class="nav-link" href="#" onClick={() => handleUserU()}>
+                      Update user information
+                    </a>
+                  </li>
+                  <li className="nav-item ">
+                    <a class="nav-link" href="#" onClick={() => handleUserD()}>
+                      Delete user
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            <div class="col-10 ">
+              <div>{c ? <CreateData /> : ""}</div>
+              <div>{r ? <RetrieveData /> : ""}</div>
+              <div>{u ? <UpdateData /> : ""}</div>
+              <div>{d ? <DeleteData /> : ""}</div>
+              <div>{user_c ? <UserCreateData /> : ""}</div>
+              <div>{user_r ? <UserRetrieveData /> : ""}</div>
+              <div>{user_u ? <UserUpdateData /> : ""}</div>
+              <div>{user_d ? <UserDeleteData /> : ""}</div>{" "}
+            </div>
           </div>
-          <div>{c ? <CreateData /> : ""}</div>
-          <div>{r ? <RetrieveData /> : ""}</div>
-          <div>{u ? <UpdateData /> : ""}</div>
-          <div>{d ? <DeleteData /> : ""}</div>
-
-          <div>
-            <nav className="navbar navbar-expand-sm navbar-light bg-light justify-content-center">
-              <ul className="navbar-nav">
-                <li className="nav-item mx-3">
-                  <button onClick={() => handleUserC()}>Create user</button>
-                </li>
-                <li className="nav-item mx-3">
-                  <button onClick={() => handleUserR()}>
-                    Retrieve user information
-                  </button>
-                </li>
-                <li className="nav-item mx-3">
-                  <button onClick={() => handleUserU()}>
-                    Update user information
-                  </button>
-                </li>
-                <li className="nav-item mx-3">
-                  <button onClick={() => handleUserD()}>Delete user</button>
-                </li>
-              </ul>
-            </nav>
-          </div>
-          <div>{user_c ? <UserCreateData /> : ""}</div>
-          <div>{user_r ? <UserRetrieveData /> : ""}</div>
-          <div>{user_u ? <UserUpdateData /> : ""}</div>
-          <div>{user_d ? <UserDeleteData /> : ""}</div>
         </div>
       );
 
