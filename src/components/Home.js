@@ -257,6 +257,7 @@ function Location(props) {
     let index = list.findIndex((item) => item.venueId === venueId);
     let list2 = list;
     list2[index].fav = !list2[index].fav;
+    setList(list2);
 
     fetch(server2URL + "/changeFav/" + sessionStorage.username, {
       method: "PUT",
