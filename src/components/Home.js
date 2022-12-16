@@ -193,61 +193,79 @@ export default function Home() {
 
     case 2:
       return (
-        <div class="container h-100">
-          <div class="row h-100">
-            <div class="col-2">
+        <div className="container h-100">
+          <div className="row h-100">
+            <div className="col-2">
               <nav className="navbar navbar-vertical-left">
                 <ul className="navbar-nav mr-auto">
                   <li className="nav-item">
-                    <a class="nav-link" href="#" onClick={() => handleC()}>
-                      <i class="fa fa-calendar" aria-hidden="true"></i> Create
-                      event
+                    <a className="nav-link" href="#" onClick={() => handleC()}>
+                      <i className="fa fa-calendar" aria-hidden="true"></i>{" "}
+                      Create event
                     </a>
                   </li>
                   <li className="nav-item ">
-                    <a class="nav-link" href="#" onClick={() => handleR()}>
-                      <i class="fa fa-calendar" aria-hidden="true"></i> Retrieve
-                      events
+                    <a className="nav-link" href="#" onClick={() => handleR()}>
+                      <i className="fa fa-calendar" aria-hidden="true"></i>{" "}
+                      Retrieve events
                     </a>
                   </li>
                   <li className="nav-item ">
-                    <a class="nav-link" href="#" onClick={() => handleU()}>
-                      <i class="fa fa-calendar" aria-hidden="true"></i> Update
-                      event
+                    <a className="nav-link" href="#" onClick={() => handleU()}>
+                      <i className="fa fa-calendar" aria-hidden="true"></i>{" "}
+                      Update event
                     </a>
                   </li>
                   <li className="nav-item ">
-                    <a class="nav-link" href="#" onClick={() => handleD()}>
-                      <i class="fa fa-calendar" aria-hidden="true"></i> Delete
-                      event
+                    <a className="nav-link" href="#" onClick={() => handleD()}>
+                      <i className="fa fa-calendar" aria-hidden="true"></i>{" "}
+                      Delete event
                     </a>
                   </li>
                   <li className="nav-item ">
-                    <a class="nav-link" href="#" onClick={() => handleUserC()}>
-                      <i class="fa fa-user" aria-hidden="true"></i> Create user
+                    <a
+                      className="nav-link"
+                      href="#"
+                      onClick={() => handleUserC()}
+                    >
+                      <i className="fa fa-user" aria-hidden="true"></i> Create
+                      user
                     </a>
                   </li>
                   <li className="nav-item ">
-                    <a class="nav-link" href="#" onClick={() => handleUserR()}>
-                      <i class="fa fa-user" aria-hidden="true"></i> Retrieve
+                    <a
+                      className="nav-link"
+                      href="#"
+                      onClick={() => handleUserR()}
+                    >
+                      <i className="fa fa-user" aria-hidden="true"></i> Retrieve
                       user information
                     </a>
                   </li>
                   <li className="nav-item ">
-                    <a class="nav-link" href="#" onClick={() => handleUserU()}>
-                      <i class="fa fa-user" aria-hidden="true"></i> Update user
-                      information
+                    <a
+                      className="nav-link"
+                      href="#"
+                      onClick={() => handleUserU()}
+                    >
+                      <i className="fa fa-user" aria-hidden="true"></i> Update
+                      user information
                     </a>
                   </li>
                   <li className="nav-item ">
-                    <a class="nav-link" href="#" onClick={() => handleUserD()}>
-                      <i class="fa fa-user" aria-hidden="true"></i> Delete user
+                    <a
+                      className="nav-link"
+                      href="#"
+                      onClick={() => handleUserD()}
+                    >
+                      <i className="fa fa-user" aria-hidden="true"></i> Delete
+                      user
                     </a>
                   </li>
                 </ul>
               </nav>
             </div>
-            <div class="col-10 ">
+            <div className="col-10 ">
               <div>{c ? <CreateData /> : ""}</div>
               <div>{r ? <RetrieveData /> : ""}</div>
               <div>{u ? <UpdateData /> : ""}</div>
