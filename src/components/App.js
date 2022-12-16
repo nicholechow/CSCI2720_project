@@ -8,6 +8,8 @@ import Account from "./Account";
 import { server2URL } from "../utils/EnvReact";
 import { isUser, isLoggedIn, logout } from "../utils/Utils";
 import { onLoad } from "../utils/EnvReact";
+import mapboxgl from "mapbox-gl";
+import { mapboxglKey } from "../utils/EnvReact";
 
 // App
 function App(props) {
@@ -22,14 +24,36 @@ function App(props) {
     props.loginflag === undefined ? false : props.loginflag
   );
   const [keyword, setKeyword] = useState("");
+  const [loadState, setLoadState] = useState(false);
+  //const getLoadState = () => loadState;
 
   useEffect(
     () => async () => {
+      //console.log(getLoadState);
+      console.log(mapboxglKey);
       await onLoad();
       setMapboxglKey();
     },
-    []
+    [loadState]
   );
+
+  useEffect(() => {
+    window.addEventListener("load", () => {
+      fetch(server2URL + "/loadData", {
+        method: "PUT",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
+      })
+        .then()
+        .then(() => {
+          setLoadState(true);
+        })
+        .catch((err) => console.log(err));
+    });
+  });
 
   const handleChangeUsername = (e) => setUsername(e.target.value);
   const handleChangePassword = (e) => setPassword(e.target.value);
@@ -58,6 +82,21 @@ function App(props) {
               "70"
             );
             sessionStorage.username = "admin";
+            /*
+            fetch(server2URL + "/loadData", {
+              method: "PUT",
+              mode: "cors",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({}),
+            })
+              .then()
+              .then(() => {
+                setLoadState(true);
+              })
+              .catch((err) => console.log(err));
+              */
             break;
 
           case 1:
@@ -66,6 +105,21 @@ function App(props) {
               () => document.getElementById("autoclick").click(),
               "70"
             );
+            /*
+            fetch(server2URL + "/loadData", {
+              method: "PUT",
+              mode: "cors",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({}),
+            })
+              .then()
+              .then(() => {
+                setLoadState(true);
+              })
+              .catch((err) => console.log(err));
+              */
 
             if (!json.username) delete sessionStorage.username;
             else sessionStorage.username = json.username;
@@ -182,19 +236,43 @@ function App(props) {
               />
             }
           />
-          <Route path="/debug" element={<Home loggedIn={true} />} />
-          <Route path="/venue/:venueId" element={<Venue />} />
-          <Route path="/search/:keyword" element={<Search />} />
-          <Route path="/account" element={<Account />} />
+          <Route
+            path="/debug"
+            element={<Home loggedIn={true} loadState={loadState} />}
+          />
+          <Route
+            path="/venue/:venueId"
+            element={<Venue loadState={loadState} />}
+          />
+          <Route
+            path="/search/:keyword"
+            element={<Search loadState={loadState} />}
+          />
+          <Route path="/account" element={<Account loadState={loadState} />} />
           <Route
             path="/user"
-            element={<Home loggedIn={loginflag} isAdmin={adminflag} />}
+            element={
+              <Home
+                loggedIn={loginflag}
+                isAdmin={adminflag}
+                loadState={loadState}
+              />
+            }
           />
           <Route
             path="/admin"
-            element={<Home loggedIn={loginflag} isAdmin={adminflag} />}
+            element={
+              <Home
+                loggedIn={loginflag}
+                isAdmin={adminflag}
+                loadState={loadState}
+              />
+            }
           />
-          <Route path="*" element={<Home loggedIn={false} />} />
+          <Route
+            path="*"
+            element={<Home loggedIn={false} loadState={loadState} />}
+          />
         </Routes>
       </BrowserRouter>
     </>

@@ -109,7 +109,10 @@ export default function Venue() {
             </li>
           </ul>
         </nav>
-        <Map id={venueId} />
+        <React.StrictMode>
+          <Map id={venueId} />
+        </React.StrictMode>
+
         <Detail id={venueId} />
         <Comments id={venueId} />
       </div>
