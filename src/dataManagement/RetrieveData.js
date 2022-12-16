@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { server2URL } from "../utils/EnvReact";
-import { withStyles } from "@mui/styles";
-// import "../style.css";
+import "../style.css";
 
 const columns = [
   { field: "eventid", headerName: "eventid" },
@@ -16,23 +15,6 @@ const columns = [
   { field: "longitude", headerName: "longitude", width: 300 },
   { field: "datetime", headerName: "datetime", width: 300 },
 ];
-
-const StyledDataGrid = withStyles({
-  root: {
-    "& .MuiDataGrid-renderingZone": {
-      maxHeight: "none !important",
-    },
-    "& .MuiDataGrid-cell": {
-      lineHeight: "unset !important",
-      maxHeight: "none !important",
-      whiteSpace: "normal !important",
-      wordWrap: "break-word !important",
-    },
-    "& .MuiDataGrid-row": {
-      maxHeight: "none !important",
-    },
-  },
-})(DataGrid);
 
 const DataTable = () => {
   const [tableData, setTableData] = useState([]);
@@ -48,7 +30,7 @@ const DataTable = () => {
 
   return (
     <div style={{ height: 700, width: "100%" }}>
-      <StyledDataGrid
+      <DataGrid
         getRowId={(data) => data.eventid}
         rows={tableData}
         columns={columns}
