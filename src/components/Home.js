@@ -65,31 +65,6 @@ export default function Home(props) {
       });
   });
 
-  const handleC = () => {
-    setOpen("c");
-  };
-  const handleR = () => {
-    setOpen("r");
-  };
-  const handleU = () => {
-    setOpen("u");
-  };
-  const handleD = () => {
-    setOpen("d");
-  };
-  const handleUserC = () => {
-    setOpen("uc");
-  };
-  const handleUserR = () => {
-    setOpen("ur");
-  };
-  const handleUserU = () => {
-    setOpen("uu");
-  };
-  const handleUserD = () => {
-    setOpen("ud");
-  };
-
   switch (loginState) {
     case 0:
       return (
@@ -139,25 +114,25 @@ export default function Home(props) {
               <nav className="navbar navbar-vertical-left">
                 <ul className="navbar-nav mr-auto">
                   <li className="nav-item">
-                    <a className="nav-link" href="#" onClick={() => handleC()}>
+                    <a className="nav-link" href="#" onClick={() => setOpen("c")}>
                       <i className="fa fa-calendar" aria-hidden="true"></i>{" "}
                       Create event
                     </a>
                   </li>
                   <li className="nav-item ">
-                    <a className="nav-link" href="#" onClick={() => handleR()}>
+                    <a className="nav-link" href="#" onClick={() => setOpen("r")}>
                       <i className="fa fa-calendar" aria-hidden="true"></i>{" "}
                       Retrieve events
                     </a>
                   </li>
                   <li className="nav-item ">
-                    <a className="nav-link" href="#" onClick={() => handleU()}>
+                    <a className="nav-link" href="#" onClick={() => setOpen("u")}>
                       <i className="fa fa-calendar" aria-hidden="true"></i>{" "}
                       Update event
                     </a>
                   </li>
                   <li className="nav-item ">
-                    <a className="nav-link" href="#" onClick={() => handleD()}>
+                    <a className="nav-link" href="#" onClick={() => setOpen("d")}>
                       <i className="fa fa-calendar" aria-hidden="true"></i>{" "}
                       Delete event
                     </a>
@@ -166,7 +141,7 @@ export default function Home(props) {
                     <a
                       className="nav-link"
                       href="#"
-                      onClick={() => handleUserC()}
+                      onClick={() => setOpen("uc")}
                     >
                       <i className="fa fa-user" aria-hidden="true"></i> Create
                       user
@@ -176,7 +151,7 @@ export default function Home(props) {
                     <a
                       className="nav-link"
                       href="#"
-                      onClick={() => handleUserR()}
+                      onClick={() => setOpen("ur")}
                     >
                       <i className="fa fa-user" aria-hidden="true"></i> Retrieve
                       user information
@@ -186,7 +161,7 @@ export default function Home(props) {
                     <a
                       className="nav-link"
                       href="#"
-                      onClick={() => handleUserU()}
+                      onClick={() => setOpen("uu")}
                     >
                       <i className="fa fa-user" aria-hidden="true"></i> Update
                       user information
@@ -196,7 +171,7 @@ export default function Home(props) {
                     <a
                       className="nav-link"
                       href="#"
-                      onClick={() => handleUserD()}
+                      onClick={() => setOpen("ud")}
                     >
                       <i className="fa fa-user" aria-hidden="true"></i> Delete
                       user

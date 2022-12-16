@@ -14,6 +14,7 @@ const cors = require("cors");
 app.use(cors());
 
 const { Event, Venue, Comment, User, db } = require("../utils/Schemas");
+const e = require("express");
 
 // Upon connection failure
 db.on("error", console.error.bind(console, "Connection error:"));
@@ -80,7 +81,9 @@ db.once("open", function () {
       body: JSON.stringify({ username, password }),
     })
       .then((res) => {
-        if (res.status in [401, 403]) {
+        // console.log(res)
+        console.log(typeof(res.status))
+        if (res.status == 401 || res.status == 403) {
           loginState = 0;
           return {};
         }
@@ -88,7 +91,9 @@ db.once("open", function () {
         return res.json();
       })
       .catch((err) => {
-        console.log("8889/login" + err);
+        if (err.status in [401, 403])
+          return;
+        console.log("8889/login " + err);
         loginState = -2;
       });
 
@@ -500,7 +505,7 @@ db.once("open", function () {
     User.findOne({ username: String(req.params["username"]) }, (err, u) => {
       if (u != null) {
         u.username = String(req.body["username"]);
-        u.pw = String(req.body["pw"]);
+        u.pw = pwd(String(req.body["pw"]));
         u.fav = req.body["fav"];
         u.save();
         buf = "User information updated successfully";
