@@ -29,6 +29,9 @@ import {
 } from "../utils/EnvReact";
 // eslint-disable-next-line
 import mapboxgl from "!mapbox-gl";
+
+mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_GL_KEY;
+
 export function Map(props) {
   const mapContainer = useRef(null);
   const map = useRef(null);
@@ -46,13 +49,7 @@ export function Map(props) {
 
   const mapboxInit = () => async () => {
     // If no key or key length not right, then load try to load it but still failed, then wait 2s and try again
-    if (
-      !mapboxglKey() ||
-      (mapboxglKey().length !== 93 
-      // && (await onLoad()).mapboxglKey == null
-      )
-    )
-      return setTimeout(mapboxInit(), 2000);
+
 
     // initialize map only once
     if (map.current) return;
