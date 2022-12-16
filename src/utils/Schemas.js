@@ -3,9 +3,9 @@
 // const { Event, Venue, Comment, User, db } = require('./Schemas');
 
 // Configs
-require('dotenv').config()
+require("dotenv").config();
 
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 mongoose.connect(process.env.dbURL);
 const db = mongoose.connection;
 
@@ -36,7 +36,7 @@ const CommentSchema = mongoose.Schema({
   username: { type: String, required: true },
   comment: { type: String, required: true },
 });
-Comment = mongoose.model("Comment", CommentSchema);
+const Comment = mongoose.model("Comment", CommentSchema);
 
 const UserSchema = mongoose.Schema({
   username: { type: String, required: true, unique: true },
@@ -51,6 +51,5 @@ const TokenSchema = mongoose.Schema({
   refreshToken: { type: String, required: true },
 });
 const Token = mongoose.model("Token", TokenSchema);
-
 
 module.exports = { db, Event, Venue, Comment, User, Token };

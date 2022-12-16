@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { server2URL } from "../utils/EnvReact";
 import { isAdmin, isUser, isLoggedIn } from "../utils/Utils";
 import { Link } from "react-router-dom";
+import { PromiseProvider } from "mongoose";
 
-export default function Account() {
+export default function Account(props) {
   const [favList, setFavList] = useState([]);
   const [stateAcc, setStateAcc] = useState(false);
   const changeFav = (venueId) => {
@@ -31,22 +32,25 @@ export default function Account() {
   }, []);
 
   useEffect(() => {
-    if (isUser()) {
-      fetch(server2URL + "/fav/" + sessionStorage.username)
-        .then((res) => res.json())
-        .then((fav) => {
-          if (stateAcc === false) {
-            //console.log(fav);
+    if (isUser() && props.loadState && stateAcc === false) {
+      console.log(props.loadState);
+      setTimeout(() => {
+        fetch(server2URL + "/fav/" + sessionStorage.username)
+          .then((res) => res.json())
+          .then((fav) => {
+            //if (stateAcc === false) {
+            console.log(fav);
             setFavList(fav);
             setStateAcc(true);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+            //}
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }, 3000);
     }
     // I want to do this to get rid of a warning, this changed does not seem to ruin everything at first glance...
-  }, [stateAcc]);
+  }, [props.loadState, stateAcc]);
   // }, []);
 
   return isLoggedIn() ? (

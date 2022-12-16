@@ -24,13 +24,13 @@ import { isUser, isAdmin, isLoggedIn } from "../utils/Utils";
 export const setMapboxglKey = () => (mapboxgl.accessToken = mapboxglKey());
 
 // Home
-export default function Home() {
+export default function Home(props) {
   const [open, setOpen] = useState("c");
   const [loginState, setLoginState] = useState(0);
 
   useEffect(() => {
     if (!isLoggedIn()) return;
-
+    //console.log(props.getLoadState);
     fetch(exampleServerURL + "/authenticate", {
       method: "POST",
       headers: {
@@ -118,8 +118,10 @@ export default function Home() {
             </ul>
           </nav>
           <div className="p-1 border border-primary rounded-1 container">
-            <Location id="locationComponent" />
-            <Map id="all" />
+            <Location id="locationComponent" loadState={props.loadState} />
+            <React.StrictMode>
+              <Map id="all" />
+            </React.StrictMode>
           </div>
         </div>
       ) : (
@@ -223,11 +225,21 @@ export default function Home() {
 // Home;
 
 // Location
-function Location() {
+function Location(props) {
   const [statee, setStatee] = useState(false);
   const [statee2, setStatee2] = useState(false);
   const [list, setList] = useState([]);
   const [sortState, setSortState] = useState(0);
+  /*
+  const LocationInit = () => async () => {
+    setStatee(false);
+    setStatee2(false);
+    console.log(list.length);
+    if (list.length === 0) return setTimeout(() => LocationInit(), 2000);
+  };
+
+  useEffect(() => LocationInit());
+  */
 
   const sortTable = () => {
     if (list.length !== 0) {
@@ -292,42 +304,45 @@ function Location() {
     }
   };
 
-  //useEffect(() => {
-  fetch(server2URL + "/venueEventCnt")
-    .then((res) => res.json())
-    .then((data) => {
-      // console.log(data);
-      if (list.length === 0) {
-        //console.log(data);
-        if (list.length === 0 && statee === false) {
-          setList(data);
-          setStatee(true);
-        }
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  fetch(server2URL + "/fav/" + sessionStorage.username)
-    .then((res) => res.json())
-    .then((fav) => {
-      if (fav.length !== 0 && statee === true && statee2 === false) {
-        fav = fav.map((ele) => ele.id);
-        //console.log(fav);
-        setList(
-          list.map((ele) => {
-            ele.fav = fav.includes(ele.venueId);
-            return ele;
-          })
-        );
-        setStatee2(true);
-        //console.log(list);
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  //});
+  useEffect(() => {
+    if (props.loadState) {
+      //console.log(props.loadState);
+      fetch(server2URL + "/venueEventCnt")
+        .then((res) => res.json())
+        .then((data) => {
+          //console.log(list);
+          if (list.length === 0) {
+            //console.log(data);
+            if (list.length === 0 && statee === false) {
+              setList(data);
+              setStatee(true);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      fetch(server2URL + "/fav/" + sessionStorage.username)
+        .then((res) => res.json())
+        .then((fav) => {
+          if (fav.length !== 0 && statee === true && statee2 === false) {
+            fav = fav.map((ele) => ele.id);
+            //console.log(fav);
+            setList(
+              list.map((ele) => {
+                ele.fav = fav.includes(ele.venueId);
+                return ele;
+              })
+            );
+            setStatee2(true);
+            //console.log(list);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [props.loadState, list.length, statee, statee2]);
 
   return (
     <div className="col-sm-12 col-md-12 col-lg-12 m-auto">

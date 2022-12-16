@@ -44,7 +44,7 @@
     "authServer": "nodemon src/servers/authServer.js",
     "exampleServer": "nodemon src/servers/exampleServer.js",
     "XMLserver": "nodemon src/servers/server.js",
-    "dev": "concurrently \"npm run server\" \"npm run authServer\" \"npm run exampleServer\" \"npm start\"",
+    "dev": "concurrently \"npm run server\" \"npm run authServer\" \"npm run exampleServer\" \"set BROWSER=NONE && npm start\"",
     "winDemo": "concurrently \"npm run server\" \"npm run authServer\" \"npm run exampleServer\" \"set PORT=80 && react-scripts start\"",
     "macDemo": "concurrently \"sudo PORT=80 react-scripts start\" \"npm run authServer\" \"npm run exampleServer\" \"npm run server\"",
     "ubuntuDemo": "concurrently \"PORT=80 react-scripts start\" \"npm run authServer\" \"npm run exampleServer\" \"npm run server\""
