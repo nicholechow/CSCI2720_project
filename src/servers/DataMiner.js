@@ -14,15 +14,13 @@ const datamine = async db => {
     return -1;
   dirty = true;
 
-  // Simulate slow network
-  await new Promise(res => setTimeout(res, 1000))
-
-  db.dropCollection("venues");
-  db.dropCollection("events");
+  await db.dropCollection("venues", (err, _) => err ? null : console.log("Venues Dropped"));
+  await db.dropCollection("events", (err, _) => err ? null : console.log("Events Dropped"));
 
   //download file
   await download(process.env.eventsURL, filePath, process.env.eventsPath).then(async () => {
     await download(process.env.venuesURL, filePath, process.env.venuesPath).then(async () => {
+      console.log("XML Downloaded")
       //read file and convert to json
       var e = [];
       var v = [];
@@ -49,6 +47,8 @@ const datamine = async db => {
       xml2 = fs.readFileSync(filePath + '/' + process.env.venuesPath, "utf8");
       json2 = parser.toJson(xml2, { object: true });
 
+      console.log("File Loading")
+
       // I think setup1() can be reduced into just the for loop, since there is only one usage
       function setup1() {
         for (var i = 0; i < json2.venues.venue.length; i++) {
@@ -73,6 +73,7 @@ const datamine = async db => {
       }
 
       setup1();
+      console.log("setup1")
 
       // I think setup2() can be reduced into just the for loop and put inside the for loop, since there is only one usage
       function setup2(id) {
@@ -159,7 +160,8 @@ const datamine = async db => {
   });
 
   // Wait a little bit for the database to get comfortable with the huge data we inserted in
-  await new Promise(() => setTimeout(() => dirty = false, 1000));
+  await new Promise(res => setTimeout(res, 1000));
+  dirty = false
   return 0;
 }
 
