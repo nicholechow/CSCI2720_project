@@ -1,5 +1,5 @@
 import React from "react";
-import { server2URL } from "../utils/EnvReact"
+import { server2URL } from "../utils/EnvReact";
 
 class CreateData extends React.Component {
   constructor(props) {
@@ -43,9 +43,7 @@ class CreateData extends React.Component {
   render() {
     return (
       <div className="col-sm-12 col-md-12 col-lg-12 m-auto">
-        <section className="p-1 mx-1 border border-primary rounded-1">
-          <h4>Create Data</h4>
-
+        <section className="p-1 mx-1 ">
           <form className="form" onSubmit={this.handleSubmit}>
             <div className="p-4 col-6 m-auto border border-4 border-primary rounded-3">
               <h3>Create Event</h3>

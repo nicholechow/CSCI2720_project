@@ -34,8 +34,8 @@ class RetrieveData extends React.Component {
   render() {
     return (
       <div className="col-sm-12 col-md-12 col-lg-12 m-auto">
-        <section className="p-1 mx-1 border border-primary rounded-1">
-          <h4>Data Retrieved</h4>
+        <section className="p-1 mx-1">
+          <h4>Events Retrieved</h4>
 
           <table className="p-2 text-center table table-hover">
             <thead className="thead-light">
