@@ -25,7 +25,7 @@ export const setMapboxglKey = () => (mapboxgl.accessToken = mapboxglKey());
 
 // Home
 export default function Home() {
-  const [c, setC] = useState(false);
+  const [c, setC] = useState(true);
   const [r, setR] = useState(false);
   const [u, setU] = useState(false);
   const [d, setD] = useState(false);
