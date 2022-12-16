@@ -33,5 +33,4 @@ export const serverURL = localurl(serverPort)
 export const server2URL = localurl(server2Port)
 export const exampleServerURL = localurl(exampleServerPort)
 
-export const ok = () => env.ok
 export const mapboxglKey = process.env.REACT_APP_mapboxglKey
