@@ -7,6 +7,7 @@ class UserUpdateData extends React.Component {
     this.state = {
       username: "",
       pw: "",
+      newusername: ""
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleLoad = this.handleLoad.bind(this);
@@ -20,7 +21,7 @@ class UserUpdateData extends React.Component {
     fetch(server2URL + "/user/" + String(this.state.username))
       .then((res) => res.json())
       .then((data) => {
-        document.getElementById("username").value = data.username;
+        document.getElementById("newusername").value = data.username;
         document.getElementById("pw").value = data.pw;
       });
   }
@@ -29,6 +30,7 @@ class UserUpdateData extends React.Component {
     let newData = {
       username: document.getElementById("username").value,
       pw: document.getElementById("pw").value,
+      newusername: document.getElementById("newusername").value,
     };
     fetch(server2URL + "/userupdate/" + String(this.state.username), {
       method: "PUT",
@@ -37,7 +39,13 @@ class UserUpdateData extends React.Component {
     })
       .then((res) => res.text())
       .then((txt) => {
-        document.getElementById("userupdatemessage").innerText = txt;
+        let inf=txt.split("\n");
+        if (inf.length>1){
+          document.getElementById("userupdatemessage").innerText = "Please input original username";
+        }else{
+          document.getElementById("userupdatemessage").innerText = txt;
+        }
+        
       });
   }
 
@@ -50,7 +58,7 @@ class UserUpdateData extends React.Component {
               <h3>Load User Information</h3>
 
               <div className="p-2 form-group mt-3">
-                <label htmlFor="username">Username:</label>
+                <label htmlFor="username">Original Username:</label>
                 <input
                   id="username"
                   name="username"
@@ -75,10 +83,10 @@ class UserUpdateData extends React.Component {
               <h3>Update User Information</h3>
 
               <div className="p-2 form-group mt-3">
-                <label htmlFor="username">Username:</label>
+                <label htmlFor="newusername">New Username:</label>
                 <input
-                  id="username"
-                  name="username"
+                  id="newusername"
+                  name="newusername"
                   type="text"
                   onChange={this.handleChange}
                   className="form-control mt-1"
@@ -87,7 +95,7 @@ class UserUpdateData extends React.Component {
               </div>
 
               <div className="p-2 form-group mt-3">
-                <label htmlFor="pw">Password:</label>
+                <label htmlFor="pw">New Password:</label>
                 <input
                   id="pw"
                   name="pw"
