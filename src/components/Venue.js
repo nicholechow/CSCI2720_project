@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Map } from "./Map";
+import { ReactMap } from "./Map";
 import { server2URL } from "../utils/EnvReact";
 import { isUser, isLoggedIn } from "../utils/Utils";
 import { Link } from "react-router-dom";
@@ -110,7 +110,7 @@ export default function Venue(props) {
           </ul>
         </nav>
         <React.StrictMode>
-          <Map id={venueId} />
+          <ReactMap id={venueId} />
         </React.StrictMode>
 
         <Detail id={venueId} />

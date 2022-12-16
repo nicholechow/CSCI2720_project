@@ -2,7 +2,6 @@ import React, { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 // Reference: https://docs.mapbox.com/help/tutorials/use-mapbox-gl-js-with-react/
-import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 
 import CreateData from "../dataManagement/CreateData";
 import DeleteData from "../dataManagement/DeleteData";
@@ -12,7 +11,7 @@ import UserCreateData from "../dataManagement/UserCreateData";
 import UserDeleteData from "../dataManagement/UserDeleteData";
 import UserRetrieveData from "../dataManagement/UserRetrieveData";
 import UserUpdateData from "../dataManagement/UserUpdateData";
-import { Map } from "./Map";
+import { ReactMap } from "./Map";
 
 import {
   server2URL,
@@ -21,8 +20,6 @@ import {
   onLoad,
 } from "../utils/EnvReact";
 import { isUser, isAdmin, isLoggedIn } from "../utils/Utils";
-
-export const setMapboxglKey = () => (mapboxgl.accessToken = mapboxglKey());
 
 // Home
 export default function Home(props) {
@@ -120,9 +117,7 @@ export default function Home(props) {
           </nav>
           <div className="p-1 border border-primary rounded-1 container">
             <Location id="locationComponent" loadState={props.loadState} />
-            <React.StrictMode>
-              <Map id="all" />
-            </React.StrictMode>
+            <ReactMap />
           </div>
         </div>
       ) : (

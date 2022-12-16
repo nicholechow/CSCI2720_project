@@ -26,16 +26,6 @@ function App(props) {
   const [loadState, setLoadState] = useState(false);
   //const getLoadState = () => loadState;
 
-  useEffect(
-    () => async () => {
-      //console.log(getLoadState);
-      console.log(mapboxglKey);
-      await onLoad();
-      setMapboxglKey();
-    },
-    [loadState]
-  );
-
   useEffect(() => {
     window.addEventListener("load", () => {
       fetch(server2URL + "/loadData", {
