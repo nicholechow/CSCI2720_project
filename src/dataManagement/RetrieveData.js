@@ -1,6 +1,5 @@
 import React from "react";
 import { server2URL } from "../utils/EnvReact";
-
 class RetrieveData extends React.Component {
   componentDidMount() {
     fetch(server2URL + "/listall")
@@ -37,7 +36,10 @@ class RetrieveData extends React.Component {
         <section className="p-1 mx-1">
           <h4>Events Retrieved</h4>
 
-          <table className="p-2 text-center table table-hover">
+          <table
+            className="p-2 text-center table table-hover"
+            style={{ tableLayout: "fixed" }}
+          >
             <thead className="thead-light">
               <tr>
                 <th scope="col">Count</th>
