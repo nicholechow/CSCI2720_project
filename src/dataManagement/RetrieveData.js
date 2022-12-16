@@ -1,68 +1,54 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { DataGrid } from "@mui/x-data-grid";
 import { server2URL } from "../utils/EnvReact";
-class RetrieveData extends React.Component {
-  componentDidMount() {
+import "../style.css";
+
+const columns = [
+  { field: "eventid", headerName: "eventid" },
+  { field: "title", headerName: "Title", width: 300 },
+  { field: "description", headerName: "description", width: 300 },
+  { field: "presenter", headerName: "presenter", width: 300 },
+  { field: "price", headerName: "price", width: 300 },
+  { field: "venuename", headerName: "venuename", width: 300 },
+  { field: "venueid", headerName: "venueid", width: 300 },
+  { field: "latitude", headerName: "latitude", width: 300 },
+  { field: "longitude", headerName: "longitude", width: 300 },
+  { field: "datetime", headerName: "datetime", width: 300 },
+];
+
+const DataTable = () => {
+  const [tableData, setTableData] = useState([]);
+
+  const [rows, setRows] = useState(tableData);
+  const [deletedRows, setDeletedRows] = useState([]);
+
+  useEffect(() => {
     fetch(server2URL + "/listall")
-      .then((res) => res.json())
-      .then((data) => {
-        //console.log(data);
-        const RetrieveData = document.getElementById("RetrieveData");
-        RetrieveData.innerHTML = data
-          .map((ele, i) => {
-            return `<tr key=${i}>
-            <td>${i + 1}</td>        
-            <td>${ele.venueid}</td>
-            <td>${ele.venuename}</td>
-            <td>${ele.eventid}</td>
-            <td>${ele.title}</td>
-            <td>${ele.datetime}</td>           
-            <td>${ele.latitude}</td>
-            <td>${ele.longitude}</td>
-            <td>${ele.description}</td>
-            <td>${ele.presenter}</td>
-            <td>${ele.price}</td>
-            </tr>`;
-          })
-          .join("");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+      .then((data) => data.json())
+      .then((data) => setTableData(data));
+  }, []);
 
-  render() {
-    return (
-      <div className="col-sm-12 col-md-12 col-lg-12 m-auto">
-        <section className="p-1 mx-1">
-          <h4>Events Retrieved</h4>
+  return (
+    <div style={{ height: 700, width: "100%" }}>
+      <DataGrid
+        getRowId={(data) => data.eventid}
+        rows={tableData}
+        columns={columns}
+        pageSize={12}
+        checkboxSelection={false}
+        onSelectionModelChange={({ selectionModel }) => {
+          const rowIds = selectionModel.map((rowId) =>
+            parseInt(String(rowId), 10)
+          );
+          const rowsToDelete = tableData.filter((row) =>
+            rowIds.includes(row.id)
+          );
+          setDeletedRows(rowsToDelete);
+          console.log(deletedRows);
+        }}
+      />
+    </div>
+  );
+};
 
-          <table
-            className="p-2 text-center table table-hover"
-            style={{ tableLayout: "fixed" }}
-          >
-            <thead className="thead-light">
-              <tr>
-                <th scope="col">Count</th>
-                <th scope="col">Venue ID</th>
-                <th scope="col">Venue Name</th>
-                <th scope="col">Event ID</th>
-                <th scope="col">Title</th>
-                <th scope="col">Datetime</th>
-                <th scope="col">Latitude</th>
-                <th scope="col">Longitude</th>
-                <th scope="col">Description</th>
-                <th scope="col">Presenter</th>
-                <th scope="col">Price</th>
-              </tr>
-            </thead>
-            <tbody id="RetrieveData">
-              <tr></tr>
-            </tbody>
-          </table>
-        </section>
-      </div>
-    );
-  }
-}
-
-export default RetrieveData;
+export default DataTable;

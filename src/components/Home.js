@@ -6,7 +6,7 @@ import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-load
 
 import CreateData from "../dataManagement/CreateData";
 import DeleteData from "../dataManagement/DeleteData";
-import RetrieveData from "../dataManagement/RetrieveData";
+import DataTable from "../dataManagement/RetrieveData";
 import UpdateData from "../dataManagement/UpdateData";
 import UserCreateData from "../dataManagement/UserCreateData";
 import UserDeleteData from "../dataManagement/UserDeleteData";
@@ -206,7 +206,7 @@ export default function Home(props) {
             </div>
             <div className="col-10 ">
               <div>{open === "c" ? <CreateData /> : ""}</div>
-              <div>{open === "r" ? <RetrieveData /> : ""}</div>
+              <div>{open === "r" ? <DataTable /> : ""}</div>
               <div>{open === "u" ? <UpdateData /> : ""}</div>
               <div>{open === "d" ? <DeleteData /> : ""}</div>
               <div>{open === "uc" ? <UserCreateData /> : ""}</div>
