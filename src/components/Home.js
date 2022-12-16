@@ -40,9 +40,8 @@ import { Map } from "./Map";
 
 import {
   server2URL,
-  exampleServerURL,
   mapboxglKey,
-  onLoad,
+  authServerURL,
 } from "../utils/EnvReact";
 import { isUser, isAdmin, isLoggedIn } from "../utils/Utils";
 
@@ -56,7 +55,7 @@ export default function Home(props) {
   useEffect(() => {
     if (!isLoggedIn()) return;
     //console.log(props.getLoadState);
-    fetch(exampleServerURL + "/authenticate", {
+    fetch(authServerURL + "/authenticate", {
       method: "POST",
       headers: {
         "Content-type": "application/json",

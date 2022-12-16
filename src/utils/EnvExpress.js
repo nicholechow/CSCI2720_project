@@ -30,18 +30,17 @@ const localurl = port => "http://localhost:" + port
 const authServerPort = env.REACT_APP_authServerPort
 const serverPort = env.REACT_APP_serverPort
 const server2Port = env.REACT_APP_server2Port
-const exampleServerPort = env.REACT_APP_exampleServerPort
 
 const authServerURL = localurl(authServerPort)
 const serverURL = localurl(serverPort)
 const server2URL = localurl(server2Port)
-const exampleServerURL = localurl(exampleServerPort)
+console.log(server2URL, env.REACT_APP_server2Port)
 
 const salt = env.salt
 const mapboxglKey = env.mapboxglKey
 
 
 module.exports ={
-  env, localurl, authServerPort, serverPort, server2Port, exampleServerPort,
-  authServerURL, serverURL, server2URL, exampleServerURL, salt, mapboxglKey
+  env, localurl, authServerPort, serverPort, server2Port, 
+  authServerURL, serverURL, server2URL, salt, mapboxglKey
 }

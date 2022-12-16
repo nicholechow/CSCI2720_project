@@ -24,7 +24,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import {
   server2URL,
-  exampleServerURL,
   mapboxglKey,
   // onLoad,
 } from "../utils/EnvReact";

@@ -26,9 +26,9 @@
 
 // request handle
 // execute node src/server2.js5
-const { env, authServerURL, mapboxglKey } = require("../utils/EnvExpress");
+const { authServerURL, mapboxglKey, server2Port } = require("../utils/EnvExpress");
 const { pwd, apost, aget, aput, adelete } = require("../utils/UtilsExpress");
-const { datamine, isLoading } = require("./DataMiner");
+const { datamine } = require("./DataMiner");
 
 const express = require("express");
 const app = express();
@@ -63,7 +63,7 @@ db.once("open", function () {
   // TODO:: Maybe sort sort this for easier navigation
 
   // post(app,
-  /*app.post(*/ aput(app, "/loadData", async (_, res) => {
+  aput(app, "/loadData", async (_, res) => {
     console.log("Data Loading");
     // test(0)
     await datamine(db);
@@ -74,7 +74,7 @@ db.once("open", function () {
   //login
   // 1: user
   // 2: admin
-  /*app.post(*/ apost(app, "/login", async (req, res) => {
+  apost(app, "/login", async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
     let loginState = -1;
@@ -603,4 +603,4 @@ db.once("open", function () {
 });
 
 // listen to port
-const server = app.listen(env.server2Port);
+const server = app.listen(server2Port);

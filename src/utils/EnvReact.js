@@ -26,11 +26,9 @@ import { localurl } from "./Utils";
 export const serverPort=process.env.REACT_APP_serverPort
 export const server2Port=process.env.REACT_APP_server2Port
 export const authServerPort=process.env.REACT_APP_authServerPort
-export const exampleServerPort=process.env.REACT_APP_exampleServerPort
 
 export const authServerURL = localurl(authServerPort)
 export const serverURL = localurl(serverPort)
 export const server2URL = localurl(server2Port)
-export const exampleServerURL = localurl(exampleServerPort)
 
 export const mapboxglKey = process.env.REACT_APP_mapboxglKey

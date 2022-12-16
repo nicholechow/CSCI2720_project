@@ -102,35 +102,41 @@ function refreshToken() {
   })
 }
 
+function authenticate() {
+  app.all('/authenticate', authenticateToken, (req, res) => {
+    res.send("1")
+  })
+}
 
 // Usage:
 // const { authenticateToken } = require('./authServer')
 // app.get('/posts', authenticateToken, (req, res) => {
 //   Normal stuff...
 // })
-// function authenticateToken(req, res, next) {
-//   const header = req.headers['authorization']
-//   // If header is undefined, then token is undefined too
-//   const token = header && header.split(' ')[1]
-//   // 401: Unauthorized, this request did not send a token
-//   if (token == null){
-//     return res.sendStatus(401)
-//   }
+function authenticateToken(req, res, next) {
+  const header = req.headers['authorization']
+  // If header is undefined, then token is undefined too
+  const token = header && header.split(' ')[1]
+  // 401: Unauthorized, this request did not send a token
+  if (token == null){
+    return res.sendStatus(401)
+  }
 
-//   jwt.verify(token, env.ACCESS_TOKEN_KEY, (err, user) => {
-//     // console.log(err)
-//     // 403: Forbidden, this request is invalid(invalid/outdated token)
-//     if (err)
-//       return res.sendStatus(403)
-//     req.user = user
-//     next()
-//   })
-// }
+  jwt.verify(token, env.ACCESS_TOKEN_KEY, (err, user) => {
+    // console.log(err)
+    // 403: Forbidden, this request is invalid(invalid/outdated token)
+    if (err)
+      return res.sendStatus(403)
+    req.user = user
+    next()
+  })
+}
 
 db.once("open", () => {
   const cors = require("cors");
   app.use(cors());
   
+  authenticate()
   refreshToken()
   logout()
   login()

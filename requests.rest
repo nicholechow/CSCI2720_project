@@ -36,7 +36,7 @@ GET http://localhost:3004/posts
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidXNlcjAiLCJpYXQiOjE2NzA4NzI5NzgsImV4cCI6MTY3MDg3Mjk4OH0.0zim0ZPrzJSvllElIYdvWy0mIDAKfhe3e2AaBolFZIs
 
 ###
-POST http://localhost:3002/dataload
+PUT http://localhost:3002/loadData
 
 ###
 get http://localhost:3002/venueEventCnt

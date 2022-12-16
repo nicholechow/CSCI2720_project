@@ -157,7 +157,9 @@ const datamine = async db => {
         // await Event.insertMany(temp)
         // console.log(eee)
       }
+      console.log("setup2")
       await Event.insertMany(temp)
+      console.log("Event Load")
 
       temp.splice(0, temp.length)
 
@@ -177,6 +179,7 @@ const datamine = async db => {
         // });
       }
       Venue.insertMany(temp)
+      console.log("Venue Load")
     });
   });
 
