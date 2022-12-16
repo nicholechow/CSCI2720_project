@@ -40,7 +40,7 @@ db.once("open", function () {
   // TODO:: Maybe sort sort this for easier navigation
 
   // post(app,
-  /*app.post(*/apost(app,
+  /*app.post(*/aput(app,
     "/loadData", async (req, res) => {
     console.log("Data Loading")
     // test(0)
