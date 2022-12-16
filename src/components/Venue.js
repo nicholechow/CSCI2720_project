@@ -14,7 +14,7 @@ function CommentRow(props) {
     </tr>
   );
 }
-export default function Venue() {
+export default function Venue(props) {
   const { venueId } = useParams();
   const [venueName, setVenueName] = useState("");
   const [fav, setFav] = useState(false);
@@ -41,7 +41,7 @@ export default function Venue() {
       });
   };
   useEffect(() => {
-    if (isLoggedIn()) {
+    if (isLoggedIn() && props.loadState) {
       fetch(server2URL + "/venueName/" + venueId)
         .then((res) => res.text())
         .then((data) => {
@@ -71,7 +71,7 @@ export default function Venue() {
           });
       }
     }
-  });
+  }, [props.loadState]);
   return isLoggedIn() ? (
     status ? (
       <div className="justify-content-center text-center">

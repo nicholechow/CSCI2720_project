@@ -435,6 +435,14 @@ export function Map(props) {
   const [lat, setLat] = useState(22.302711);
   const [lng, setLng] = useState(114.177216);
   const [zoom, setZoom] = useState(9);
+  /*
+  const mapClickUrl = useRef("");
+  const mapAutoClick = (url) => {
+    console.log("map pop click");
+    mapClickUrl.current = url;
+    setTimeout(() => document.getElementById("mapAutoClick").click(), "70");
+  };
+  */
 
   const mapboxInit = () => async () => {
     // If no key or key length not right, then load try to load it but still failed, then wait 2s and try again
@@ -522,6 +530,9 @@ export function Map(props) {
             style={{ width: "100%", height: "400px" }}
           />
         </div>
+        {/*<Link to={mapClickUrl.current}>
+          <button id="mapAutoClick" hidden></button>
+  </Link>*/}
       </section>
     </div>
   );

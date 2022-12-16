@@ -34,20 +34,20 @@ export default function Account(props) {
   useEffect(() => {
     if (isUser() && props.loadState && stateAcc === false) {
       console.log(props.loadState);
-      setTimeout(() => {
-        fetch(server2URL + "/fav/" + sessionStorage.username)
-          .then((res) => res.json())
-          .then((fav) => {
-            //if (stateAcc === false) {
-            console.log(fav);
-            setFavList(fav);
-            setStateAcc(true);
-            //}
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }, 3000);
+      //setTimeout(() => {
+      fetch(server2URL + "/fav/" + sessionStorage.username)
+        .then((res) => res.json())
+        .then((fav) => {
+          //if (stateAcc === false) {
+          console.log(fav);
+          setFavList(fav);
+          setStateAcc(true);
+          //}
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      //}, 3000);
     }
     // I want to do this to get rid of a warning, this changed does not seem to ruin everything at first glance...
   }, [props.loadState, stateAcc]);

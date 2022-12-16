@@ -4,14 +4,14 @@ import { server2URL } from "../utils/EnvReact";
 import { isLoggedIn } from "../utils/Utils";
 import { Link } from "react-router-dom";
 
-export default function Search() {
+export default function Search(props) {
   useEffect(() => {
     document.title = "Search";
   }, []);
 
   return isLoggedIn() ? (
     <div className="justify-content-center text-center">
-      <Detail />
+      <Detail loadState={props.loadState} />
     </div>
   ) : (
     <h2 className="text-center">
@@ -32,21 +32,24 @@ function LocationRow(props) {
   );
 }
 
-function Detail() {
+function Detail(props) {
   const { keyword } = useParams();
   const [list, setList] = useState([]);
   useEffect(() => {
-    fetch(server2URL + "/search/" + keyword)
-      .then((res) => res.json())
-      .then((data) => {
-        //console.log(keyword);
-        //console.log(list);
-        if (data.length !== null) setList(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [keyword]);
+    if (props.loadState) {
+      console.log(props.loadState);
+      fetch(server2URL + "/search/" + keyword)
+        .then((res) => res.json())
+        .then((data) => {
+          //console.log(keyword);
+          //console.log(list);
+          if (data.length !== null) setList(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [keyword, props.loadState]);
 
   return (
     <div className="col-sm-12 col-md-12 col-lg-12 m-auto">
