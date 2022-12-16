@@ -19,7 +19,10 @@ const _app = async (func, req, res) => {
   console.log("After")
 }
 
-const apost = (app, path, func) => app.post(path, async (req, res) => await _app(func, req, res))
+const apost = (app, path, func) => {
+  // console.log(app, path)
+  app.post(path, async (req, res) => await _app(func, req, res))
+}
 const aget = (app, path, func) => app.get(path, async (req, res) => await _app(func, req, res))
 const aput = (app, path, func) => app.put(path, async (req, res) => await _app(func, req, res))
 const adelete = (app, path, func) => app.delete(path, async (req, res) => await _app(func, req, res))

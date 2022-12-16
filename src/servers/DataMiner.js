@@ -15,7 +15,7 @@ const datamine = async db => {
   dirty = true;
 
   // Simulate slow network
-  await new Promise(res => setTimeout(res, 5000))
+  await new Promise(res => setTimeout(res, 1000))
 
   db.dropCollection("venues");
   db.dropCollection("events");
@@ -157,7 +157,9 @@ const datamine = async db => {
       Venue.insertMany(temp)
     });
   });
-  dirty = false;
+
+  // Wait a little bit for the database to get comfortable with the huge data we inserted in
+  await new Promise(() => setTimeout(() => dirty = false, 1000));
   return 0;
 }
 

@@ -4,7 +4,7 @@
 // request handle
 // execute node src/server2.js5
 const { env, authServerURL, mapboxglKey } = require("../utils/EnvExpress");
-const { pwd, apost, aget } = require("../utils/UtilsExpress");
+const { pwd, apost, aget, aput, adelete } = require("../utils/UtilsExpress");
 const { datamine, isLoading } = require("./DataMiner");
 
 const express = require("express");
@@ -39,7 +39,7 @@ db.once("open", function () {
   // TODO:: Maybe sort sort this for easier navigation
 
   // post(app,
-  /*app.post(*/apost(
+  /*app.post(*/apost(app,
     "/dataload", async (req, res) => {
     console.log("Data Loading")
     // test(0)
@@ -51,7 +51,7 @@ db.once("open", function () {
   //login
   // 1: user
   // 2: admin
-  /*app.post(*/apost("/login", async (req, res) => {
+  /*app.post(*/apost(app, "/login", async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
     let loginState = -1;
@@ -95,7 +95,7 @@ db.once("open", function () {
     ret();
   });
 
-  /*app.post(*/apost("/logout", async (req, res) => {
+  /*app.post(*/apost(app, "/logout", async (req, res) => {
     const username = req.body.username;
 
     if (username != "admin") {
@@ -166,7 +166,7 @@ db.once("open", function () {
 
   // get whether it is a user favourite location
   // return true or false
-  /*app.get(*/agett("/fav/:username/:venueId", (req, res) => {
+  /*app.get(*/aget(app, "/fav/:username/:venueId", (req, res) => {
     User.findOne({ username: req.params["username"] }, "fav", (err, f) => {
       if (err) console.log(err);
       else {
@@ -178,7 +178,7 @@ db.once("open", function () {
   });
 
   // update user fav
-  /*app.put(*/aput("/changeFav/:username", (req, res) => {
+  /*app.put(*/aput(app, "/changeFav/:username", (req, res) => {
     User.findOne({ username: req.params["username"] }, "fav", (err, f) => {
       if (err) console.log(err);
       else {
@@ -193,7 +193,7 @@ db.once("open", function () {
   });
 
   // get venue name from id
-  /*app.get(*/agett("/venueName/:venueId", (req, res) => {
+  /*app.get(*/aget(app, "/venueName/:venueId", (req, res) => {
     Venue.findOne({ id: req.params["venueId"] }, "venue", (err, v) => {
       if (err) console.log(err);
       else {
@@ -209,7 +209,7 @@ db.once("open", function () {
   });
 
   // get venue Latitude and longitude from id
-  /*app.get(*/agett("/venueLatLong/:venueId", (req, res) => {
+  /*app.get(*/aget(app, "/venueLatLong/:venueId", (req, res) => {
     Venue.findOne(
       { id: req.params["venueId"] },
       "latitude longitude",
@@ -224,7 +224,7 @@ db.once("open", function () {
   });
 
   // get all venues' Latitude and longitude
-  /*app.get(*/agett("/allVenueLatLong/", (req, res) => {
+  /*app.get(*/aget(app, "/allVenueLatLong/", (req, res) => {
     Venue.find({}, (err, v) => {
       if (err) console.log(err);
       else {
@@ -235,7 +235,7 @@ db.once("open", function () {
   });
 
   // get all events with details of a venue
-  /*app.get(*/agett("/venueEvents/:venueId", (req, res) => {
+  /*app.get(*/aget(app, "/venueEvents/:venueId", (req, res) => {
     Event.find(
       { venueid: req.params["venueId"] },
       "title datetime description presenter price",
@@ -250,7 +250,7 @@ db.once("open", function () {
   });
 
   // add comment
-  /*app.put(*/aput("/createComment/:venueId", (req, res) => {
+  /*app.put(*/aput(app, "/createComment/:venueId", (req, res) => {
     if (req.body["commentContent"].length !== 0) {
       Comment.create(
         {
@@ -269,7 +269,7 @@ db.once("open", function () {
   });
 
   // get all events
-  /*app.get(*/agett("/listall", (req, res) => {
+  /*app.get(*/aget(app, "/listall", (req, res) => {
     Event.find({}, (err, v) => {
       if (err) console.log(err);
       else res.send(v);
@@ -277,7 +277,7 @@ db.once("open", function () {
   });
 
   // delete event by event id
-  /*app.delete(*/adelete("/delete/:eventId", (req, res) => {
+  /*app.delete(*/adelete(app, "/delete/:eventId", (req, res) => {
     Event.findOne({ eventid: Number(req.params["eventId"]) }).exec(function (
       err,
       d
@@ -298,7 +298,7 @@ db.once("open", function () {
   });
 
   // get event by event id
-  /*app.get(*/agett("/listone/:eventId", (req, res) => {
+  /*app.get(*/aget(app, "/listone/:eventId", (req, res) => {
     Event.findOne({ eventid: Number(req.params["eventId"]) }, (err, e) => {
       if (e != null) {
         res.send(e);
@@ -308,7 +308,7 @@ db.once("open", function () {
   });
 
   // get venue by venue id
-  /*app.get(*/agett("/listvenue/:venueId", (req, res) => {
+  /*app.get(*/aget(app, "/listvenue/:venueId", (req, res) => {
     let buf = "";
     Venue.findOne({ id: Number(req.params["venueId"]) }, (err, v) => {
       if (v != null) {
@@ -322,7 +322,7 @@ db.once("open", function () {
   });
 
   // create event
-  /*app.post(*/apost("/create", async (req, res) => {
+  /*app.post(*/apost(app, "/create", async (req, res) => {
     let currentid = 0;
     Venue.findOne({ id: Number(req.body["venueid"]) }, (err, v) => {
       if (v != null) {
@@ -364,7 +364,7 @@ db.once("open", function () {
   });
 
   // update event by event id
-  /*app.put(*/aput("/update/:eventId", async (req, res) => {
+  /*app.put(*/aput(app, "/update/:eventId", async (req, res) => {
     let buf = "";
     Event.findOne({ eventid: Number(req.params["eventId"]) }, (err, e) => {
       if (e != null) {
@@ -396,7 +396,7 @@ db.once("open", function () {
   });
 
   // get venues by keyword
-  /*app.get(*/agett("/search/:keyword", (req, res) => {
+  /*app.get(*/aget(app, "/search/:keyword", (req, res) => {
     Event.find(
       { venuename: { $regex: req.params["keyword"], $options: "i" } },
       "venueid venuename latitude longitude",
@@ -422,7 +422,7 @@ db.once("open", function () {
   });
 
   // get comments by venue id
-  /*app.get(*/agett("/comment/:venueId", (req, res) => {
+  /*app.get(*/aget(app, "/comment/:venueId", (req, res) => {
     Comment.find(
       { venueid: req.params["venueId"] },
       "username comment",
@@ -437,7 +437,7 @@ db.once("open", function () {
   });
 
   // delete event by event id
-  /*app.delete(*/adelete("/delete/:eventId", (req, res) => {
+  /*app.delete(*/adelete(app, "/delete/:eventId", (req, res) => {
     Event.findOne({ eventid: Number(req.params["eventId"]) }).exec(function (
       err,
       d
@@ -458,7 +458,7 @@ db.once("open", function () {
   });
 
   //get all users
-  /*app.get(*/agett("/userlist", (req, res) => {
+  /*app.get(*/aget(app, "/userlist", (req, res) => {
     User.find({}, (err, u) => {
       if (err) console.log(err);
       else res.send(u);
@@ -466,7 +466,7 @@ db.once("open", function () {
   });
 
   //get user by username
-  /*app.get(*/agett("/user/:username", (req, res) => {
+  /*app.get(*/aget(app, "/user/:username", (req, res) => {
     User.findOne({ username: String(req.params["username"]) }, (err, u) => {
       if (u != null) {
         res.send(u);
@@ -476,7 +476,7 @@ db.once("open", function () {
   });
 
   //create user
-  /*app.post(*/apost("/usercreate", (req, res) => {
+  /*app.post(*/apost(app, "/usercreate", (req, res) => {
     //User.findOne({username: String(req.body['username']) }, (err,u) => {
     User.create(
       {
@@ -495,7 +495,7 @@ db.once("open", function () {
   });
 
   //update user by username
-  /*app.put(*/aput("/userupdate/:username", (req, res) => {
+  /*app.put(*/aput(app, "/userupdate/:username", (req, res) => {
     let buf = "";
     User.findOne({ username: String(req.params["username"]) }, (err, u) => {
       if (u != null) {
@@ -514,7 +514,7 @@ db.once("open", function () {
   });
 
   //delete user by username
-  /*app.delete(*/adelete("/userdelete/:username", (req, res) => {
+  /*app.delete(*/adelete(app, "/userdelete/:username", (req, res) => {
     User.findOne({ username: String(req.params["username"]) }).exec(function (
       err,
       u
@@ -533,7 +533,7 @@ db.once("open", function () {
   });
 
   // get env variables
-  /*app.get(*/agett("/env", (_, res) => res.json({ mapboxglKey: mapboxglKey }));
+  /*app.get(*/aget(app, "/env", (_, res) => res.json({ mapboxglKey: mapboxglKey }));
 });
 
 // listen to port
