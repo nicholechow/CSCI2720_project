@@ -53,7 +53,13 @@ class UpdateData extends React.Component {
     })
       .then((res) => res.text())
       .then((txt) => {
-        document.getElementById("updatemessage").innerText = txt;
+        let inf=txt.split("\n");
+        if (inf.length>1){
+          document.getElementById("updatemessage").innerText = "Please input event ID"
+        }else{
+          document.getElementById("updatemessage").innerText = txt;
+        }
+        
       });
   }
   render() {
