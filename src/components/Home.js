@@ -419,7 +419,7 @@ export function Map(props) {
       .then((data) => {
         // console.log(data);
         for (let i = 0; i < 10; i++) {
-          let url = "http://localhost:3000/venue/" + String(data[i].id);
+          let url = "/venue/" + String(data[i].id);
           // https://docs.mapbox.com/mapbox-gl-js/example/set-popup/
           const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
             "<a href=" + url + ">" + String(data[i].venue) + "</a>"
