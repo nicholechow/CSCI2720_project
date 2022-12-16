@@ -509,22 +509,26 @@ db.once("open", function () {
   /*app.put(*/ aput(app, "/userupdate/:username", async (req, res) => {
     // let buf = "";
     if (req.params["username"] == null || req.params["username"] == "")
-      return res.send("The username cannot be empty.")
-    
-    const user = await User.findOne({ username: String(req.params["username"])})
-    if (!user)
-      return res.send("The username does not exist.")
+      return res.send("The username cannot be empty.");
 
-    const newUsername = await User.exist({ username: String(req.params["newusername"])})
-    if (newUsername)
-      return res.send("Username already exists.")
-    
+    const user = await User.findOne({
+      username: String(req.params["username"]),
+    });
+    if (!user) return res.send("The username does not exist.");
+
+    const newUsername = await User.exists({
+      username: String(req.body["newusername"]),
+    });
+
+    if (req.params["username"] !== req.body["newusername"] && newUsername)
+      return res.send("Username already exists.");
+
     user.username = String(req.body["newusername"]);
     user.pw = pwd(String(req.body["pw"]));
     user.save();
 
-    return res.send("User information updated successfully")
-      
+    return res.send("User information updated successfully");
+
     //     async (err, u) => {
     //       if (u != null) {
     //         if (
