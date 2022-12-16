@@ -12,8 +12,11 @@ const isLoading = () => dirty;
 const datamine = async db => {
   if (dirty)
     return -1;
-
   dirty = true;
+
+  // Simulate slow network
+  await new Promise(res => setTimeout(res, 5000))
+
   db.dropCollection("venues");
   db.dropCollection("events");
 
