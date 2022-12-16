@@ -114,25 +114,41 @@ export default function Home(props) {
               <nav className="navbar navbar-vertical-left">
                 <ul className="navbar-nav mr-auto">
                   <li className="nav-item">
-                    <a className="nav-link" href="#" onClick={() => setOpen("c")}>
+                    <a
+                      className="nav-link"
+                      href="#"
+                      onClick={() => setOpen("c")}
+                    >
                       <i className="fa fa-calendar" aria-hidden="true"></i>{" "}
                       Create event
                     </a>
                   </li>
                   <li className="nav-item ">
-                    <a className="nav-link" href="#" onClick={() => setOpen("r")}>
+                    <a
+                      className="nav-link"
+                      href="#"
+                      onClick={() => setOpen("r")}
+                    >
                       <i className="fa fa-calendar" aria-hidden="true"></i>{" "}
                       Retrieve events
                     </a>
                   </li>
                   <li className="nav-item ">
-                    <a className="nav-link" href="#" onClick={() => setOpen("u")}>
+                    <a
+                      className="nav-link"
+                      href="#"
+                      onClick={() => setOpen("u")}
+                    >
                       <i className="fa fa-calendar" aria-hidden="true"></i>{" "}
                       Update event
                     </a>
                   </li>
                   <li className="nav-item ">
-                    <a className="nav-link" href="#" onClick={() => setOpen("d")}>
+                    <a
+                      className="nav-link"
+                      href="#"
+                      onClick={() => setOpen("d")}
+                    >
                       <i className="fa fa-calendar" aria-hidden="true"></i>{" "}
                       Delete event
                     </a>
@@ -234,6 +250,7 @@ function Location(props) {
     let list2 = list;
     list2[index].fav = !list2[index].fav;
     setList(list2);
+    console.log(list2);
 
     fetch(server2URL + "/changeFav/" + sessionStorage.username, {
       method: "PUT",

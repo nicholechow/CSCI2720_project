@@ -48,9 +48,9 @@ function App(props) {
       })
         .then()
         .then(() => {
-          setTimeout(() => {
-            setLoadState(true);
-          }, 3000);
+          //setTimeout(() => {
+          setLoadState(true);
+          //}, 3000);
         })
         .catch((err) => console.log(err));
     });
