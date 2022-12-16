@@ -71,7 +71,7 @@ export default function Venue(props) {
           });
       }
     }
-  }, [props.loadState]);
+  }, [props.loadState, state]);
   return isLoggedIn() ? (
     status ? (
       <div className="justify-content-center text-center">

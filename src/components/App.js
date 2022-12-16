@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import Home, { setMapboxglKey } from "./Home";
 import Login from "./Login";
 import Venue from "./Venue";
@@ -24,6 +24,7 @@ function App(props) {
   );
   const [keyword, setKeyword] = useState("");
   const [loadState, setLoadState] = useState(false);
+  const updateTime = useRef("");
   //const getLoadState = () => loadState;
 
   useEffect(
@@ -49,6 +50,8 @@ function App(props) {
         .then()
         .then(() => {
           //setTimeout(() => {
+          let time = new Date();
+          updateTime.current = time.toString().split(" ").slice(0, 5).join(" ");
           setLoadState(true);
           //}, 3000);
         })
@@ -217,6 +220,13 @@ function App(props) {
             </div>
           </div>
         </nav>
+        <p className="text-end my-0">
+          <small>
+            {updateTime.current
+              ? "Last update time: " + updateTime.current
+              : ""}
+          </small>
+        </p>
         <hr className="m-0 mb-3" />
         <Routes>
           <Route
