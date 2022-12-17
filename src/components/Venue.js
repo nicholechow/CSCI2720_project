@@ -179,11 +179,10 @@ function Detail(props) {
           <div className="overflow-auto">
             <table
               className="table table-hover"
-              style={{ fontSize: "3.2vmin" }}
+              style={{ fontSize: "2.5vmin" }}
             >
               <thead className="thead-light">
                 <tr>
-                  <th scope="col">#</th>
                   <th scope="col">Title</th>
                   <th scope="col">Datetime</th>
                   <th scope="col">Presenter</th>
@@ -194,7 +193,6 @@ function Detail(props) {
               <tbody id="eventList">
                 {list.map((loc, i) => (
                   <tr key={i}>
-                    <th scope="col">{i + 1}</th>
                     <td>{loc.title}</td>
                     <td>{loc.datetime}</td>
                     <td>{loc.presenter}</td>
