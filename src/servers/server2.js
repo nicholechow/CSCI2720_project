@@ -425,7 +425,7 @@ db.once("open", function () {
     });
 
     setTimeout(() => {
-      res.send(buf);
+      return res.send(buf);
     }, "70");
   });
 
