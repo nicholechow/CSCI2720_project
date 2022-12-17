@@ -48,51 +48,51 @@ export default function Home(props) {
   const [open, setOpen] = useState("c");
   const [loginState, setLoginState] = useState(0);
 
-  useEffect(() => async () => {
+  useEffect(() => {
     if (!isLoggedIn()) return;
-    // console.log(isAdmin(), isUser(), isLoggedIn())
+    //console.log(isAdmin(), isUser(), isLoggedIn());
 
     let loginS = 0;
 
-    isUser() && await fetch(authServerURL + "/authenticate", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-        Authorization: "Bearer " + sessionStorage.accessToken,
-      },
-      body: JSON.stringify({
-        accessToken: sessionStorage.accessToken,
-        refreshToken: sessionStorage.refreshToken,
-      }),
-    })
-      .then((res) => (res.ok ? res.text() : {}))
-      .then((txt) => {
-        const num = Number(txt)
-        if (num == 401 || num == 403)
-          return;
-          
-        // It may be NaN For Example, "Forbidden": from the 403 code (?)
-        loginS = isNaN(num) ? 0 : num;
-        // console.log(loginS)
-    })
-      .catch((err) => {
-        console.log(err);
-        console.log("If it is 401 or 403, then it is intended... NOT DONE");
-    });
-    
+    isUser() &&
+      fetch(authServerURL + "/authenticate", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: "Bearer " + sessionStorage.accessToken,
+        },
+        body: JSON.stringify({
+          accessToken: sessionStorage.accessToken,
+          refreshToken: sessionStorage.refreshToken,
+        }),
+      })
+        .then((res) => (res.ok ? res.text() : {}))
+        .then((txt) => {
+          const num = Number(txt);
+          if (num == 401 || num == 403) return;
+
+          // It may be NaN For Example, "Forbidden": from the 403 code (?)
+          loginS = isNaN(num) ? 0 : num;
+          switch (loginS) {
+            case 1:
+              setLoginState(loginS);
+              break;
+
+            default:
+              setLoginState(isAdmin() ? 2 : loginS);
+          }
+          // console.log(loginS)
+        })
+        .catch((err) => {
+          console.log(err);
+          console.log("If it is 401 or 403, then it is intended... NOT DONE");
+        });
+
     document.title = !isAdmin() ? "Home" : "Admin";
 
-    // console.log(loginS)
-    switch (loginS) {
-      case 1:
-        setLoginState(loginS);
-        break;
-
-      default:
-        setLoginState(isAdmin() ? 2 : loginS);
-    }
+    //console.log(loginS);
   });
-
+  //console.log(loginState);
   switch (loginState) {
     case 0:
       return (
