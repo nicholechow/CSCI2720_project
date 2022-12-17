@@ -20,7 +20,7 @@
  * Student ID  : 1155144350, 1155142491, 1155170952, 1155143358, 1155142152, 1155143885
  * Date        : 17 Dec 2022
  */
-
+import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState, useRef } from "react";
 import {
   server2URL,
@@ -46,11 +46,13 @@ export function Map(props) {
       setTimeout(() => document.getElementById("mapAutoClick").click(), "70");
     };
     */
+  let navigate = useNavigate();
 
+  function WithNavigate(id) {
+    navigate(`/venue/` + id);
+  }
   const mapboxInit = () => async () => {
     // If no key or key length not right, then load try to load it but still failed, then wait 2s and try again
-
-
     // initialize map only once
     if (map.current) return;
 
@@ -85,10 +87,16 @@ export function Map(props) {
         // console.log(data);
         for (let i = 0; i < 10; i++) {
           let url = "/venue/" + String(data[i].id);
+          let newDom = document.createElement("button");
+          newDom.setHTML(data[i].venue);
+          newDom.onclick = (e) => {
+            WithNavigate(data[i].id);
+          };
           // https://docs.mapbox.com/mapbox-gl-js/example/set-popup/
-          const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-            "<a href=" + url + ">" + String(data[i].venue) + "</a>"
+          const popup = new mapboxgl.Popup({ offset: 25 }).setDOMContent(
+            newDom
           );
+
           const el = document.createElement("div");
           el.id = "marker";
           new mapboxgl.Marker()
