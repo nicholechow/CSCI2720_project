@@ -177,7 +177,10 @@ function Detail(props) {
         <h4>Events</h4>
         {list.length !== 0 ? (
           <div className="overflow-auto">
-            <table className="table table-hover">
+            <table
+              className="table table-hover"
+              style={{ fontSize: "3.2vmin" }}
+            >
               <thead className="thead-light">
                 <tr>
                   <th scope="col">#</th>

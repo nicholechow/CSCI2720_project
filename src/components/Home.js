@@ -385,7 +385,10 @@ function Location(props) {
           <h4 className="text-center">No Result</h4>
         ) : (
           <div className="overflow-auto">
-            <table className="p-2 text-center table table-hover">
+            <table
+              className="p-2 text-center table table-hover"
+              style={{ fontSize: "3.2vmin" }}
+            >
               <thead className="thead-light">
                 <tr>
                   <th scope="col">Location</th>
