@@ -516,30 +516,33 @@ db.once("open", function () {
   //create user
   /*app.post(*/ apost(app, "/usercreate", (req, res) => {
     //User.findOne({username: String(req.body['username']) }, (err,u) => {
-    if (req.body["username"]=="admin"){
+    if (req.body["username"] == "admin") {
       return res.send("Username cannot be admin");
-    }else{
-    User.findOne({ username: String(req.body["username"]) }, (err, result) => {
-      if (result != null) {
-        res.send("Username already exist!");
-      } else {
-        User.create(
-          {
-            username: String(req.body["username"]),
-            pw: pwd(String(req.body["pw"])),
-            fav: req.body["fav"],
-          },
-          (err, u) => {
-            if (err) {
-              console.log(err);
-            } else {
-              res.send("User created successfully");
-            }
+    } else {
+      User.findOne(
+        { username: String(req.body["username"]) },
+        (err, result) => {
+          if (result != null) {
+            res.send("Username already exist!");
+          } else {
+            User.create(
+              {
+                username: String(req.body["username"]),
+                pw: pwd(String(req.body["pw"])),
+                fav: req.body["fav"],
+              },
+              (err, u) => {
+                if (err) {
+                  console.log(err);
+                } else {
+                  res.send("User created successfully");
+                }
+              }
+            );
           }
-        );
-      }
-    });
-  }
+        }
+      );
+    }
   });
 
   //update user by username
@@ -547,25 +550,25 @@ db.once("open", function () {
     // let buf = "";
     if (req.params["username"] == null || req.params["username"] == "")
       return res.send("The username cannot be empty.");
-    if (req.body["newusername"]=="admin"){
-      return res.send("Username cannot be admin")
-    }else{
-    const user = await User.findOne({
-      username: String(req.params["username"]),
-    });
-    if (!user) return res.send("The username does not exist.");
+    if (req.body["newusername"] == "admin") {
+      return res.send("Username cannot be admin");
+    } else {
+      const user = await User.findOne({
+        username: String(req.params["username"]),
+      });
+      if (!user) return res.send("The username does not exist.");
 
-    const newUsername = await User.exists({
-      username: String(req.body["newusername"]),
-    });
+      const newUsername = await User.exists({
+        username: String(req.body["newusername"]),
+      });
 
-    if (req.params["username"] !== req.body["newusername"] && newUsername)
-      return res.send("Username already exists.");
+      if (req.params["username"] !== req.body["newusername"] && newUsername)
+        return res.send("Username already exists.");
 
-    user.username = String(req.body["newusername"]);
-    user.pw = pwd(String(req.body["pw"]));
-    user.save();
-  }
+      user.username = String(req.body["newusername"]);
+      user.pw = pwd(String(req.body["pw"]));
+      user.save();
+    }
     return res.send("User information updated successfully");
 
     //     async (err, u) => {
