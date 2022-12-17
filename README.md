@@ -30,14 +30,14 @@ Open [http://localhost](http://localhost) to view it in your browser.
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
-## 'To run the frontend indivdually'
+## To run the frontend indivdually
 
 ### 'npm start'
 
-## 'To run the backend server indivdually'
+## To run the backend server indivdually
 
 ### 'npm run server'
 
-## 'To run the authorization server indivdually'
+## To run the authorization server indivdually
 
 ### 'npm run authServer'
