@@ -26,7 +26,11 @@
 
 // request handle
 // execute node src/server2.js5
-const { authServerURL, mapboxglKey, server2Port } = require("../utils/EnvExpress");
+const {
+  authServerURL,
+  mapboxglKey,
+  server2Port,
+} = require("../utils/EnvExpress");
 const { pwd, apost, aget, aput, adelete } = require("../utils/UtilsExpress");
 const { datamine } = require("./DataMiner");
 
@@ -512,10 +516,10 @@ db.once("open", function () {
   //create user
   /*app.post(*/ apost(app, "/usercreate", (req, res) => {
     //User.findOne({username: String(req.body['username']) }, (err,u) => {
-    User.findOne({username: String(req.body["username"])}, (err, result)=>{
-      if (result!=null){
-        res.send("Username should not be repeated");
-      }else{
+    User.findOne({ username: String(req.body["username"]) }, (err, result) => {
+      if (result != null) {
+        res.send("Username already exist!");
+      } else {
         User.create(
           {
             username: String(req.body["username"]),
@@ -531,8 +535,7 @@ db.once("open", function () {
           }
         );
       }
-    })
-    
+    });
   });
 
   //update user by username
