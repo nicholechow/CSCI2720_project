@@ -32,7 +32,7 @@ const pwd = (str) =>
 const _app = async (path, func, req, res) => {
   for (let i = 0; isLoading(); i++) {
     await new Promise((res) => setTimeout(res, 1000));
-    if (i >= 20)
+    if (i >= 30)
       // 503 Service Unavailable
       return res.send(503);
   }
