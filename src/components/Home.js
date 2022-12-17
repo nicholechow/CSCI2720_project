@@ -388,6 +388,7 @@ function Location(props) {
         {list.length === 0 ? (
           <h4 className="text-center">No Result</h4>
         ) : (
+          <div className="overflow-auto">
           <table className="p-2 text-center table table-hover">
             <thead className="thead-light">
               <tr>
@@ -416,6 +417,7 @@ function Location(props) {
               ))}
             </tbody>
           </table>
+          </div>
         )}
       </section>
     </div>
