@@ -88,7 +88,7 @@ export function Map(props) {
         for (let i = 0; i < 10; i++) {
           let newDom = document.createElement("button");
           newDom.className = "btn btn-link btn-sm";
-          newDom.setHTML(data[i].venue);
+          newDom.innerHTML = data[i].venue;
           newDom.onclick = (e) => {
             WithNavigate(data[i].id);
           };
