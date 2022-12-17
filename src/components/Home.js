@@ -38,11 +38,7 @@ import UserUpdateData from "../dataManagement/UserUpdateData";
 import { Map } from "./Map";
 //import { New_Map } from "./New_Map";
 
-import {
-  server2URL,
-  mapboxglKey,
-  authServerURL,
-} from "../utils/EnvReact";
+import { server2URL, mapboxglKey, authServerURL } from "../utils/EnvReact";
 import { isUser, isAdmin, isLoggedIn } from "../utils/Utils";
 
 export const setMapboxglKey = () => (mapboxgl.accessToken = mapboxglKey());
@@ -134,7 +130,7 @@ export default function Home(props) {
       return (
         <div className="container h-100">
           <div className="row h-100">
-            <div className="col-2">
+            <div className="col-4 col-sm-2">
               <nav className="navbar navbar-vertical-left">
                 <ul className="navbar-nav mr-auto">
                   <li className="nav-item">
@@ -220,7 +216,7 @@ export default function Home(props) {
                 </ul>
               </nav>
             </div>
-            <div className="col-10 ">
+            <div className="col-8 col-sm-10 ">
               <div>{open === "c" ? <CreateData /> : ""}</div>
               <div>{open === "r" ? <DataTable /> : ""}</div>
               <div>{open === "u" ? <UpdateData /> : ""}</div>
