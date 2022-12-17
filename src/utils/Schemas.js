@@ -33,7 +33,7 @@ mongoose.connect(process.env.dbURL);
 const db = mongoose.connection;
 
 const EventSchema = mongoose.Schema({
-  eventid: { type: Number, required: true },
+  eventid: { type: Number, required: true , unique: true},
   venueid: { type: Number, required: true },
   title: { type: String, required: true },
   datetime: { type: String, required: true },
@@ -47,7 +47,7 @@ const EventSchema = mongoose.Schema({
 const Event = mongoose.model("Event", EventSchema);
 
 const VenueSchema = mongoose.Schema({
-  id: { type: Number, required: true },
+  id: { type: Number, required: true, unique: true},
   venue: { type: String, required: true },
   latitude: { type: Number, required: true },
   longitude: { type: Number, required: true },
