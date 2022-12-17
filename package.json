@@ -46,7 +46,8 @@
     "dev": "concurrently \"npm run server\" \"npm run authServer\" \"set BROWSER=NONE && npm start\"",
     "winDemo": "concurrently \"npm run server\" \"npm run authServer\" \"set PORT=80 && react-scripts start\"",
     "macDemo": "concurrently \"sudo PORT=80 react-scripts start\" \"npm run authServer\" \"npm run server\"",
-    "ubuntuDemo": "concurrently \"PORT=80 react-scripts start\" \"npm run authServer\" \"npm run server\""
+    "ubuntuDemo": "concurrently \"PORT=80 react-scripts start\" \"npm run authServer\" \"npm run server\"",
+    "ubuntuBuild": "concurrently \"PORT=80 serve -s build\" \"npm run authServer\" \"npm run server\""
   },
   "eslintConfig": {
     "extends": [
