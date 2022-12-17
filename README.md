@@ -22,6 +22,8 @@ You may also see any lint errors in the console.
 | Linux    | npm run ubuntuDemo |
 | Window   | npm run winDemo    |
 
+\*Linux may require `sudo sysctl net.ipv4.ip_unprivileged_port_start=10` to allow user to host on port 80
+
 ### `npm run winDemo/ macDemo/ ubuntuDemo`
 
 This will open frontend at port 80, authorization server on port 3003, backend server on port 3002 concurrently.
