@@ -70,6 +70,8 @@ class UserCreateData extends React.Component {
                   type="text"
                   onChange={this.handleChange}
                   className="form-control mt-1"
+                  minLength="4"
+                  maxLength="20"
                   required
                 />
               </div>
@@ -82,6 +84,8 @@ class UserCreateData extends React.Component {
                   type="text"
                   onChange={this.handleChange}
                   className="form-control mt-1"
+                  minLength="4"
+                  maxLength="20"
                   required
                 />
               </div>

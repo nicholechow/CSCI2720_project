@@ -512,20 +512,27 @@ db.once("open", function () {
   //create user
   /*app.post(*/ apost(app, "/usercreate", (req, res) => {
     //User.findOne({username: String(req.body['username']) }, (err,u) => {
-    User.create(
-      {
-        username: String(req.body["username"]),
-        pw: pwd(String(req.body["pw"])),
-        fav: req.body["fav"],
-      },
-      (err, u) => {
-        if (err) {
-          console.log(err);
-        } else {
-          res.send("User created successfully");
-        }
+    User.findOne({username: String(req.body["username"])}, (err, result)=>{
+      if (result!=null){
+        res.send("Username should not be repeated");
+      }else{
+        User.create(
+          {
+            username: String(req.body["username"]),
+            pw: pwd(String(req.body["pw"])),
+            fav: req.body["fav"],
+          },
+          (err, u) => {
+            if (err) {
+              console.log(err);
+            } else {
+              res.send("User created successfully");
+            }
+          }
+        );
       }
-    );
+    })
+    
   });
 
   //update user by username
