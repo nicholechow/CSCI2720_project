@@ -385,34 +385,33 @@ function Location(props) {
           <h4 className="text-center">No Result</h4>
         ) : (
           <div className="overflow-auto">
-          <table className="p-2 text-center table table-hover">
-            <thead className="thead-light">
-              <tr>
-                <th scope="col">Location</th>
-                <th scope="col">
-                  {" "}
-                  Number of events{" "}
-                  {sortState === -1 ? "↓" : sortState === 1 ? "↑" : ""}
-                </th>
-                <th scope="col">Latitude</th>
-                <th scope="col">Longitude</th>
-              </tr>
-            </thead>
-            <tbody id="LocationTbody">
-              {list.map((loc, i) => (
-                <LocationRow
-                  key={i}
-                  venueId={loc.venueId}
-                  venueName={loc.venueName}
-                  eventCnt={loc.eventCnt}
-                  latitude={loc.latitude}
-                  longitude={loc.longitude}
-                  fav={loc.fav}
-                  changeFav={changeFav}
-                />
-              ))}
-            </tbody>
-          </table>
+            <table className="p-2 text-center table table-hover">
+              <thead className="thead-light">
+                <tr>
+                  <th scope="col">Location</th>
+                  <th scope="col">
+                    Number of events
+                    {sortState === -1 ? "↓" : sortState === 1 ? "↑" : ""}
+                  </th>
+                  <th scope="col">Latitude</th>
+                  <th scope="col">Longitude</th>
+                </tr>
+              </thead>
+              <tbody id="LocationTbody">
+                {list.map((loc, i) => (
+                  <LocationRow
+                    key={i}
+                    venueId={loc.venueId}
+                    venueName={loc.venueName}
+                    eventCnt={loc.eventCnt}
+                    latitude={loc.latitude}
+                    longitude={loc.longitude}
+                    fav={loc.fav}
+                    changeFav={changeFav}
+                  />
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
       </section>

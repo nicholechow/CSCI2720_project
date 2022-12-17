@@ -176,31 +176,33 @@ function Detail(props) {
       <section id="events">
         <h4>Events</h4>
         {list.length !== 0 ? (
-          <table className="table table-hover">
-            <thead className="thead-light">
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Title</th>
-                <th scope="col">Datetime</th>
-                <th scope="col">Presenter</th>
-                <th scope="col">Price</th>
-                <th scope="col">Description</th>
-              </tr>
-            </thead>
-            <tbody id="eventList">
-              {list.map((loc, i) => (
-                <tr key={i}>
-                  <th scope="col">{i + 1}</th>
-                  <td>{loc.title}</td>
-                  <td>{loc.datetime}</td>
-                  <td>{loc.presenter}</td>
-                  <td>{loc.price}</td>
-                  <td>{loc.description}</td>
+          <div className="overflow-auto">
+            <table className="table table-hover">
+              <thead className="thead-light">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Datetime</th>
+                  <th scope="col">Presenter</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">Description</th>
                 </tr>
-              ))}
-              {/* )} */}
-            </tbody>
-          </table>
+              </thead>
+              <tbody id="eventList">
+                {list.map((loc, i) => (
+                  <tr key={i}>
+                    <th scope="col">{i + 1}</th>
+                    <td>{loc.title}</td>
+                    <td>{loc.datetime}</td>
+                    <td>{loc.presenter}</td>
+                    <td>{loc.price}</td>
+                    <td>{loc.description}</td>
+                  </tr>
+                ))}
+                {/* )} */}
+              </tbody>
+            </table>
+          </div>
         ) : (
           <h5>Loading</h5>
         )}
