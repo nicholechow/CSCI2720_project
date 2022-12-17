@@ -32,12 +32,12 @@ You may also see any lint errors in the console.
 
 ## To run the frontend indivdually
 
-### 'npm start'
+### `npm start`
 
 ## To run the backend server indivdually
 
-### 'npm run server'
+### `npm run server`
 
 ## To run the authorization server indivdually
 
-### 'npm run authServer'
+### `npm run authServer`
