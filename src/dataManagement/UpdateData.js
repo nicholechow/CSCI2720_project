@@ -92,7 +92,7 @@ class UpdateData extends React.Component {
           <h4>Update Data</h4>
 
           <form className="form" onSubmit={this.handleLoad}>
-            <div className="p-4 col-6 m-auto border border-4 border-primary rounded-3">
+            <div className="p-4 col-lg-6 m-auto border border-4 border-primary rounded-3">
               <div className="p-2 form-group mt-3">
                 <label htmlFor="eventId">Event ID:</label>
                 <input
@@ -115,7 +115,7 @@ class UpdateData extends React.Component {
           </form>
           <br />
           <form className="form" onSubmit={this.handleSubmit}>
-            <div className="p-4 col-6 m-auto border border-4 border-primary rounded-3">
+            <div className="p-4 col-lg-6 m-auto border border-4 border-primary rounded-3">
               <h3>Update Event</h3>
 
               <div className="p-2 form-group mt-3">

@@ -39,7 +39,7 @@ const columns = [
   { field: "datetime", headerName: "datetime", width: 300 },
 ];
 
-const DataTable = () => {
+const RetrieveData = () => {
   const [tableData, setTableData] = useState([]);
 
   const [rows, setRows] = useState(tableData);
@@ -48,7 +48,7 @@ const DataTable = () => {
   useEffect(() => {
     fetch(server2URL + "/listall")
       .then((data) => data.json())
-      .then((data) => setTableData(data));
+      .then((data) => setTableData(data))
   }, []);
 
   return (
@@ -74,4 +74,4 @@ const DataTable = () => {
   );
 };
 
-export default DataTable;
+export default RetrieveData;

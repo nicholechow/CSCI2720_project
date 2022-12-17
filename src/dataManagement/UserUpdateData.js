@@ -77,7 +77,7 @@ class UserUpdateData extends React.Component {
       <div className="col-sm-12 col-md-12 col-lg-12 m-auto">
         <section className="p-1 mx-1 ">
           <form className="form" onSubmit={this.handleLoad}>
-            <div className="p-4 col-6 m-auto border border-4 border-primary rounded-3">
+            <div className="p-4 col-lg-6 m-auto border border-4 border-primary rounded-3">
               <h3>Load User Information</h3>
 
               <div className="p-2 form-group mt-3">
@@ -102,7 +102,7 @@ class UserUpdateData extends React.Component {
           </form>
           <br />
           <form className="form" onSubmit={this.handleSubmit}>
-            <div className="p-4 col-6 m-auto border border-4 border-primary rounded-3">
+            <div className="p-4 col-lg-6 m-auto border border-4 border-primary rounded-3">
               <h3>Update User Information</h3>
 
               <div className="p-2 form-group mt-3">

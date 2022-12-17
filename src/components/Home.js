@@ -48,10 +48,13 @@ export default function Home(props) {
   const [open, setOpen] = useState("c");
   const [loginState, setLoginState] = useState(0);
 
-  useEffect(() => {
+  useEffect(() => async () => {
     if (!isLoggedIn()) return;
-    //console.log(props.getLoadState);
-    fetch(authServerURL + "/authenticate", {
+    // console.log(isAdmin(), isUser(), isLoggedIn())
+
+    let loginS = 0;
+
+    isUser() && await fetch(authServerURL + "/authenticate", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -64,24 +67,30 @@ export default function Home(props) {
     })
       .then((res) => (res.ok ? res.text() : {}))
       .then((txt) => {
+        const num = Number(txt)
+        if (num == 401 || num == 403)
+          return;
+          
         // It may be NaN For Example, "Forbidden": from the 403 code (?)
-        const loginS = isNaN(Number(txt)) ? 0 : Number(txt);
-
-        document.title = !isAdmin() ? "Home" : "Admin";
-
-        switch (loginS) {
-          case 1:
-            setLoginState(loginS);
-            break;
-
-          default:
-            setLoginState(isAdmin() ? 2 : loginS);
-        }
-      })
+        loginS = isNaN(num) ? 0 : num;
+        // console.log(loginS)
+    })
       .catch((err) => {
         console.log(err);
         console.log("If it is 401 or 403, then it is intended... NOT DONE");
-      });
+    });
+    
+    document.title = !isAdmin() ? "Home" : "Admin";
+
+    // console.log(loginS)
+    switch (loginS) {
+      case 1:
+        setLoginState(loginS);
+        break;
+
+      default:
+        setLoginState(isAdmin() ? 2 : loginS);
+    }
   });
 
   switch (loginState) {

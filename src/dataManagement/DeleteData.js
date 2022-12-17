@@ -53,7 +53,7 @@ class DeleteData extends React.Component {
           <h4>Delete Data</h4>
 
           <form className="form" onSubmit={this.handleSubmit}>
-            <div className="p-4 col-6 m-auto border border-4 border-primary rounded-3">
+            <div className="p-4 col-lg-6 m-auto border border-4 border-primary rounded-3">
               <div className="p-2 form-group mt-3">
                 <label htmlFor="eventId">Event ID:</label>
                 <input

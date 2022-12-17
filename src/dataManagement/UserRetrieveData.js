@@ -21,52 +21,53 @@
  * Date        : 17 Dec 2022
  */
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { server2URL } from "../utils/EnvReact";
+import { DataGrid } from "@mui/x-data-grid";
+import "../style.css";
 
-class UserRetrieveData extends React.Component {
-  componentDidMount() {
+const columns = [
+  { field: "username", headerName: "Username" },
+  { field: "pw", headerName: "Password", width: 500 },
+  { field: "fav", headerName: "Favourite Locations", width: 300 },
+];
+
+const UserRetrieveData = () => {
+  const [tableData, setTableData] = useState([]);
+
+  const [rows, setRows] = useState(tableData);
+  const [deletedRows, setDeletedRows] = useState([]);
+
+  useEffect(() => {
     fetch(server2URL + "/userlist")
       .then((res) => res.json())
-      .then((data) => {
-        const UserRetrieveData = document.getElementById("UserRetrieveData");
-        UserRetrieveData.innerHTML = data
-          .map((ele) => {
-            return `<tr>
-                        <td>${ele.username}</td>
-                        <td>${ele.pw}</td>
-                        <td>${ele.fav}</td>
-                    </tr>`;
-          })
-          .join("");
-      })
+      .then((data) => setTableData(data))
       .catch((error) => {
         console.log(error);
       });
-  }
+  }, []);
 
-  render() {
-    return (
-      <div className="col-sm-12 col-md-12 col-lg-12 m-auto">
-        <section className="p-1 mx-1 ">
-          <h4>User Retrieve</h4>
-
-          <table className="p-2 text-center table table-hover">
-            <thead className="thead-light">
-              <tr>
-                <th scope="col">Username</th>
-                <th scope="col">Password</th>
-                <th scope="col">Favourite Location</th>
-              </tr>
-            </thead>
-            <tbody id="UserRetrieveData">
-              <tr></tr>
-            </tbody>
-          </table>
-        </section>
-      </div>
-    );
-  }
+  return (
+    <div style={{ height: 700, width: "100%" }}>
+    <DataGrid
+      getRowId={(data) => data._id}
+      rows={tableData}
+      columns={columns}
+      pageSize={12}
+      checkboxSelection={false}
+      onSelectionModelChange={({ selectionModel }) => {
+        const rowIds = selectionModel.map((rowId) =>
+          parseInt(String(rowId), 10)
+        );
+        const rowsToDelete = tableData.filter((row) =>
+          rowIds.includes(row.id)
+        );
+        setDeletedRows(rowsToDelete);
+        console.log(deletedRows);
+      }}
+    />
+  </div>
+  )
 }
 
 export default UserRetrieveData;

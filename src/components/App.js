@@ -95,7 +95,7 @@ function App(props) {
           case 2:
             setDisplaylink("/admin");
             setTimeout(
-              () => document.getElementById("autoclick").click(),
+              () => document.getElementById("autoclick") ? document.getElementById("autoclick").click() : null,
               "70"
             );
             sessionStorage.username = "admin";
@@ -125,7 +125,7 @@ function App(props) {
           case 1:
             setDisplaylink("/user");
             setTimeout(
-              () => document.getElementById("autoclick").click(),
+              () => document.getElementById("autoclick") ? document.getElementById("autoclick").click() : null,
               "70"
             );
             setLoadState(false);
@@ -244,7 +244,7 @@ function App(props) {
             </div>
           </div>
         </nav>
-        <p className="text-end my-0">
+        <p className="text-end my-0 pe-2">
           <small>
             {updateTime.current
               ? "Last update time: " + updateTime.current

@@ -184,7 +184,7 @@ const datamine = async db => {
   });
 
   // Wait a little bit for the database to get comfortable with the huge data we inserted in
-  await new Promise(res => setTimeout(res, 1000));
+  await new Promise(res => setTimeout(res, 500));
   dirty = false
   return 0;
 }
