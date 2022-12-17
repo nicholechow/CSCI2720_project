@@ -607,7 +607,7 @@ db.once("open", function () {
             " has been deleted successfully."
         );
       } else {
-        res.send("User " + String(req.params["username"]) + "is not found.");
+        res.send("User " + String(req.params["username"]) + " is not found.");
       }
     });
   });
