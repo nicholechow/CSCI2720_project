@@ -21,15 +21,18 @@
  * Date        : 17 Dec 2022
  */
 
-import { server2URL } from "../utils/EnvReact"
+import { server2URL } from "../utils/EnvReact";
 
-export const localurl = port => "http://localhost:" + port
+export const localurl = (port) => "http://localhost:" + port;
 
-export const refreshPage = () => window.location.reload()
+export const refreshPage = () => window.location.reload();
 
-export const isUser = () => sessionStorage.username != null && sessionStorage.accessToken != null && sessionStorage.refreshToken != null
-export const isAdmin = () => sessionStorage.username === "admin"
-export const isLoggedIn = () => isUser() || isAdmin()
+export const isUser = () =>
+  sessionStorage.username != null &&
+  sessionStorage.accessToken != null &&
+  sessionStorage.refreshToken != null;
+export const isAdmin = () => sessionStorage.username === "admin";
+export const isLoggedIn = () => isUser() || isAdmin();
 
 export const logout = () => {
   fetch(server2URL + "/logout", {
@@ -40,6 +43,6 @@ export const logout = () => {
     delete sessionStorage.username;
     delete sessionStorage.accessToken;
     delete sessionStorage.refreshToken;
-    refreshPage()
-  })
-}
+    //refreshPage()
+  });
+};

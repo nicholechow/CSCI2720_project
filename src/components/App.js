@@ -49,6 +49,7 @@ function App(props) {
   const [keyword, setKeyword] = useState("");
   const [loadState, setLoadState] = useState(false);
   const updateTime = useRef("");
+  const [navState, setNavState] = useState(true);
 
   useEffect(() => {
     window.addEventListener("load", () => {
@@ -95,11 +96,15 @@ function App(props) {
           case 2:
             setDisplaylink("/admin");
             setTimeout(
-              () => document.getElementById("autoclick") ? document.getElementById("autoclick").click() : null,
+              () =>
+                document.getElementById("autoclick")
+                  ? document.getElementById("autoclick").click()
+                  : null,
               "70"
             );
             sessionStorage.username = "admin";
 
+            setNavState(true);
             setLoadState(false);
             fetch(server2URL + "/loadData", {
               method: "PUT",
@@ -125,9 +130,13 @@ function App(props) {
           case 1:
             setDisplaylink("/user");
             setTimeout(
-              () => document.getElementById("autoclick") ? document.getElementById("autoclick").click() : null,
+              () =>
+                document.getElementById("autoclick")
+                  ? document.getElementById("autoclick").click()
+                  : null,
               "70"
             );
+            setNavState(true);
             setLoadState(false);
             fetch(server2URL + "/loadData", {
               method: "PUT",
@@ -202,7 +211,7 @@ function App(props) {
                   </Link>
                 </li>
               </ul>
-              {isLoggedIn() ? (
+              {isLoggedIn() && navState ? (
                 <div className="d-flex">
                   <input
                     className="form-control me-2"
@@ -223,22 +232,26 @@ function App(props) {
                 </div>
               ) : null}
 
-              {isLoggedIn() ? (
+              {isLoggedIn() && navState ? (
                 <div className="d-flex">
                   {isUser() ? (
                     <Link to="account" className="btn btn-warning mx-1">
                       Account: {sessionStorage.username}
                     </Link>
                   ) : null}
-                  <a
+                  <Link
+                    to="/login/signin"
                     className="btn"
                     type="submit"
                     id="search_button"
                     // href="../"
-                    onClick={() => logout()}
+                    onClick={() => {
+                      logout();
+                      setNavState(false);
+                    }}
                   >
                     Logout
-                  </a>
+                  </Link>
                 </div>
               ) : null}
             </div>
